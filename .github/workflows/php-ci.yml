@@ -1,0 +1,102 @@
+# SPDX-FileCopyrightText: 2026 SecPal
+# SPDX-License-Identifier: CC0-1.0
+
+name: PHP CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  lint:
+    if: ${{ hashFiles('composer.json') != '' }}
+    name: Laravel Pint
+    uses: SecPal/.github/.github/workflows/reusable-php-lint.yml@main
+
+  static-analysis:
+    if: ${{ hashFiles('composer.json') != '' }}
+    name: PHPStan
+    uses: SecPal/.github/.github/workflows/reusable-php-stan.yml@main
+
+  test:
+    if: ${{ hashFiles('composer.json') != '' }}
+    name: Pest Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        database: [pgsql, mariadb]
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        if: ${{ matrix.database == 'pgsql' }}
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: testing
+          POSTGRES_PASSWORD: testing
+        options: >-
+          --health-cmd="pg_isready -U testing"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      mariadb:
+        image: mariadb:11
+        if: ${{ matrix.database == 'mariadb' }}
+        env:
+          MARIADB_DATABASE: testing
+          MARIADB_USER: testing
+          MARIADB_PASSWORD: testing
+          MARIADB_ROOT_PASSWORD: testing
+        options: >-
+          --health-cmd="mariadb-admin ping -h 127.0.0.1 -uroot -ptesting"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 3306:3306
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, pdo_mysql
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run tests on PostgreSQL
+        if: ${{ matrix.database == 'pgsql' }}
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: testing
+          DB_USERNAME: testing
+          DB_PASSWORD: testing
+        run: php artisan test
+
+      - name: Run tests on MariaDB
+        if: ${{ matrix.database == 'mariadb' }}
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: testing
+          DB_USERNAME: testing
+          DB_PASSWORD: testing
+        run: php artisan test

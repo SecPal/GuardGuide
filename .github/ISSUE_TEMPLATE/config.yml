@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2026 SecPal
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions
+    url: https://github.com/SecPal/GuardGuide/discussions
+    about: Ask questions, share ideas, or discuss GuardGuide topics.

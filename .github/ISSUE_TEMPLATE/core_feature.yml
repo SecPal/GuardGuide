@@ -1,0 +1,47 @@
+# SPDX-FileCopyrightText: 2026 SecPal
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: Core Feature
+description: Track a planned GuardGuide feature slice
+title: "[Feature]: "
+labels: ["enhancement", "core-feature"]
+body:
+  - type: input
+    id: feature-ref
+    attributes:
+      label: Feature Reference
+      description: Link the feature to GuardGuide planning or product documentation.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+    validations:
+      required: true
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: User Stories
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+    validations:
+      required: true
+  - type: dropdown
+    id: feature-area
+    attributes:
+      label: Feature Area
+      options:
+        - Organization and Delegation
+        - Templates and Mandatory Content
+        - Instructions and Versioning
+        - Acknowledgements
+        - Authentication and User Management
+        - Localization and UX
+        - Infrastructure and CI
+    validations:
+      required: true

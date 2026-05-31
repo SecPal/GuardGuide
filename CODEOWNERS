@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 SecPal
+# SPDX-License-Identifier: CC0-1.0
+
+# GuardGuide code ownership
+
+* @SecPal/maintainers
+
+/.github/ @SecPal/maintainers
+/docs/ @SecPal/maintainers
+/scripts/ @SecPal/maintainers
+/LICENSES/ @SecPal/maintainers

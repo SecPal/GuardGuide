@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2026 SecPal
+# SPDX-License-Identifier: CC0-1.0
+
+name: Quality Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  reuse:
+    name: Check REUSE Compliance
+    uses: SecPal/.github/.github/workflows/reusable-reuse.yml@main
+
+  copilot-instructions:
+    name: Copilot Instructions
+    uses: SecPal/.github/.github/workflows/reusable-copilot-instructions.yml@main
+
+  prettier:
+    if: ${{ hashFiles('package.json') != '' }}
+    name: Formatting Check
+    uses: SecPal/.github/.github/workflows/reusable-prettier.yml@main
+
+  markdown-lint:
+    if: ${{ hashFiles('package.json') != '' }}
+    name: Markdown Lint
+    uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@main
+
+  license-compatibility:
+    if: ${{ hashFiles('package.json') != '' || hashFiles('composer.json') != '' }}
+    name: Check License Compatibility
+    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@main
+
+  eslint:
+    if: ${{ hashFiles('package.json') != '' }}
+    name: ESLint
+    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@main
+    with:
+      node-version: "22"
+
+  typecheck:
+    if: ${{ hashFiles('package.json') != '' }}
+    name: TypeScript Check
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@main
+    with:
+      node-version: "22"
+      build-command: "npm run typecheck"
+
+  vitest:
+    if: ${{ hashFiles('package.json') != '' }}
+    name: Vitest Tests
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@main
+    with:
+      node-version: "22"
+      build-command: "npm run test"

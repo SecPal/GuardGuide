@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2026 SecPal
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: Epic
+description: Large feature requiring multiple PRs and sub-issues
+title: "[EPIC] "
+labels: ["type/epic"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: Describe the outcome of this epic.
+    validations:
+      required: true
+  - type: textarea
+    id: sub_issues
+    attributes:
+      label: Sub-Issues and Work Plan
+      value: |
+        - [ ] #<!-- issue number --> PR-0: Setup and prerequisites
+        - [ ] #<!-- issue number --> PR-1: Core implementation part 1
+        - [ ] #<!-- issue number --> PR-2: Core implementation part 2
+        - [ ] #<!-- issue number --> PR-3: Integration and testing
+        - [ ] #<!-- issue number --> PR-4: Documentation and hardening
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] All sub-issues are closed
+        - [ ] All PRs are merged
+        - [ ] Validation is green
+        - [ ] Documentation is complete
+    validations:
+      required: true

@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2026 SecPal
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: Sub-Issue
+description: Individual task or PR within a larger epic
+title: "PR-X: "
+labels: ["type/sub-issue"]
+body:
+  - type: input
+    id: parent_epic
+    attributes:
+      label: Parent Epic
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+    validations:
+      required: true
+  - type: textarea
+    id: implementation_tasks
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - [ ] Task 1
+        - [ ] Task 2
+        - [ ] Tests written
+        - [ ] Documentation updated
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] Validation passes
+        - [ ] Scope remains focused
+        - [ ] No undocumented breaking change
+    validations:
+      required: true
