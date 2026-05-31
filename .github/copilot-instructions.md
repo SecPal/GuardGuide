@@ -6,6 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 # GuardGuide Repository Instructions
 
 These instructions are self-contained for the `GuardGuide` repository.
+They are the authoritative runtime application model for this repository until
+the GuardGuide product codebase is scaffolded further.
 
 ## Always-On Rules
 
@@ -57,13 +59,20 @@ Before commit, PR, or merge, verify at minimum:
 - Green CI alone is not enough for AI-generated changes, especially around
   workflow validators, licensing, shell scripts, localization, or security
   boundaries.
+- Reject AI-generated validator or reusable workflow changes that relax a
+  repo-specific guardrail without positive and negative fixture coverage,
+  positive and negative evidence, or a focused regression test.
 - Reject AI-generated monolith splits, hidden API layers, or premature
   abstraction that weaken the standalone-first GuardGuide architecture.
 - Reject AI-generated UI refactors that drift away from Catalyst, weaken Lingui
   localization coverage, or reduce accessibility semantics.
+- Reject AI-generated resource or serializer refactors that move business logic
+  into presentation code or repeat work that should run once per request.
 - Reject AI-generated persistence or auth changes that bypass application-layer
   encryption, store unhashed acknowledgement tokens, persist IP/user-agent data,
   or couple standard paths to only one database engine.
+- Reject AI-generated identifier or tenancy changes that derive stable keys from
+  mutable display names or ignore tenant-scoped uniqueness constraints.
 - Reject AI-generated acknowledgement flow changes that let superseded versions
   remain confirmable or that weaken the audit trail for QR, magic-link, or
   supervised fallback paths.
