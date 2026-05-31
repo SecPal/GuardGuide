@@ -17,6 +17,10 @@ if command -v bash >/dev/null 2>&1; then
   ./scripts/validate-copilot-instructions.sh
 fi
 
+if [[ -x ./scripts/check-conflict-markers.sh ]]; then
+  ./scripts/check-conflict-markers.sh
+fi
+
 if command -v reuse >/dev/null 2>&1; then
   reuse lint
 fi

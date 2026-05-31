@@ -14,6 +14,32 @@ permissions:
   pull-requests: read
 
 jobs:
+  detect-files:
+    name: Detect repository manifests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      has-package: ${{ steps.detect.outputs.has-package }}
+      has-composer: ${{ steps.detect.outputs.has-composer }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Detect manifest files
+        id: detect
+        run: |
+          if [[ -f package.json ]]; then
+            echo "has-package=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-package=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [[ -f composer.json ]]; then
+            echo "has-composer=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-composer=false" >> "$GITHUB_OUTPUT"
+          fi
+
   reuse:
     name: Check REUSE Compliance
     uses: SecPal/.github/.github/workflows/reusable-reuse.yml@main
@@ -23,29 +49,34 @@ jobs:
     uses: SecPal/.github/.github/workflows/reusable-copilot-instructions.yml@main
 
   prettier:
-    if: ${{ hashFiles('package.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Formatting Check
     uses: SecPal/.github/.github/workflows/reusable-prettier.yml@main
 
   markdown-lint:
-    if: ${{ hashFiles('package.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Markdown Lint
     uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@main
 
   license-compatibility:
-    if: ${{ hashFiles('package.json') != '' || hashFiles('composer.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-package == 'true' || needs.detect-files.outputs.has-composer == 'true' }}
     name: Check License Compatibility
     uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@main
 
   eslint:
-    if: ${{ hashFiles('package.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: ESLint
     uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@main
     with:
       node-version: "22"
 
   typecheck:
-    if: ${{ hashFiles('package.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: TypeScript Check
     uses: SecPal/.github/.github/workflows/reusable-node-build.yml@main
     with:
@@ -53,7 +84,8 @@ jobs:
       build-command: "npm run typecheck"
 
   vitest:
-    if: ${{ hashFiles('package.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Vitest Tests
     uses: SecPal/.github/.github/workflows/reusable-node-build.yml@main
     with:

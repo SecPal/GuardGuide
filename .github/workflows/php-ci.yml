@@ -14,30 +14,47 @@ permissions:
   pull-requests: read
 
 jobs:
+  detect-files:
+    name: Detect PHP manifest
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      has-composer: ${{ steps.detect.outputs.has-composer }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Detect composer.json
+        id: detect
+        run: |
+          if [[ -f composer.json ]]; then
+            echo "has-composer=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-composer=false" >> "$GITHUB_OUTPUT"
+          fi
+
   lint:
-    if: ${{ hashFiles('composer.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
     name: Laravel Pint
     uses: SecPal/.github/.github/workflows/reusable-php-lint.yml@main
 
   static-analysis:
-    if: ${{ hashFiles('composer.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
     name: PHPStan
     uses: SecPal/.github/.github/workflows/reusable-php-stan.yml@main
 
-  test:
-    if: ${{ hashFiles('composer.json') != '' }}
-    name: Pest Tests
+  test-pgsql:
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
+    name: Pest Tests (PostgreSQL)
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        database: [pgsql, mariadb]
 
     services:
       postgres:
         image: postgres:17-alpine
-        if: ${{ matrix.database == 'pgsql' }}
         env:
           POSTGRES_DB: testing
           POSTGRES_USER: testing
@@ -49,9 +66,41 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, pdo_mysql
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run tests on PostgreSQL
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: testing
+          DB_USERNAME: testing
+          DB_PASSWORD: testing
+        run: php artisan test
+
+  test-mariadb:
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
+    name: Pest Tests (MariaDB)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
       mariadb:
         image: mariadb:11
-        if: ${{ matrix.database == 'mariadb' }}
         env:
           MARIADB_DATABASE: testing
           MARIADB_USER: testing
@@ -79,19 +128,7 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
 
-      - name: Run tests on PostgreSQL
-        if: ${{ matrix.database == 'pgsql' }}
-        env:
-          DB_CONNECTION: pgsql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 5432
-          DB_DATABASE: testing
-          DB_USERNAME: testing
-          DB_PASSWORD: testing
-        run: php artisan test
-
       - name: Run tests on MariaDB
-        if: ${{ matrix.database == 'mariadb' }}
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1

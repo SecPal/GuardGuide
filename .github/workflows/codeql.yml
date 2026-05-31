@@ -16,8 +16,28 @@ permissions:
   contents: read
 
 jobs:
+  detect-files:
+    name: Detect JavaScript manifest
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      has-package: ${{ steps.detect.outputs.has-package }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Detect package.json
+        id: detect
+        run: |
+          if [[ -f package.json ]]; then
+            echo "has-package=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-package=false" >> "$GITHUB_OUTPUT"
+          fi
+
   analyze:
-    if: ${{ hashFiles('package.json') != '' }}
+    needs: detect-files
+    if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Analyze with CodeQL
     runs-on: ubuntu-latest
     timeout-minutes: 20
