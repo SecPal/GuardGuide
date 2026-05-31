@@ -15,3 +15,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ### Added
 
 - Added the initial GuardGuide repository governance baseline, project decision record, and GitHub automation bootstrap.
+
+### Fixed
+
+- Avoided failing project-board automation runs when the repository does not yet have access to the required GitHub App secrets.
