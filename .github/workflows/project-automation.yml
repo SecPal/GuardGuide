@@ -17,16 +17,37 @@ permissions:
   pull-requests: write
 
 jobs:
+  detect-project-automation-secrets:
+    name: Detect project automation secrets
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      enabled: ${{ steps.detect.outputs.enabled }}
+    steps:
+      - name: Detect GitHub App credentials
+        id: detect
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+        run: |
+          if [[ -n "$APP_ID" && -n "$APP_PRIVATE_KEY" ]]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
   project-automation:
     name: Project automation
-    uses: SecPal/.github/.github/workflows/project-automation-core.yml@main
+    needs: detect-project-automation-secrets
+    if: needs.detect-project-automation-secrets.outputs.enabled == 'true'
+    uses: SecPal/.github/.github/workflows/project-automation-core.yml@6aab81e7227f2b435dfa6e8a71e8fdf4020afc4e
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
   draft-reminder:
     name: Draft PR Reminder
-    uses: SecPal/.github/.github/workflows/draft-pr-reminder.yml@main
+    uses: SecPal/.github/.github/workflows/draft-pr-reminder.yml@6aab81e7227f2b435dfa6e8a71e8fdf4020afc4e
     permissions:
       issues: write
       pull-requests: write
