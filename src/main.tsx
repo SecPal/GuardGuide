@@ -14,9 +14,12 @@ export function AppWithI18n() {
     void (async () => {
       try {
         await activateLocale(detectLocale());
-      } finally {
         if (!isCancelled) {
           setLocaleReady(true);
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          console.error("Failed to activate locale", error);
         }
       }
     })();

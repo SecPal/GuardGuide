@@ -1,8 +1,13 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
+import * as i18nModule from "./i18n";
 import { AppWithI18n } from "./main";
 
 describe("AppWithI18n", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   beforeEach(() => {
     Object.defineProperty(window.navigator, "languages", {
       configurable: true,
@@ -34,5 +39,31 @@ describe("AppWithI18n", () => {
 
     expect(document.documentElement.lang).toBe("de");
     expect(screen.getByText("Deutsch")).toBeInTheDocument();
+  });
+
+  it("keeps the loading state when locale activation fails", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    vi.spyOn(i18nModule, "activateLocale").mockRejectedValueOnce(
+      new Error("Failed to load locale")
+    );
+
+    render(<AppWithI18n />);
+
+    await waitFor(() => {
+      expect(errorSpy).toHaveBeenCalledWith(
+        "Failed to activate locale",
+        expect.any(Error)
+      );
+    });
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Loading GuardGuide..."
+    );
+    expect(
+      screen.queryByRole("heading", {
+        name: /GuardGuide keeps instructions clear and acknowledgements accountable\./i,
+      })
+    ).not.toBeInTheDocument();
   });
 });
