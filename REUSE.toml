@@ -34,6 +34,7 @@ path = [
 	"phpstan.neon",
 	"public/.htaccess",
 	"public/robots.txt",
+	"tests/Unit/.gitignore",
 	"storage/app/.gitignore",
 	"storage/app/private/.gitignore",
 	"storage/app/public/.gitignore",
