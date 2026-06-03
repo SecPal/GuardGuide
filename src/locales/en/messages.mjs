@@ -1,10 +1,1 @@
-export const messages = {
-	"shell.body": "Launch the first standalone workspace with English source text, German localization, and a Catalyst-ready React shell.",
-	"shell.eyebrow": "Standalone instruction management",
-	"shell.fact.catalogs.label": "Catalogs",
-	"shell.fact.catalogs.value": "English source plus German translations",
-	"shell.facts.ariaLabel": "Shell facts",
-	"shell.fact.locale.label": "Initial locale",
-	"shell.fact.runtime.label": "Runtime",
-	"shell.title": "GuardGuide keeps instructions clear and acknowledgements accountable.",
-};
+/*eslint-disable*/export const messages=JSON.parse("{\"shell.body\":[\"Launch the first standalone workspace with English source text, German localization, and a Catalyst-ready React shell.\"],\"shell.eyebrow\":[\"Standalone instruction management\"],\"shell.fact.catalogs.label\":[\"Catalogs\"],\"shell.fact.catalogs.value\":[\"English source plus German translations\"],\"shell.fact.locale.label\":[\"Initial locale\"],\"shell.fact.runtime.label\":[\"Runtime\"],\"shell.facts.ariaLabel\":[\"Shell facts\"],\"shell.title\":[\"GuardGuide keeps instructions clear and acknowledgements accountable.\"]}");

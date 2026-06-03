@@ -11,6 +11,6 @@ module.exports = {
       exclude: ["**/*.d.ts"],
     },
   ],
-  format: formatter({ lineNumbers: false }),
+  format: formatter({ lineNumbers: false, explicitIdAsDefault: true }),
   orderBy: "messageId",
 };

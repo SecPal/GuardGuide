@@ -24,13 +24,19 @@
         "laravel"
     ],
     "scripts": {
+        "lingui:compile": "lingui compile --namespace es",
+        "predev": "npm run lingui:compile",
         "dev": "vite",
+        "prestart": "npm run lingui:compile",
         "start": "vite",
+        "prebuild": "npm run lingui:compile",
         "build": "tsc --noEmit && vite build",
         "preview": "vite preview",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "typecheck": "tsc --noEmit",
+        "pretest": "npm run lingui:compile",
         "test": "vitest run",
+        "pretest:watch": "npm run lingui:compile",
         "test:watch": "vitest",
         "format": "prettier --write '**/*.{md,yml,yaml,json}'",
         "format:check": "prettier --check '**/*.{md,yml,yaml,json}'"
