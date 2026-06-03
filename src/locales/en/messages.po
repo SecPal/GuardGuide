@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Language: en\\n"
+"MIME-Version: 1.0\\n"
+"Content-Type: text/plain; charset=utf-8\\n"
+"Content-Transfer-Encoding: 8bit\\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n"
+
+msgid "shell.body"
+msgstr "Launch the first standalone workspace with English source text, German localization, and a Catalyst-ready React shell."
+
+msgid "shell.eyebrow"
+msgstr "Standalone instruction management"
+
+msgid "shell.fact.catalogs.label"
+msgstr "Catalogs"
+
+msgid "shell.fact.catalogs.value"
+msgstr "English source plus German translations"
+
+msgid "shell.facts.ariaLabel"
+msgstr "Shell facts"
+
+msgid "shell.fact.locale.label"
+msgstr "Initial locale"
+
+msgid "shell.fact.runtime.label"
+msgstr "Runtime"
+
+msgid "shell.title"
+msgstr "GuardGuide keeps instructions clear and acknowledgements accountable."

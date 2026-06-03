@@ -6,7 +6,6 @@ description: Applies React, strict TypeScript, Lingui, and Catalyst rules to fro
 applyTo: resources/js/**/*.ts,resources/js/**/*.tsx,vite.config.ts,eslint.config.js
 ---
 
-
 # React Catalyst Rules
 
 - Use React 19 with strict TypeScript.

@@ -1,0 +1,76 @@
+{
+    "name": "@secpal/guardguide",
+    "version": "0.0.1",
+    "description": "React/TypeScript application shell for GuardGuide by SecPal.",
+    "private": true,
+    "type": "module",
+    "author": "SecPal",
+    "license": "AGPL-3.0-or-later",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SecPal/GuardGuide.git"
+    },
+    "homepage": "https://github.com/SecPal/GuardGuide#readme",
+    "bugs": {
+        "url": "https://github.com/SecPal/GuardGuide/issues"
+    },
+    "keywords": [
+        "guardguide",
+        "secpal",
+        "react",
+        "typescript",
+        "vite",
+        "lingui",
+        "laravel"
+    ],
+    "scripts": {
+        "lingui:compile": "lingui compile --namespace es",
+        "predev": "npm run lingui:compile",
+        "dev": "vite",
+        "prestart": "npm run lingui:compile",
+        "start": "vite",
+        "prebuild": "npm run lingui:compile",
+        "build": "tsc --noEmit && vite build",
+        "preview": "vite preview",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "typecheck": "tsc --noEmit",
+        "pretest": "npm run lingui:compile",
+        "test": "vitest run",
+        "pretest:watch": "npm run lingui:compile",
+        "test:watch": "vitest",
+        "format": "prettier --write '**/*.{md,yml,yaml,json}'",
+        "format:check": "prettier --check '**/*.{md,yml,yaml,json}'"
+    },
+    "dependencies": {
+        "@lingui/core": "^6.1.0",
+        "@lingui/react": "^6.1.0",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@lingui/cli": "^6.1.0",
+        "@lingui/format-po": "^6.1.0",
+        "@lingui/vite-plugin": "^6.1.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@testing-library/react": "^16.3.0",
+        "@types/node": "^24.10.0",
+        "@types/react": "^19.2.2",
+        "@types/react-dom": "^19.2.2",
+        "@vitejs/plugin-react": "^6.0.2",
+        "eslint": "^10.0.0",
+        "eslint-plugin-react-hooks": "^7.1.0",
+        "eslint-plugin-react-refresh": "^0.5.2",
+        "globals": "^17.6.0",
+        "jsdom": "^27.2.0",
+        "prettier": "^3.6.2",
+        "typescript": "6.0.x",
+        "typescript-eslint": "^8.60.0",
+        "vite": "^8.0.14",
+        "vitest": "^4.1.0"
+    },
+    "engines": {
+        "node": ">=22.19.0",
+        "npm": ">=10.0.0"
+    }
+}

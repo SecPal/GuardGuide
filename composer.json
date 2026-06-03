@@ -3,7 +3,12 @@
     "name": "secpal/guardguide",
     "type": "project",
     "description": "GuardGuide standalone-first instruction management backend baseline.",
-    "keywords": ["guardguide", "secpal", "laravel", "acknowledgements"],
+    "keywords": [
+        "guardguide",
+        "secpal",
+        "laravel",
+        "acknowledgements"
+    ],
     "license": "AGPL-3.0-or-later",
     "require": {
         "php": "^8.4",
