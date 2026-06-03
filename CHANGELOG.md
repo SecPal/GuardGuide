@@ -15,6 +15,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ### Added
 
 - Added the initial GuardGuide repository governance baseline, project decision record, and GitHub automation bootstrap.
+- Added the first Laravel 13 backend baseline for GuardGuide, including a backend-only Composer scaffold, Pest as the default test runner, and PHPStan/Pint wiring for the initial PHP slice.
 
 ### Fixed
 
