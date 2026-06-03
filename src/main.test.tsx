@@ -26,7 +26,7 @@ describe("AppWithI18n", () => {
     render(<AppWithI18n />);
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Loading GuardGuide..."
+      "GuardGuide wird geladen..."
     );
 
     await waitFor(() => {
@@ -39,6 +39,7 @@ describe("AppWithI18n", () => {
 
     expect(document.documentElement.lang).toBe("de");
     expect(screen.getByText("Deutsch")).toBeInTheDocument();
+    expect(screen.getByLabelText("Shell-Informationen")).toBeInTheDocument();
   });
 
   it("keeps the loading state when locale activation fails", async () => {
@@ -58,7 +59,7 @@ describe("AppWithI18n", () => {
     });
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Loading GuardGuide..."
+      "GuardGuide wird geladen..."
     );
     expect(
       screen.queryByRole("heading", {

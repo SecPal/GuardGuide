@@ -3,17 +3,23 @@ import { createRoot } from "react-dom/client";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import App from "./App";
-import { activateLocale, detectLocale } from "./i18n";
+import { activateLocale, detectLocale, type Locale } from "./i18n";
+
+const loadingMessages: Record<Locale, string> = {
+  en: "Loading GuardGuide...",
+  de: "GuardGuide wird geladen...",
+};
 
 export function AppWithI18n() {
   const [localeReady, setLocaleReady] = useState(false);
+  const [detectedLocale] = useState(detectLocale);
 
   useEffect(() => {
     let isCancelled = false;
 
     void (async () => {
       try {
-        await activateLocale(detectLocale());
+        await activateLocale(detectedLocale);
         if (!isCancelled) {
           setLocaleReady(true);
         }
@@ -27,12 +33,12 @@ export function AppWithI18n() {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [detectedLocale]);
 
   if (!localeReady) {
     return (
       <div className="shell-loading" role="status" aria-live="polite">
-        Loading GuardGuide...
+        {loadingMessages[detectedLocale]}
       </div>
     );
   }

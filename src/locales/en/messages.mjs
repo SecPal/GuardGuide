@@ -3,6 +3,7 @@ export const messages = {
 	"shell.eyebrow": "Standalone instruction management",
 	"shell.fact.catalogs.label": "Catalogs",
 	"shell.fact.catalogs.value": "English source plus German translations",
+	"shell.facts.ariaLabel": "Shell facts",
 	"shell.fact.locale.label": "Initial locale",
 	"shell.fact.runtime.label": "Runtime",
 	"shell.title": "GuardGuide keeps instructions clear and acknowledgements accountable.",

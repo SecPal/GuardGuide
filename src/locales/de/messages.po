@@ -18,6 +18,9 @@ msgstr "Kataloge"
 msgid "shell.fact.catalogs.value"
 msgstr "Englische Quelltexte plus deutsche Ubersetzungen"
 
+msgid "shell.facts.ariaLabel"
+msgstr "Shell-Informationen"
+
 msgid "shell.fact.locale.label"
 msgstr "Initiale Sprache"
 

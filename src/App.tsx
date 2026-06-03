@@ -36,7 +36,13 @@ export default function App() {
               "Launch the first standalone workspace with English source text, German localization, and a Catalyst-ready React shell.",
           })}
         </p>
-        <dl className="shell__facts" aria-label="Shell facts">
+        <dl
+          className="shell__facts"
+          aria-label={i18n._({
+            id: "shell.facts.ariaLabel",
+            message: "Shell facts",
+          })}
+        >
           <div>
             <dt>
               {i18n._({

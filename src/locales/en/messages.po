@@ -18,6 +18,9 @@ msgstr "Catalogs"
 msgid "shell.fact.catalogs.value"
 msgstr "English source plus German translations"
 
+msgid "shell.facts.ariaLabel"
+msgstr "Shell facts"
+
 msgid "shell.fact.locale.label"
 msgstr "Initial locale"
 

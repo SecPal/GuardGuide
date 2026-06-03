@@ -3,6 +3,7 @@ export const messages = {
 	"shell.eyebrow": "Eigenstandiges Anweisungsmanagement",
 	"shell.fact.catalogs.label": "Kataloge",
 	"shell.fact.catalogs.value": "Englische Quelltexte plus deutsche Ubersetzungen",
+	"shell.facts.ariaLabel": "Shell-Informationen",
 	"shell.fact.locale.label": "Initiale Sprache",
 	"shell.fact.runtime.label": "Laufzeit",
 	"shell.title": "GuardGuide schafft klare Anweisungen und nachvollziehbare Bestatigungen.",
