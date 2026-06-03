@@ -17,7 +17,7 @@ export type BrowserLocaleSource = {
 type Messages = Record<string, string | string[]>;
 
 function isLocale(value: string): value is Locale {
-  return value in locales;
+  return Object.hasOwn(locales, value);
 }
 
 function normalizeLocale(value: string | null | undefined): Locale | null {

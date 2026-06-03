@@ -3,7 +3,7 @@ import { defaultLocale, locales, type Locale } from "./i18n";
 import "./styles.css";
 
 function getLocaleLabel(locale: string): string {
-  if (locale in locales) {
+  if (Object.hasOwn(locales, locale)) {
     return locales[locale as Locale];
   }
 

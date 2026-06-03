@@ -19,4 +19,13 @@ describe("detectLocale", () => {
       })
     ).toBe("en");
   });
+
+  it("falls back to English for prototype-chain locale keys", () => {
+    expect(
+      detectLocale({
+        languages: ["constructor"],
+        language: "constructor",
+      })
+    ).toBe("en");
+  });
 });

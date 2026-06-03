@@ -32,7 +32,7 @@ describe("AppWithI18n", () => {
     await waitFor(() => {
       expect(
         screen.getByRole("heading", {
-          name: /GuardGuide schafft klare Anweisungen und nachvollziehbare Bestatigungen\./i,
+          name: /GuardGuide schafft klare Anweisungen und nachvollziehbare Bestätigungen\./i,
         })
       ).toBeInTheDocument();
     });
