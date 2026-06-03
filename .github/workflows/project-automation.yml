@@ -47,6 +47,10 @@ jobs:
 
   draft-reminder:
     name: Draft PR Reminder
+    if: |
+      github.event.pull_request != null &&
+      github.event.action == 'opened' &&
+      github.event.pull_request.draft == false
     uses: SecPal/.github/.github/workflows/draft-pr-reminder.yml@6aab81e7227f2b435dfa6e8a71e8fdf4020afc4e
     permissions:
       issues: write

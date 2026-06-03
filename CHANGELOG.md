@@ -20,3 +20,4 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Avoided failing project-board automation runs when the repository does not yet have access to the required GitHub App secrets.
 - Pinned GuardGuide reusable GitHub workflows to an immutable SecPal `.github` commit for workflow hardening.
+- Restricted the draft PR reminder caller to real non-draft pull-request open events so issue-triggered project automation runs no longer fail on a mismatched reminder job.
