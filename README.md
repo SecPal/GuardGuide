@@ -62,8 +62,9 @@ The repository has been reset onto the official Laravel React starter baseline a
 
 ## Local Development
 
-- `composer install`
-- `npm install`
+- `composer run setup`
 - `composer run dev`
+
+`composer run setup` bootstraps the local `.env`, creates the default SQLite database, and runs the initial migrations before you start the dev processes.
 
 The starter baseline uses SQLite locally by default and keeps a seeded `test@example.com` user for development.
