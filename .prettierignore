@@ -1,0 +1,6 @@
+resources/js/components/ui/*
+resources/js/actions/**
+resources/js/locales/**/messages.mjs
+resources/js/routes/**
+resources/js/wayfinder/**
+resources/views/mail/*

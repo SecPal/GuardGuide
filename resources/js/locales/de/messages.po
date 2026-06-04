@@ -1,0 +1,201 @@
+msgid ""
+msgstr ""
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.emailLabel"
+msgstr "E-Mail-Adresse"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.emailPlaceholder"
+msgstr "email@example.com"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.layoutDescription"
+msgstr "Gib Deine E-Mail-Adresse ein, um einen Link zum Zurücksetzen des "
+"Passworts zu erhalten."
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.layoutTitle"
+msgstr "Passwort vergessen"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.metaTitle"
+msgstr "Passwort vergessen"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.returnLead"
+msgstr "Oder zurück zur"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.returnLink"
+msgstr "Anmeldung"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.submit"
+msgstr "Link zum Zurücksetzen senden"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.email"
+msgstr "E-Mail-Adresse"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.emailPlaceholder"
+msgstr "email@example.com"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.forgotPassword"
+msgstr "Passwort vergessen?"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.layoutDescription"
+msgstr "Nutze Dein GuardGuide-Konto, um fortzufahren."
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.layoutTitle"
+msgstr "Bei GuardGuide anmelden"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.metaTitle"
+msgstr "Anmelden"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.password"
+msgstr "Passwort"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.passwordPlaceholder"
+msgstr "Passwort"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.remember"
+msgstr "Angemeldet bleiben"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.submit"
+msgstr "Anmelden"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.layoutDescription"
+msgstr "Bitte bestätige Deine E-Mail-Adresse über den Link, den wir Dir gerade "
+"gesendet haben."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.layoutTitle"
+msgstr "E-Mail-Bestätigung"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.linkSent"
+msgstr "Wir haben einen neuen Bestätigungslink an die bei der Registrierung "
+"angegebene E-Mail-Adresse gesendet."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.logout"
+msgstr "Abmelden"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.metaTitle"
+msgstr "E-Mail-Bestätigung"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.resend"
+msgstr "Bestätigungs-E-Mail erneut senden"
+
+#: resources/js/components/app-logo.tsx
+#: resources/js/pages/welcome.tsx
+msgid "common.appName"
+msgstr "GuardGuide"
+
+#: resources/js/pages/dashboard.tsx
+msgid "dashboard.breadcrumb"
+msgstr "Dashboard"
+
+#: resources/js/pages/dashboard.tsx
+msgid "dashboard.metaTitle"
+msgstr "Dashboard"
+
+#~ msgid "Password updated."
+#~ msgstr "Passwort aktualisiert."
+
+#~ msgid "Profile updated."
+#~ msgstr "Profil aktualisiert."
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.breadcrumb"
+msgstr "Darstellung"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.headingDescription"
+msgstr "Passe die Darstellungseinstellungen für Dein Konto an."
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.headingTitle"
+msgstr "Darstellung"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.metaTitle"
+msgstr "Darstellungseinstellungen"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.body"
+msgstr "Für Teams, die strukturierte Anweisungen, kontrollierte "
+"Veröffentlichung und dokumentierte Bestätigungen brauchen, ohne die "
+"komplette SecPal-Produktfläche zu übernehmen."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.cta.dashboard"
+msgstr "Dashboard öffnen"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.cta.login"
+msgstr "Anmelden"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.eyebrow"
+msgstr "Eigenständiges Anweisungsmanagement"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.acknowledgement.body"
+msgstr "Halte Bestätigungsflüsse von Anfang an versionsgebunden und "
+"nachvollziehbar."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.acknowledgement.title"
+msgstr "Nachvollziehbare Bestätigungen"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.foundation.body"
+msgstr "Inertia, shadcn/ui, Fortify, Passkeys, Zwei-Faktor-Authentifizierung "
+"und Lingui starten GuardGuide auf einer wartbaren Basis."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.foundation.title"
+msgstr "SecPal-nahe Grundlage"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.publication.body"
+msgstr "Entwürfe, Veröffentlichungen und Iterationen von Anweisungsinhalten "
+"laufen in einer sauberen Laravel-Monolith-Basis zusammen."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.publication.title"
+msgstr "Strukturierte Veröffentlichung"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.metaTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.title"
+msgstr "GuardGuide schafft klare Anweisungen und nachvollziehbare "
+"Bestätigungen."

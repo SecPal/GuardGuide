@@ -1,12 +1,39 @@
-import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
-import { lingui } from "@lingui/vite-plugin";
+import { existsSync } from 'node:fs';
+import inertia from '@inertiajs/vite';
+import { wayfinder } from '@laravel/vite-plugin-wayfinder';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import laravel from 'laravel-vite-plugin';
+import { bunny } from 'laravel-vite-plugin/fonts';
+import { defineConfig } from 'vite';
+
+const shouldGenerateWayfinder =
+    !process.env.GUARDGUIDE_SKIP_WAYFINDER && existsSync('vendor/autoload.php');
 
 export default defineConfig({
-  plugins: [react(), lingui()],
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: "./src/test/setup.ts",
-  },
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.tsx'],
+            refresh: true,
+            fonts: [
+                bunny('Instrument Sans', {
+                    weights: [400, 500, 600],
+                }),
+            ],
+        }),
+        inertia(),
+        react({
+            babel: {
+                plugins: ['babel-plugin-react-compiler'],
+            },
+        }),
+        tailwindcss(),
+        ...(shouldGenerateWayfinder
+            ? [
+                  wayfinder({
+                      formVariants: true,
+                  }),
+              ]
+            : []),
+    ],
 });
