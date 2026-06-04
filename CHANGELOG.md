@@ -18,11 +18,13 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added the first Laravel 13 backend baseline for GuardGuide, including a backend-only Composer scaffold, Pest as the default test runner, and PHPStan/Pint wiring for the initial PHP slice.
 - Added the first React/Vite frontend shell baseline for GuardGuide with strict TypeScript and Lingui English/German localization wiring.
 - Added the new Laravel 13 Inertia React starter baseline with shadcn/ui, Fortify, passkeys, and the GuardGuide-branded localized welcome and login surfaces.
+- Added a dedicated Composer `analyse` script for PHPStan so local automation and Polyscope can invoke the current GuardGuide static-analysis entry point through the repo script surface.
 
 ### Changed
 
 - Rebuilt GuardGuide from the standalone React/Vite shell onto a Laravel monolith baseline so frontend, authentication, and future domain slices now share one Inertia application surface.
 - Reintroduced Lingui on the new starter stack with English and German catalogs compiled into runtime locale modules under `resources/js/locales`.
+- Renamed the GuardGuide frontend Copilot instruction file to `react-shadcn.instructions.md` so repo automation and generated Polyscope prompts match the current shadcn/ui-based frontend stack.
 
 ### Fixed
 
