@@ -29,12 +29,35 @@ const setCookie = (name: string, value: string, days = 365): void => {
     document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
 };
 
+const isAppearance = (value: string | null): value is Appearance => {
+    return value === 'system' || value === 'light' || value === 'dark';
+};
+
+const getCookieAppearance = (): Appearance | null => {
+    if (typeof document === 'undefined') {
+        return null;
+    }
+
+    const appearanceCookie = document.cookie
+        .split('; ')
+        .find((cookie) => cookie.startsWith('appearance='))
+        ?.slice('appearance='.length);
+
+    return isAppearance(appearanceCookie ?? null) ? appearanceCookie : null;
+};
+
 const getStoredAppearance = (): Appearance => {
     if (typeof window === 'undefined') {
         return 'system';
     }
 
-    return (localStorage.getItem('appearance') as Appearance) || 'system';
+    const storedAppearance = localStorage.getItem('appearance');
+
+    if (isAppearance(storedAppearance)) {
+        return storedAppearance;
+    }
+
+    return getCookieAppearance() ?? 'system';
 };
 
 const isDarkMode = (appearance: Appearance): boolean => {
@@ -76,8 +99,14 @@ export function initializeTheme(): void {
     }
 
     if (!localStorage.getItem('appearance')) {
-        localStorage.setItem('appearance', 'system');
-        setCookie('appearance', 'system');
+        const cookieAppearance = getCookieAppearance();
+        const initialAppearance = cookieAppearance ?? 'system';
+
+        localStorage.setItem('appearance', initialAppearance);
+
+        if (!cookieAppearance) {
+            setCookie('appearance', initialAppearance);
+        }
     }
 
     currentAppearance = getStoredAppearance();
