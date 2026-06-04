@@ -36,6 +36,8 @@
         "format:check": "prettier --check resources/ README.md docs/decisions/**/*.md",
         "lint": "eslint . --fix",
         "lint:check": "eslint .",
+        "test": "npm run build",
+        "typecheck": "npm run types:check",
         "types:check": "tsc --noEmit"
     },
     "devDependencies": {

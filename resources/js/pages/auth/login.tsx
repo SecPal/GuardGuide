@@ -44,7 +44,9 @@ export default function Login({ status, canResetPassword }: Props) {
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
-                                    placeholder={i18n._('auth.login.emailPlaceholder')}
+                                    placeholder={i18n._(
+                                        'auth.login.emailPlaceholder',
+                                    )}
                                 />
                                 <InputError message={errors.email} />
                             </div>
@@ -60,7 +62,9 @@ export default function Login({ status, canResetPassword }: Props) {
                                             className="ml-auto text-sm"
                                             tabIndex={5}
                                         >
-                                            {i18n._('auth.login.forgotPassword')}
+                                            {i18n._(
+                                                'auth.login.forgotPassword',
+                                            )}
                                         </TextLink>
                                     )}
                                 </div>
@@ -70,7 +74,9 @@ export default function Login({ status, canResetPassword }: Props) {
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder={i18n._('auth.login.passwordPlaceholder')}
+                                    placeholder={i18n._(
+                                        'auth.login.passwordPlaceholder',
+                                    )}
                                 />
                                 <InputError message={errors.password} />
                             </div>

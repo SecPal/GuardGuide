@@ -35,8 +35,9 @@ function normalizeLocale(value: string | null | undefined): Locale | null {
 }
 
 export function detectLocale(
-    source: BrowserLocaleSource | undefined =
-        typeof navigator !== 'undefined' ? navigator : undefined,
+    source: BrowserLocaleSource | undefined = typeof navigator !== 'undefined'
+        ? navigator
+        : undefined,
 ): Locale {
     for (const candidate of source?.languages ?? []) {
         const locale = normalizeLocale(candidate);

@@ -27,7 +27,7 @@ export default function Welcome() {
             <div className="min-h-screen bg-[radial-gradient(circle_at_top,#ece8da_0%,#f7f5ee_35%,#ffffff_100%)] text-slate-950 dark:bg-[radial-gradient(circle_at_top,#1c2218_0%,#11150f_38%,#090b08_100%)] dark:text-slate-50">
                 <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 lg:px-8">
                     <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-700 dark:text-emerald-300">
+                        <p className="text-xs font-semibold tracking-[0.28em] text-emerald-700 uppercase dark:text-emerald-300">
                             {i18n._('common.appName')}
                         </p>
                         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
@@ -45,9 +45,9 @@ export default function Welcome() {
                     </Link>
                 </header>
 
-                <main className="mx-auto grid max-w-6xl gap-8 px-6 pb-16 pt-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(21rem,0.95fr)] lg:px-8 lg:pb-24 lg:pt-14">
+                <main className="mx-auto grid max-w-6xl gap-8 px-6 pt-8 pb-16 lg:grid-cols-[minmax(0,1.35fr)_minmax(21rem,0.95fr)] lg:px-8 lg:pt-14 lg:pb-24">
                     <section className="rounded-[2rem] border border-slate-900/5 bg-white/80 p-8 shadow-[0_30px_90px_-40px_rgba(15,23,42,0.45)] backdrop-blur lg:p-12 dark:border-white/10 dark:bg-white/5 dark:shadow-[0_30px_90px_-40px_rgba(0,0,0,0.8)]">
-                        <p className="text-sm font-medium uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-300">
+                        <p className="text-sm font-medium tracking-[0.24em] text-emerald-700 uppercase dark:text-emerald-300">
                             {i18n._('welcome.eyebrow')}
                         </p>
 
@@ -55,7 +55,7 @@ export default function Welcome() {
                             {i18n._('welcome.title')}
                         </h1>
 
-                        <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 lg:text-lg">
+                        <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 lg:text-lg dark:text-slate-300">
                             {i18n._('welcome.body')}
                         </p>
 
@@ -77,7 +77,7 @@ export default function Welcome() {
                                 key={highlight.title}
                                 className="rounded-[1.75rem] border border-slate-900/5 bg-white/70 p-6 shadow-[0_20px_70px_-45px_rgba(15,23,42,0.4)] backdrop-blur dark:border-white/10 dark:bg-white/5 dark:shadow-[0_20px_70px_-45px_rgba(0,0,0,0.85)]"
                             >
-                                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                                <p className="text-sm font-semibold tracking-[0.2em] text-slate-500 uppercase dark:text-slate-400">
                                     {highlight.title}
                                 </p>
                                 <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
