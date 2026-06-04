@@ -86,6 +86,27 @@ test('password can be updated', function () {
     expect(Hash::check('new-password', $user->refresh()->password))->toBeTrue();
 });
 
+test('password update rotates the remember token', function () {
+    $user = User::factory()->create([
+        'remember_token' => 'pre-update-remember-token',
+    ]);
+
+    $this
+        ->actingAs($user)
+        ->from(route('security.edit'))
+        ->put(route('user-password.update'), [
+            'current_password' => 'password',
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('security.edit'));
+
+    expect($user->fresh()->remember_token)
+        ->not->toBe('pre-update-remember-token')
+        ->and(strlen($user->fresh()->remember_token))->toBeGreaterThanOrEqual(60);
+});
+
 test('correct password must be provided to update password', function () {
     $user = User::factory()->create();
 
