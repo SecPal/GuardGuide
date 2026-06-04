@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import inertia from '@inertiajs/vite';
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import tailwindcss from '@tailwindcss/vite';
@@ -5,6 +6,9 @@ import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import { defineConfig } from 'vite';
+
+const shouldGenerateWayfinder =
+    !process.env.GUARDGUIDE_SKIP_WAYFINDER && existsSync('vendor/autoload.php');
 
 export default defineConfig({
     plugins: [
@@ -24,8 +28,12 @@ export default defineConfig({
             },
         }),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
-        }),
+        ...(shouldGenerateWayfinder
+            ? [
+                  wayfinder({
+                      formVariants: true,
+                  }),
+              ]
+            : []),
     ],
 });
