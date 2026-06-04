@@ -33,3 +33,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
   events so issue-triggered project automation runs no longer fail on a
   mismatched reminder job.
 - Disabled public self-service registration in the new Fortify baseline so GuardGuide starts from the intended controlled access model.
+- Allowed unverified users to delete their own account by moving `profile.destroy` out of the `verified` middleware group.
+- Rotated the user `remember_token` on password resets so previously issued remember-me cookies stop authenticating after a reset.
+- Deferred fetching 2FA recovery codes until the user explicitly reveals them so codes no longer enter the DOM on every visit to the security page.
+- Hardened the `appearance` cookie flow by whitelisting allowed modes server-side and switching the inline theme bootstrapper to safe JSON encoding to remove an XSS sink.
+- Removed the default Laravel `sessions` table from the baseline migration so the standard schema no longer ships `ip_address` and `user_agent` columns that conflict with the no-persistent-PII baseline.
+- Gated the development `test@example.com` seed to `local` and `testing` environments so production or staging bootstrap runs cannot ship a known account.
+- Fixed the "renders without two factor" security test so it no longer skips itself when the Fortify 2FA feature is part of the baseline.
+- Localized the dashboard, appearance settings, email verification, and forgot-password pages through Lingui with matching German translations.

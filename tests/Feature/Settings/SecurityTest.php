@@ -47,8 +47,8 @@ test('security page requires password confirmation when enabled', function () {
 });
 
 test('security page renders without two factor when feature is disabled', function () {
-    $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
-
+    // This scenario must run regardless of the baseline Fortify config so it can
+    // assert that the security page degrades cleanly when 2FA is turned off.
     config(['fortify.features' => []]);
 
     $user = User::factory()->create();

@@ -24,9 +24,9 @@ GuardGuide v1 starts with these binding constraints:
 4. English is the source language, with Lingui-backed German translation from the first GuardGuide-specific UI baseline.
 5. Browser language detection is enabled from the first UI iteration.
 6. MariaDB and PostgreSQL are first-class database targets.
-7. UUID-based modeling is the default.
+7. UUID-based modeling is the default for GuardGuide domain models; the auto-incrementing identifier from the Laravel starter `users` table is retained for the baseline reset and will be migrated to UUIDs in the GuardGuide-specific domain modeling slice.
 8. Person-related data is encrypted at rest on the application layer.
-9. IP addresses and user-agent strings are not stored persistently by default.
+9. IP addresses and user-agent strings are not stored persistently by default. The baseline therefore omits the default Laravel `sessions` table; teams that opt into the database session driver must add a tailored migration that excludes those PII columns.
 10. Acknowledgements are version-bound, and only the currently published version is acknowledgeable.
 11. GuardGuide uses ad-hoc acknowledgement participants rather than requiring a pre-maintained employee directory.
 12. When SecPal integration is enabled later, SecPal becomes the source of truth for organization and person data.

@@ -12,10 +12,16 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * The default test user is only intended for local development and the test
+     * suite, so we never create it in other environments to avoid shipping a
+     * known account to staging or production bootstrap runs.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        if (! app()->environment(['local', 'testing'])) {
+            return;
+        }
 
         User::factory()->create([
             'name' => 'Test User',

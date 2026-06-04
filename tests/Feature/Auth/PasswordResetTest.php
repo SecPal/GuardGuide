@@ -64,6 +64,31 @@ test('password can be reset with valid token', function () {
     });
 });
 
+test('password reset rotates the remember token', function () {
+    Notification::fake();
+
+    $user = User::factory()->create([
+        'remember_token' => 'pre-reset-remember-token',
+    ]);
+
+    $this->post(route('password.email'), ['email' => $user->email]);
+
+    Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
+        $this->post(route('password.update'), [
+            'token' => $notification->token,
+            'email' => $user->email,
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ])->assertSessionHasNoErrors();
+
+        return true;
+    });
+
+    expect($user->fresh()->remember_token)
+        ->not->toBe('pre-reset-remember-token')
+        ->and(strlen($user->fresh()->remember_token))->toBeGreaterThanOrEqual(60);
+});
+
 test('password cannot be reset with invalid token', function () {
     $user = User::factory()->create();
 

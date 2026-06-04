@@ -5,78 +5,195 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.emailLabel"
+msgstr "Email address"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.emailPlaceholder"
+msgstr "email@example.com"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.layoutDescription"
+msgstr "Enter your email to receive a password reset link"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.layoutTitle"
+msgstr "Forgot password"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.metaTitle"
+msgstr "Forgot password"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.returnLead"
+msgstr "Or, return to"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.returnLink"
+msgstr "log in"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.submit"
+msgstr "Email password reset link"
+
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.email"
 msgstr "Email address"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.emailPlaceholder"
 msgstr "email@example.com"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.forgotPassword"
 msgstr "Forgot your password?"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.layoutDescription"
 msgstr "Use your GuardGuide account to continue."
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.layoutTitle"
 msgstr "Sign in to GuardGuide"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.metaTitle"
 msgstr "Log in"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.password"
 msgstr "Password"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.passwordPlaceholder"
 msgstr "Password"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.remember"
 msgstr "Remember me"
 
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.submit"
 msgstr "Log in"
 
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.layoutDescription"
+msgstr "Please verify your email address by clicking on the link we just "
+"emailed to you."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.layoutTitle"
+msgstr "Email verification"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.linkSent"
+msgstr "A new verification link has been sent to the email address you provided "
+"during registration."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.logout"
+msgstr "Log out"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.metaTitle"
+msgstr "Email verification"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.resend"
+msgstr "Resend verification email"
+
+#: resources/js/components/app-logo.tsx
+#: resources/js/pages/welcome.tsx
 msgid "common.appName"
 msgstr "GuardGuide"
 
-msgid "Password updated."
-msgstr "Password updated."
+#: resources/js/pages/dashboard.tsx
+msgid "dashboard.breadcrumb"
+msgstr "Dashboard"
 
-msgid "Profile updated."
-msgstr "Profile updated."
+#: resources/js/pages/dashboard.tsx
+msgid "dashboard.metaTitle"
+msgstr "Dashboard"
 
+#~ msgid "Password updated."
+#~ msgstr "Password updated."
+
+#~ msgid "Profile updated."
+#~ msgstr "Profile updated."
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.breadcrumb"
+msgstr "Appearance settings"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.headingDescription"
+msgstr "Update the appearance settings for your account"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.headingTitle"
+msgstr "Appearance settings"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.metaTitle"
+msgstr "Appearance settings"
+
+#: resources/js/pages/welcome.tsx
 msgid "welcome.body"
-msgstr "Built for teams that need structured instructions, controlled publication, and documented acknowledgements without the full SecPal product surface."
+msgstr "Built for teams that need structured instructions, controlled "
+"publication, and documented acknowledgements without the full SecPal "
+"product surface."
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.cta.dashboard"
 msgstr "Open dashboard"
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.cta.login"
 msgstr "Log in"
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.eyebrow"
 msgstr "Standalone instruction management"
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.feature.acknowledgement.body"
-msgstr "Keep confirmation flows version-bound and auditable from the first domain slice."
+msgstr "Keep confirmation flows version-bound and auditable from the first "
+"domain slice."
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.feature.acknowledgement.title"
 msgstr "Traceable acknowledgements"
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.feature.foundation.body"
-msgstr "Inertia, shadcn/ui, Fortify, passkeys, two-factor authentication, and Lingui start GuardGuide on a maintainable baseline."
+msgstr "Inertia, shadcn/ui, Fortify, passkeys, two-factor authentication, and "
+"Lingui start GuardGuide on a maintainable baseline."
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.feature.foundation.title"
 msgstr "SecPal-aligned foundation"
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.feature.publication.body"
-msgstr "Draft, publish, and iterate instruction content in one clean Laravel monolith baseline."
+msgstr "Draft, publish, and iterate instruction content in one clean Laravel "
+"monolith baseline."
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.feature.publication.title"
 msgstr "Structured publication"
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.metaTitle"
 msgstr "GuardGuide"
 
+#: resources/js/pages/welcome.tsx
 msgid "welcome.title"
 msgstr "GuardGuide keeps instructions clear and acknowledgements accountable."
