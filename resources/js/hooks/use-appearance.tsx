@@ -38,12 +38,13 @@ const getCookieAppearance = (): Appearance | null => {
         return null;
     }
 
-    const appearanceCookie = document.cookie
-        .split('; ')
-        .find((cookie) => cookie.startsWith('appearance='))
-        ?.slice('appearance='.length);
+    const appearanceCookie =
+        document.cookie
+            .split('; ')
+            .find((cookie) => cookie.startsWith('appearance='))
+            ?.slice('appearance='.length) ?? null;
 
-    return isAppearance(appearanceCookie ?? null) ? appearanceCookie : null;
+    return isAppearance(appearanceCookie) ? appearanceCookie : null;
 };
 
 const getStoredAppearance = (): Appearance => {
