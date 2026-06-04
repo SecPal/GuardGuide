@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Laravel\Fortify\Features;
 
 test('login screen can be rendered', function () {
@@ -64,14 +65,19 @@ test('users can logout', function () {
 });
 
 test('users are rate limited', function () {
-    $user = User::factory()->create();
-
-    RateLimiter::increment(md5('login'.implode('|', [$user->email, '127.0.0.1'])), amount: 5);
-
-    $response = $this->post(route('login.store'), [
-        'email' => $user->email,
-        'password' => 'wrong-password',
+    $user = User::factory()->create([
+        'email' => 'Mixed.Case@Example.COM',
     ]);
 
-    $response->assertTooManyRequests();
+    // Mirror the login limiter key from FortifyServiceProvider::configureRateLimiting
+    // (Str::transliterate(Str::lower($email).'|'.$ip)) and the ThrottleRequests
+    // named-limiter hash so the bucket we seed is the same one the request hits.
+    $throttleKey = Str::transliterate(Str::lower($user->email).'|127.0.0.1');
+
+    RateLimiter::increment(md5('login'.$throttleKey), amount: 5);
+
+    $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])->assertTooManyRequests();
 });

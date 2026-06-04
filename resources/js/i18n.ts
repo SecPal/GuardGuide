@@ -51,7 +51,9 @@ export function detectLocale(
 }
 
 async function loadMessages(locale: Locale): Promise<Messages> {
-    const { messages } = await import(`./locales/${locale}/messages.js`);
+    // Catalogs are compiled with `lingui compile --namespace es`, which emits
+    // browser-friendly ESM (`export const messages = ...`) into `.mjs` files.
+    const { messages } = await import(`./locales/${locale}/messages.mjs`);
 
     return messages;
 }

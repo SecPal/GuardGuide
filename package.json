@@ -25,7 +25,7 @@
         "lingui"
     ],
     "scripts": {
-        "lingui:compile": "lingui compile",
+        "lingui:compile": "lingui compile --namespace es",
         "prebuild": "npm run lingui:compile",
         "build": "vite build",
         "prebuild:ssr": "npm run lingui:compile",

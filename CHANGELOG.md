@@ -41,3 +41,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Gated the development `test@example.com` seed to `local` and `testing` environments so production or staging bootstrap runs cannot ship a known account.
 - Fixed the "renders without two factor" security test so it no longer skips itself when the Fortify 2FA feature is part of the baseline.
 - Localized the dashboard, appearance settings, email verification, and forgot-password pages through Lingui with matching German translations.
+- Compiled the Lingui catalogs as ESM (`.mjs`) so the bootstrap `await import(...)` resolves the `messages` named export instead of failing on a CommonJS namespace and leaving Inertia pages blank.
+- Normalized the `email` field on profile updates to lowercase so the saved address matches Fortify's `lowercase_usernames` canonicalization on login.
+- Rebuilt the login rate-limit test around the actual `Str::transliterate(Str::lower($email).'|'.$ip)` key (with a mixed-case email) so the seeded bucket truly matches what the limiter hits.
+- Ignored the local `storage/phpstan` cache directory and removed the committed PHPStan artifacts that had leaked into the previous baseline push.
