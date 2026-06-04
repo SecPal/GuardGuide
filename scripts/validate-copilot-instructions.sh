@@ -12,7 +12,7 @@ if [[ ! -f "$FILE" ]]; then
 fi
 
 required_patterns=(
-  "Catalyst is the exclusive UI baseline"
+  "shadcn/ui is the primary UI baseline"
   "English source language"
   "MariaDB and PostgreSQL"
   "Person-related data must be encrypted at rest"

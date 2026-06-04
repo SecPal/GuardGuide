@@ -17,6 +17,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added the initial GuardGuide repository governance baseline, project decision record, and GitHub automation bootstrap.
 - Added the first Laravel 13 backend baseline for GuardGuide, including a backend-only Composer scaffold, Pest as the default test runner, and PHPStan/Pint wiring for the initial PHP slice.
 - Added the first React/Vite frontend shell baseline for GuardGuide with strict TypeScript and Lingui English/German localization wiring.
+- Added the new Laravel 13 Inertia React starter baseline with shadcn/ui, Fortify, passkeys, and the GuardGuide-branded localized welcome and login surfaces.
+
+### Changed
+
+- Rebuilt GuardGuide from the standalone React/Vite shell onto a Laravel monolith baseline so frontend, authentication, and future domain slices now share one Inertia application surface.
+- Reintroduced Lingui on the new starter stack with English and German catalogs compiled into runtime locale modules under `resources/js/locales`.
 
 ### Fixed
 
@@ -26,3 +32,4 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Restricted the draft PR reminder caller to real non-draft pull-request open
   events so issue-triggered project automation runs no longer fail on a
   mismatched reminder job.
+- Disabled public self-service registration in the new Fortify baseline so GuardGuide starts from the intended controlled access model.

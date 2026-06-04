@@ -7,14 +7,15 @@ SPDX-License-Identifier: CC0-1.0
 
 GuardGuide is the standalone instruction management and acknowledgement platform from SecPal.
 
-It is designed for organizations that need structured work instructions, approvals, versioning, and documented acknowledgements without adopting the full SecPal product surface.
+It is designed for organizations that need structured work instructions, controlled publication, and documented acknowledgements without adopting the full SecPal product surface.
 
 ## Product Direction
 
 - Standalone-first operation with local authentication and simple user management
-- Laravel monolith with a React/Vite frontend in the same repository
-- Catalyst as the exclusive UI baseline; Tailwind Plus snippets may only be adapted into Catalyst-aligned local components
-- English source language with German translation from day one, including browser language detection
+- Laravel monolith with Inertia and React in the same repository
+- shadcn/ui as the component baseline on top of Tailwind CSS v4
+- English source language with Lingui-based German localization from the first GuardGuide-specific UI baseline
+- no public self-service registration in the baseline; authentication starts from managed accounts
 - MariaDB and PostgreSQL supported as first-class database targets
 - Person-related data encrypted at rest on the application layer
 - No persistent IP-address or user-agent storage by default
@@ -46,12 +47,23 @@ This repository follows the SecPal governance baseline unless GuardGuide defines
 - PHP 8.4
 - Laravel 13
 - Pest 4
+- Inertia 3
 - React 19
 - TypeScript strict mode
 - Vite 8
 - Tailwind CSS v4
+- shadcn/ui
+- Fortify with passkeys and two-factor authentication
 - Lingui for English/German localization
 
 ## Status
 
-The repository bootstrap is in progress. The initial governance baseline lands first, followed by the monolith scaffold and Catalyst-based application shell.
+The repository has been reset onto the official Laravel React starter baseline and adapted for GuardGuide. The next slices are GuardGuide-specific domain modeling, localized product screens, and SecPal-aligned operational hardening.
+
+## Local Development
+
+- `composer install`
+- `npm install`
+- `composer run dev`
+
+The starter baseline uses SQLite locally by default and keeps a seeded `test@example.com` user for development.

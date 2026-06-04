@@ -19,9 +19,9 @@ The repository needs a clear baseline before application scaffolding begins.
 GuardGuide v1 starts with these binding constraints:
 
 1. GuardGuide by SecPal is a standalone-first product and repository.
-2. The implementation uses a Laravel monolith with React/Vite in the same repository.
-3. Catalyst is the exclusive UI system; Tailwind Plus may only fill gaps through adapted local components.
-4. English is the source language, with German translation from the start.
+2. The implementation uses a Laravel monolith with Inertia and React in the same repository.
+3. shadcn/ui is the UI baseline on top of Tailwind CSS v4.
+4. English is the source language, with Lingui-backed German translation from the first GuardGuide-specific UI baseline.
 5. Browser language detection is enabled from the first UI iteration.
 6. MariaDB and PostgreSQL are first-class database targets.
 7. UUID-based modeling is the default.
@@ -34,6 +34,6 @@ GuardGuide v1 starts with these binding constraints:
 ## Consequences
 
 - governance and CI must support both PHP/Laravel and React/TypeScript from the start
-- monolith scaffolding must include localization and Catalyst-ready frontend structure early
+- monolith scaffolding must include Inertia, shadcn/ui, and Lingui-ready frontend structure early
 - future data modeling must stay portable across MariaDB and PostgreSQL
 - later SSO and SecPal integration must fit around, not replace, standalone operation

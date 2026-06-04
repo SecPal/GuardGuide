@@ -38,8 +38,8 @@ Before commit, PR, or merge, verify at minimum:
 - Stack target: Laravel 13, PHP 8.4, Pest 4, React 19, TypeScript strict mode,
   Vite, Tailwind CSS v4.
 - GuardGuide is a Laravel monolith with React/Vite inside the same repository.
-- Catalyst is the exclusive UI baseline. Tailwind Plus may only be used as
-  adapted fallback material when Catalyst lacks a needed pattern.
+- shadcn/ui is the primary UI baseline. Tailwind Plus may only be used as
+  adapted fallback material when shadcn/ui lacks a needed pattern.
 - English source language and German translation are mandatory from the start.
   Browser language detection is part of the baseline.
 - MariaDB and PostgreSQL are both first-class supported databases. Avoid
@@ -64,8 +64,8 @@ Before commit, PR, or merge, verify at minimum:
   positive and negative evidence, or a focused regression test.
 - Reject AI-generated monolith splits, hidden API layers, or premature
   abstraction that weaken the standalone-first GuardGuide architecture.
-- Reject AI-generated UI refactors that drift away from Catalyst, weaken Lingui
-  localization coverage, or reduce accessibility semantics.
+- Reject AI-generated UI refactors that drift away from shadcn/ui, weaken
+  Lingui localization coverage, or reduce accessibility semantics.
 - Reject AI-generated resource or serializer refactors that move business logic
   into presentation code or repeat work that should run once per request.
 - Reject AI-generated persistence or auth changes that bypass application-layer
