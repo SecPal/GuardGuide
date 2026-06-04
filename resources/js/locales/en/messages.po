@@ -39,6 +39,12 @@ msgstr "Log in"
 msgid "common.appName"
 msgstr "GuardGuide"
 
+msgid "Password updated."
+msgstr "Password updated."
+
+msgid "Profile updated."
+msgstr "Profile updated."
+
 msgid "welcome.body"
 msgstr "Built for teams that need structured instructions, controlled publication, and documented acknowledgements without the full SecPal product surface."
 

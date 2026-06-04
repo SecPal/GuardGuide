@@ -39,6 +39,12 @@ msgstr "Anmelden"
 msgid "common.appName"
 msgstr "GuardGuide"
 
+msgid "Password updated."
+msgstr "Passwort aktualisiert."
+
+msgid "Profile updated."
+msgstr "Profil aktualisiert."
+
 msgid "welcome.body"
 msgstr "Für Teams, die strukturierte Anweisungen, kontrollierte Veröffentlichung und dokumentierte Bestätigungen brauchen, ohne die komplette SecPal-Produktfläche zu übernehmen."
 
