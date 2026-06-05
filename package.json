@@ -59,7 +59,7 @@
         "typescript-eslint": "^8.23.0"
     },
     "dependencies": {
-        "@inertiajs/react": "^3.0.0",
+        "@inertiajs/react": "^3.3.1",
         "@inertiajs/vite": "^3.0.0",
         "@lingui/core": "^6.1.0",
         "@lingui/react": "^6.1.0",
