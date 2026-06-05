@@ -41,6 +41,14 @@ updates:
     target-branch: "main"
     pull-request-branch-name:
       separator: "-"
+    ignore:
+      # eslint v10 ecosystem isn't ready: eslint-plugin-react and
+      # eslint-plugin-import don't declare peer support for it yet.
+      # Re-evaluate once those plugins ship eslint@^10 peer support.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"

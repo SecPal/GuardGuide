@@ -47,3 +47,4 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Normalized the `email` field on profile updates to lowercase so the saved address matches Fortify's `lowercase_usernames` canonicalization on login.
 - Rebuilt the login rate-limit test around the actual `Str::transliterate(Str::lower($email).'|'.$ip)` key (with a mixed-case email) so the seeded bucket truly matches what the limiter hits.
 - Ignored the local `storage/phpstan` cache directory and removed the committed PHPStan artifacts that had leaked into the previous baseline push.
+- Held ESLint on the supported 9.x line and typed shared Inertia page props so frontend linting and strict TypeScript checks keep passing while the ESLint 10 plugin ecosystem catches up.
