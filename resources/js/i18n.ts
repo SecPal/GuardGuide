@@ -137,7 +137,9 @@ export async function activateLocale(locale: string): Promise<Locale> {
  * the requested catalog cannot be loaded. Intended only for the application
  * bootstrap path where a hard failure would leave the UI in a broken state.
  */
-export async function activateLocaleWithFallback(locale: string): Promise<Locale> {
+export async function activateLocaleWithFallback(
+    locale: string,
+): Promise<Locale> {
     const selectedLocale = normalizeLocale(locale) ?? defaultLocale;
 
     try {
@@ -147,6 +149,8 @@ export async function activateLocaleWithFallback(locale: string): Promise<Locale
             return await activateLocale(defaultLocale);
         }
 
-        throw new Error(`Failed to load default locale catalog: ${defaultLocale}`);
+        throw new Error(
+            `Failed to load default locale catalog: ${defaultLocale}`,
+        );
     }
 }
