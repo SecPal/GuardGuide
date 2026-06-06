@@ -14,6 +14,8 @@
   explicit foreign keys and composite unique indexes, not as overloaded columns on `users`.
 - Dependent UI choices, such as site assignments that require customer assignments, should be
   filtered in React for clarity and enforced again in Laravel validation for crafted requests.
+- Context read models should keep direct and derived visibility explicit with source metadata so later
+  authorization-sensitive features can consume one structure without losing why an item is available.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -143,3 +145,22 @@
     choices without extra requests.
   - Gotchas encountered: PHPStan treats partially selected enum-cast Eloquent attributes as possibly
     raw strings, so controller serializers should normalize enum-or-string values through a helper.
+
+## US-007: Verwendbaren Arbeitskontext für Folgefeatures auflösen
+- Added a central `UserContextResolver` service that resolves effective organizational-unit,
+  customer, and site contexts for a user.
+- Exposed the resolved context as an authenticated Inertia shared prop named `effectiveContext` and
+  added frontend TypeScript types for the shared data shape.
+- Kept directly assigned and object-derived contexts source-aware; object assignments expose their
+  assigned site plus the parent customer and responsible organizational unit when present.
+- Added feature coverage for users without assignments, mixed direct assignments, object assignments,
+  and shared Inertia props.
+- Files changed: `app/Services/UserContextResolver.php`,
+  `app/Http/Middleware/HandleInertiaRequests.php`, `resources/js/types/context.ts`,
+  `resources/js/types/global.d.ts`, `resources/js/types/index.ts`,
+  `tests/Feature/UserContextResolverTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Source-aware resolver output lets follow-up features consume one frontend
+    structure while still distinguishing direct assignment from object-derived context.
+  - Gotchas encountered: Laravel collections inferred with integer keys are a poor fit for UUID-keyed
+    de-duplication under PHPStan; plain associative arrays make the intent and static type clearer.
