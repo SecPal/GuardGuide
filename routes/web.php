@@ -2,9 +2,48 @@
 
 use App\Http\Controllers\OrganizationalUnitController;
 use App\Http\Controllers\UserAssignmentController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
+
+Route::get('manifest.webmanifest', function (Request $request) {
+    $appearance = $request->query('appearance');
+    $usesDarkAppearance = $appearance === 'dark';
+
+    $iconPrefix = $usesDarkAppearance ? 'guardguide-dark' : 'guardguide';
+    $maskableIconPrefix = $usesDarkAppearance ? 'guardguide-maskable-dark' : 'guardguide-maskable';
+    $themeColor = $usesDarkAppearance ? '#011B2E' : '#FFFFFF';
+
+    return response()->json([
+        'name' => 'GuardGuide',
+        'short_name' => 'GuardGuide',
+        'description' => 'GuardGuide by SecPal',
+        'start_url' => '/',
+        'scope' => '/',
+        'display' => 'standalone',
+        'theme_color' => $themeColor,
+        'background_color' => $themeColor,
+        'icons' => [
+            [
+                'src' => "/icons/{$iconPrefix}-192.png",
+                'sizes' => '192x192',
+                'type' => 'image/png',
+            ],
+            [
+                'src' => "/icons/{$iconPrefix}-512.png",
+                'sizes' => '512x512',
+                'type' => 'image/png',
+            ],
+            [
+                'src' => "/icons/{$maskableIconPrefix}-512.png",
+                'sizes' => '512x512',
+                'type' => 'image/png',
+                'purpose' => 'maskable',
+            ],
+        ],
+    ])->header('Content-Type', 'application/manifest+json');
+})->name('manifest');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
