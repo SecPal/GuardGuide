@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { i18n } from '@lingui/core';
 import { BookOpen, FolderGit2, LayoutGrid, Network, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -14,40 +15,42 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as organizationalUnitsIndex } from '@/routes/organizational-units';
+import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Organisationsstruktur',
-        href: '/organizational-units',
-        icon: Network,
-    },
-    {
-        title: 'Nutzer-Zuordnungen',
-        href: '/user-assignments',
-        icon: Users,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
-
 export function AppSidebar() {
+    const mainNavItems: NavItem[] = [
+        {
+            title: i18n._('sidebar.dashboard'),
+            href: dashboard(),
+            icon: LayoutGrid,
+        },
+        {
+            title: i18n._('sidebar.organizationalUnits'),
+            href: organizationalUnitsIndex(),
+            icon: Network,
+        },
+        {
+            title: i18n._('sidebar.userAssignments'),
+            href: userAssignmentsRedirect(),
+            icon: Users,
+        },
+    ];
+
+    const footerNavItems: NavItem[] = [
+        {
+            title: i18n._('sidebar.repository'),
+            href: 'https://github.com/laravel/react-starter-kit',
+            icon: FolderGit2,
+        },
+        {
+            title: i18n._('sidebar.documentation'),
+            href: 'https://laravel.com/docs/starter-kits#react',
+            icon: BookOpen,
+        },
+    ];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>

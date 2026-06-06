@@ -24,9 +24,12 @@ class OrganizationalUnitController extends Controller
             ->orderBy('name')
             ->get();
 
+        $childrenByParent = $this->groupChildrenByParent($units);
+        $rootParents = $this->rootParents($units);
+
         return Inertia::render('organizational-units/index', [
-            'units' => $this->buildTree($units),
-            'flatUnits' => $this->flattenUnits($units),
+            'units' => $this->buildTree($childrenByParent, $rootParents),
+            'flatUnits' => $this->flattenUnits($childrenByParent, $rootParents),
             'typeOptions' => collect(OrganizationalUnitType::cases())
                 ->map(fn (OrganizationalUnitType $type): array => [
                     'value' => $type->value,
@@ -73,63 +76,103 @@ class OrganizationalUnitController extends Controller
     }
 
     /**
-     * @param  Collection<int, OrganizationalUnit>  $units
+     * @param  array<string, list<OrganizationalUnit>>  $childrenByParent
+     * @param  list<OrganizationalUnit>  $units
      * @return list<array{id: string, type: string, name: string, parent_id: string|null, sort_order: int, children: list<array>}>
      */
-    private function buildTree(Collection $units, ?string $parentId = null): array
+    private function buildTree(array $childrenByParent, array $units): array
     {
-        return $this->unitsForParent($units, $parentId)
-            ->map(fn (OrganizationalUnit $unit): array => [
+        $tree = [];
+
+        foreach ($units as $unit) {
+            $tree[] = [
                 'id' => $unit->getKey(),
                 'type' => $this->organizationalUnitTypeLabel($unit->type),
                 'name' => $unit->name,
                 'parent_id' => $unit->parent_id,
                 'sort_order' => $unit->sort_order,
-                'children' => $this->buildTree($units, $unit->getKey()),
-            ])
-            ->values()
-            ->all();
-    }
-
-    /**
-     * @param  Collection<int, OrganizationalUnit>  $units
-     * @return list<array{id: string, type: string, name: string, parent_id: string|null, sort_order: int, depth: int}>
-     */
-    private function flattenUnits(Collection $units, ?string $parentId = null, int $depth = 0): array
-    {
-        return $this->unitsForParent($units, $parentId)
-            ->flatMap(fn (OrganizationalUnit $unit): array => [
-                [
-                    'id' => $unit->getKey(),
-                    'type' => $this->organizationalUnitTypeLabel($unit->type),
-                    'name' => $unit->name,
-                    'parent_id' => $unit->parent_id,
-                    'sort_order' => $unit->sort_order,
-                    'depth' => $depth,
-                ],
-                ...$this->flattenUnits($units, $unit->getKey(), $depth + 1),
-            ])
-            ->values()
-            ->all();
-    }
-
-    /**
-     * @param  Collection<int, OrganizationalUnit>  $units
-     * @return Collection<int, OrganizationalUnit>
-     */
-    private function unitsForParent(Collection $units, ?string $parentId): Collection
-    {
-        if ($parentId !== null) {
-            return $units->filter(fn (OrganizationalUnit $unit): bool => $unit->parent_id === $parentId);
+                'children' => $this->buildTree($childrenByParent, $childrenByParent[$unit->getKey()] ?? []),
+            ];
         }
 
-        $availableUnitIds = $units
-            ->map(fn (OrganizationalUnit $unit): string => $unit->getKey())
-            ->flip();
+        return $tree;
+    }
 
-        return $units->filter(
-            fn (OrganizationalUnit $unit): bool => $unit->parent_id === null
-                || ! $availableUnitIds->has($unit->parent_id)
-        );
+    /**
+     * @param  array<string, list<OrganizationalUnit>>  $childrenByParent
+     * @param  list<OrganizationalUnit>  $units
+     * @return list<array{id: string, type: string, name: string, parent_id: string|null, sort_order: int, depth: int}>
+     */
+    private function flattenUnits(array $childrenByParent, array $units, int $depth = 0): array
+    {
+        $flat = [];
+
+        foreach ($units as $unit) {
+            $flat[] = [
+                'id' => $unit->getKey(),
+                'type' => $this->organizationalUnitTypeLabel($unit->type),
+                'name' => $unit->name,
+                'parent_id' => $unit->parent_id,
+                'sort_order' => $unit->sort_order,
+                'depth' => $depth,
+            ];
+
+            $flat = [
+                ...$flat,
+                ...$this->flattenUnits($childrenByParent, $childrenByParent[$unit->getKey()] ?? [], $depth + 1),
+            ];
+        }
+
+        return $flat;
+    }
+
+    /**
+     * Group units by their parent id so child lookups are O(1) during recursion.
+     *
+     * @param  Collection<int, OrganizationalUnit>  $units
+     * @return array<string, list<OrganizationalUnit>>
+     */
+    private function groupChildrenByParent(Collection $units): array
+    {
+        $grouped = [];
+
+        foreach ($units as $unit) {
+            $parentId = $unit->parent_id;
+
+            if ($parentId === null) {
+                continue;
+            }
+
+            $grouped[$parentId] ??= [];
+            $grouped[$parentId][] = $unit;
+        }
+
+        return $grouped;
+    }
+
+    /**
+     * Return units that should appear at the visual root: real roots and units
+     * whose parent is missing from the available set (e.g. soft-deleted parent).
+     *
+     * @param  Collection<int, OrganizationalUnit>  $units
+     * @return list<OrganizationalUnit>
+     */
+    private function rootParents(Collection $units): array
+    {
+        $availableIds = [];
+
+        foreach ($units as $unit) {
+            $availableIds[$unit->getKey()] = true;
+        }
+
+        $roots = [];
+
+        foreach ($units as $unit) {
+            if ($unit->parent_id === null || ! isset($availableIds[$unit->parent_id])) {
+                $roots[] = $unit;
+            }
+        }
+
+        return $roots;
     }
 }

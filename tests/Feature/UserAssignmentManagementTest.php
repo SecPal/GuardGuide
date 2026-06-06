@@ -27,12 +27,46 @@ test('unverified users are redirected from the user assignment page', function (
         ->assertRedirect(route('verification.notice'));
 });
 
-test('authenticated users can view assignments for a user', function () {
+test('non-admin users cannot view or manage assignments', function () {
+    $actingUser = User::factory()->create();
+    $selectedUser = User::factory()->create();
+    $customer = Customer::factory()->create();
+    $unit = OrganizationalUnit::factory()->create();
+    $site = Site::factory()->forCustomer($customer)->create();
+
+    $this->actingAs($actingUser)
+        ->get(route('user-assignments.index', $selectedUser))
+        ->assertForbidden();
+
+    $this->actingAs($actingUser)
+        ->get(route('user-assignments.redirect'))
+        ->assertForbidden();
+
+    $this->actingAs($actingUser)
+        ->post(route('user-assignments.customers.store', $selectedUser), [
+            'customer_id' => $customer->getKey(),
+        ])
+        ->assertForbidden();
+
+    $this->actingAs($actingUser)
+        ->post(route('user-assignments.organizational-units.store', $selectedUser), [
+            'organizational_unit_id' => $unit->getKey(),
+        ])
+        ->assertForbidden();
+
+    $this->actingAs($actingUser)
+        ->post(route('user-assignments.sites.store', $selectedUser), [
+            'site_id' => $site->getKey(),
+        ])
+        ->assertForbidden();
+});
+
+test('admin users can view assignments for a user', function () {
     $selectedUser = User::factory()->create([
         'name' => 'Mira Admin',
         'email' => 'mira@example.test',
     ]);
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $unit = OrganizationalUnit::factory()->create(['name' => 'Einsatzleitung']);
     $customer = Customer::factory()->create(['name' => 'Acme Security']);
     $site = Site::factory()->forCustomer($customer)->create(['name' => 'Werk Nord']);
@@ -69,7 +103,7 @@ test('authenticated users can view assignments for a user', function () {
 });
 
 test('assignment landing route redirects to the first user', function () {
-    $zUser = User::factory()->create(['name' => 'Zoe']);
+    $zUser = User::factory()->admin()->create(['name' => 'Zoe']);
     $aUser = User::factory()->create(['name' => 'Ada']);
 
     $this->actingAs($zUser)
@@ -78,7 +112,7 @@ test('assignment landing route redirects to the first user', function () {
 });
 
 test('organizational unit assignments can be added and removed through the UI endpoint', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $unit = OrganizationalUnit::factory()->create();
 
@@ -106,7 +140,7 @@ test('organizational unit assignments can be added and removed through the UI en
 });
 
 test('customer assignments can be added and removed through the UI endpoint', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
 
@@ -134,7 +168,7 @@ test('customer assignments can be added and removed through the UI endpoint', fu
 });
 
 test('removing a customer assignment also removes its site assignments', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -163,7 +197,7 @@ test('removing a customer assignment also removes its site assignments', functio
 });
 
 test('removing a customer assignment also removes its trashed site assignments', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -194,7 +228,7 @@ test('removing a customer assignment also removes its trashed site assignments',
 });
 
 test('site assignments require an existing customer assignment', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -214,7 +248,7 @@ test('site assignments require an existing customer assignment', function () {
 });
 
 test('site assignments can be added and removed after customer assignment exists', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -248,7 +282,7 @@ test('site assignments can be added and removed after customer assignment exists
 });
 
 test('duplicate assignment submissions are shown as validation errors', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
 
@@ -267,7 +301,7 @@ test('duplicate assignment submissions are shown as validation errors', function
 });
 
 test('storing a site assignment is rejected when the customer assignment was removed concurrently', function () {
-    $actingUser = User::factory()->create();
+    $actingUser = User::factory()->admin()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();

@@ -8,11 +8,11 @@ class UserAssignmentPolicy
 {
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
     public function manage(User $user, User $target): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 }

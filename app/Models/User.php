@@ -22,6 +22,11 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin;
+    }
+
     /**
      * @return HasMany<UserOrganizationalUnitAssignment, $this>
      */
@@ -82,6 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     {
         return [
             'email_verified_at' => 'datetime',
+            'is_admin' => 'boolean',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];

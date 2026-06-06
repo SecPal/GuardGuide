@@ -379,7 +379,10 @@ function AddSiteForm({
                     </SelectItem>
                     {options.map((site) => (
                         <SelectItem key={site.id} value={site.id}>
-                            {site.name} ({site.customer_name})
+                            {site.name} (
+                            {site.customer_name ??
+                                i18n._('userAssignments.sites.unknownCustomer')}
+                            )
                         </SelectItem>
                     ))}
                 </SelectContent>

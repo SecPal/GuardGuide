@@ -116,6 +116,26 @@ msgstr "Bestätigungs-E-Mail erneut senden"
 msgid "common.appName"
 msgstr "GuardGuide"
 
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.dashboard"
+msgstr "Dashboard"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.organizationalUnits"
+msgstr "Organisationsstruktur"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.userAssignments"
+msgstr "Nutzer-Zuordnungen"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.repository"
+msgstr "Repository"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.documentation"
+msgstr "Dokumentation"
+
 #: resources/js/pages/dashboard.tsx
 msgid "dashboard.breadcrumb"
 msgstr "Dashboard"

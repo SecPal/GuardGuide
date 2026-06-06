@@ -1,7 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { Building2, Pencil, Plus } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -316,14 +316,16 @@ function UnitFields({
         value: UnitFormData[TKey],
     ) => void;
 }) {
+    const fieldId = useId();
+    const nameId = `${fieldId}-name`;
+    const sortOrderId = `${fieldId}-sort-order`;
+
     return (
         <>
             <div className="grid gap-2">
-                <Label htmlFor={`name-${data.parent_id ?? 'root'}`}>
-                    {i18n._('orgUnits.fields.name')}
-                </Label>
+                <Label htmlFor={nameId}>{i18n._('orgUnits.fields.name')}</Label>
                 <Input
-                    id={`name-${data.parent_id ?? 'root'}`}
+                    id={nameId}
                     value={data.name}
                     onChange={(event) => onChange('name', event.target.value)}
                     required
@@ -384,11 +386,11 @@ function UnitFields({
             </div>
 
             <div className="grid gap-2">
-                <Label htmlFor={`sort-order-${data.parent_id ?? 'root'}`}>
+                <Label htmlFor={sortOrderId}>
                     {i18n._('orgUnits.fields.sortOrder')}
                 </Label>
                 <Input
-                    id={`sort-order-${data.parent_id ?? 'root'}`}
+                    id={sortOrderId}
                     type="number"
                     min="0"
                     value={data.sort_order}
