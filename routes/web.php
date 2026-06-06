@@ -14,10 +14,11 @@ Route::get('manifest.webmanifest', function (Request $request) {
     $iconPrefix = $usesDarkAppearance ? 'guardguide-dark' : 'guardguide';
     $maskableIconPrefix = $usesDarkAppearance ? 'guardguide-maskable-dark' : 'guardguide-maskable';
     $themeColor = $usesDarkAppearance ? '#011B2E' : '#FFFFFF';
+    $appName = (string) config('app.name', 'GuardGuide');
 
     return response()->json([
-        'name' => 'GuardGuide',
-        'short_name' => 'GuardGuide',
+        'name' => $appName,
+        'short_name' => $appName,
         'description' => 'GuardGuide by SecPal',
         'start_url' => '/',
         'scope' => '/',

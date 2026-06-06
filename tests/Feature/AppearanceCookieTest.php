@@ -112,3 +112,12 @@ test('dark manifest uses dark browser metadata', function () {
     $response->assertJsonPath('icons.1.src', '/icons/guardguide-dark-512.png');
     $response->assertJsonPath('icons.2.src', '/icons/guardguide-maskable-dark-512.png');
 });
+
+test('manifest reflects the configured app name', function () {
+    config(['app.name' => 'GuardGuide Staging']);
+
+    $response = $this->get('/manifest.webmanifest?appearance=light')->assertOk();
+
+    $response->assertJsonPath('name', 'GuardGuide Staging');
+    $response->assertJsonPath('short_name', 'GuardGuide Staging');
+});
