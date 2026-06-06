@@ -1,6 +1,7 @@
 // Components
 import { Form, Head } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -8,6 +9,8 @@ import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
 export default function VerifyEmail({ status }: { status?: string }) {
+    const { i18n } = useLingui();
+
     return (
         <>
             <Head title={i18n._('auth.verifyEmail.metaTitle')} />
@@ -39,7 +42,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
     );
 }
 
-VerifyEmail.layout = {
+VerifyEmail.layout = () => ({
     title: i18n._('auth.verifyEmail.layoutTitle'),
     description: i18n._('auth.verifyEmail.layoutDescription'),
-};
+});

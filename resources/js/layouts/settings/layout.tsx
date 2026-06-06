@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { useLingui } from '@lingui/react';
 import type { PropsWithChildren } from 'react';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -6,43 +7,50 @@ import { Separator } from '@/components/ui/separator';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { cn, toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
+import { edit as editLanguage } from '@/routes/language';
 import { edit } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
 import type { NavItem } from '@/types';
 
-const sidebarNavItems: NavItem[] = [
-    {
-        title: 'Profile',
-        href: edit(),
-        icon: null,
-    },
-    {
-        title: 'Security',
-        href: editSecurity(),
-        icon: null,
-    },
-    {
-        title: 'Appearance',
-        href: editAppearance(),
-        icon: null,
-    },
-];
-
 export default function SettingsLayout({ children }: PropsWithChildren) {
+    const { i18n } = useLingui();
     const { isCurrentOrParentUrl } = useCurrentUrl();
+
+    const sidebarNavItems: NavItem[] = [
+        {
+            title: i18n._('settings.nav.profile'),
+            href: edit(),
+            icon: null,
+        },
+        {
+            title: i18n._('settings.nav.security'),
+            href: editSecurity(),
+            icon: null,
+        },
+        {
+            title: i18n._('settings.nav.appearance'),
+            href: editAppearance(),
+            icon: null,
+        },
+        {
+            title: i18n._('settings.nav.language'),
+            href: editLanguage(),
+            icon: null,
+        },
+    ];
 
     return (
         <div className="px-4 py-6">
             <Heading
-                title="Settings"
-                description="Manage your profile and account settings"
+                title={i18n._('settings.heading.title')}
+                description={i18n._('settings.heading.description')}
             />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav
                         className="flex flex-col space-y-1 space-x-0"
-                        aria-label="Settings"
+                        aria-label={i18n._('settings.nav.ariaLabel')}
                     >
                         {sidebarNavItems.map((item, index) => (
                             <Button

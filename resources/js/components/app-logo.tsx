@@ -1,7 +1,9 @@
-import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import AppLogoIcon from '@/components/app-logo-icon';
 
 export default function AppLogo() {
+    const { i18n } = useLingui();
+
     return (
         <>
             <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">

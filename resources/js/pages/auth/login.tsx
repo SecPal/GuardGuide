@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import InputError from '@/components/input-error';
 import PasskeyVerify from '@/components/passkey-verify';
 import PasswordInput from '@/components/password-input';
@@ -18,6 +19,8 @@ type Props = {
 };
 
 export default function Login({ status, canResetPassword }: Props) {
+    const { i18n } = useLingui();
+
     return (
         <>
             <Head title={i18n._('auth.login.metaTitle')} />
@@ -116,7 +119,7 @@ export default function Login({ status, canResetPassword }: Props) {
     );
 }
 
-Login.layout = {
+Login.layout = () => ({
     title: i18n._('auth.login.layoutTitle'),
     description: i18n._('auth.login.layoutDescription'),
-};
+});

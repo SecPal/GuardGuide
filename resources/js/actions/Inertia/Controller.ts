@@ -239,6 +239,86 @@ Controllere19ee86e9cf603ce1a59a1ec5d21dec5Form.head = (options?: RouteQueryOptio
 })
 
 Controllere19ee86e9cf603ce1a59a1ec5d21dec5.form = Controllere19ee86e9cf603ce1a59a1ec5d21dec5Form
+/**
+* @see \Inertia\Controller::__invoke
+* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @route '/settings/language'
+*/
+const Controller47db9583d6c51d67873ea08d7fe90ccb = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Controller47db9583d6c51d67873ea08d7fe90ccb.url(options),
+    method: 'get',
+})
+
+Controller47db9583d6c51d67873ea08d7fe90ccb.definition = {
+    methods: ["get","head"],
+    url: '/settings/language',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Inertia\Controller::__invoke
+* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @route '/settings/language'
+*/
+Controller47db9583d6c51d67873ea08d7fe90ccb.url = (options?: RouteQueryOptions) => {
+    return Controller47db9583d6c51d67873ea08d7fe90ccb.definition.url + queryParams(options)
+}
+
+/**
+* @see \Inertia\Controller::__invoke
+* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @route '/settings/language'
+*/
+Controller47db9583d6c51d67873ea08d7fe90ccb.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Controller47db9583d6c51d67873ea08d7fe90ccb.url(options),
+    method: 'get',
+})
+
+/**
+* @see \Inertia\Controller::__invoke
+* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @route '/settings/language'
+*/
+Controller47db9583d6c51d67873ea08d7fe90ccb.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: Controller47db9583d6c51d67873ea08d7fe90ccb.url(options),
+    method: 'head',
+})
+
+/**
+* @see \Inertia\Controller::__invoke
+* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @route '/settings/language'
+*/
+const Controller47db9583d6c51d67873ea08d7fe90ccbForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: Controller47db9583d6c51d67873ea08d7fe90ccb.url(options),
+    method: 'get',
+})
+
+/**
+* @see \Inertia\Controller::__invoke
+* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @route '/settings/language'
+*/
+Controller47db9583d6c51d67873ea08d7fe90ccbForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: Controller47db9583d6c51d67873ea08d7fe90ccb.url(options),
+    method: 'get',
+})
+
+/**
+* @see \Inertia\Controller::__invoke
+* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @route '/settings/language'
+*/
+Controller47db9583d6c51d67873ea08d7fe90ccbForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: Controller47db9583d6c51d67873ea08d7fe90ccb.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+Controller47db9583d6c51d67873ea08d7fe90ccb.form = Controller47db9583d6c51d67873ea08d7fe90ccbForm
 
 /**
 * Multiple routes resolve to \Inertia\Controller::Controller, so this export is a
@@ -249,6 +329,7 @@ const Controller = {
     '/': Controller980bb49ee7ae63891f1d891d2fbcf1c9,
     '/dashboard': Controller42a740574ecbfbac32f8cc353fc32db9,
     '/settings/appearance': Controllere19ee86e9cf603ce1a59a1ec5d21dec5,
+    '/settings/language': Controller47db9583d6c51d67873ea08d7fe90ccb,
 }
 
 export default Controller

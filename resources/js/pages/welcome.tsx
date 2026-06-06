@@ -1,8 +1,9 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import { dashboard, login } from '@/routes';
 
 export default function Welcome() {
+    const { i18n } = useLingui();
     const { auth } = usePage<{ auth: { user: unknown | null } }>().props;
 
     const highlights = [

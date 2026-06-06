@@ -1,3 +1,4 @@
+import { useLingui } from '@lingui/react';
 import { KeyRound, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export default function PasskeyItem({ passkey, onDelete }: Props) {
+    const { i18n } = useLingui();
     const [isDeleting, setIsDeleting] = useState(false);
 
     const handleDelete = () => {
@@ -43,13 +45,17 @@ export default function PasskeyItem({ passkey, onDelete }: Props) {
                         )}
                     </div>
                     <p className="text-sm text-muted-foreground">
-                        Added {passkey.created_at_diff}
+                        {i18n._('settings.passkeys.item.added', {
+                            when: passkey.created_at_diff,
+                        })}
                         {passkey.last_used_at_diff && (
                             <>
                                 <span className="mx-1 text-muted-foreground/50">
                                     /
                                 </span>
-                                Last used {passkey.last_used_at_diff}
+                                {i18n._('settings.passkeys.item.lastUsed', {
+                                    when: passkey.last_used_at_diff,
+                                })}
                             </>
                         )}
                     </p>
@@ -64,26 +70,37 @@ export default function PasskeyItem({ passkey, onDelete }: Props) {
                         className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                     >
                         <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Remove</span>
+                        <span className="sr-only">
+                            {i18n._('settings.passkeys.item.removeAriaLabel')}
+                        </span>
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <DialogTitle>Remove passkey</DialogTitle>
+                    <DialogTitle>
+                        {i18n._('settings.passkeys.item.removeDialogTitle')}
+                    </DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to remove the "{passkey.name}"
-                        passkey? You will no longer be able to use it to sign
-                        in.
+                        {i18n._(
+                            'settings.passkeys.item.removeDialogDescription',
+                            { name: passkey.name },
+                        )}
                     </DialogDescription>
                     <DialogFooter className="gap-2">
                         <DialogClose asChild>
-                            <Button variant="secondary">Cancel</Button>
+                            <Button variant="secondary">
+                                {i18n._('common.cancel')}
+                            </Button>
                         </DialogClose>
                         <Button
                             variant="destructive"
                             onClick={handleDelete}
                             disabled={isDeleting}
                         >
-                            {isDeleting ? 'Removing...' : 'Remove passkey'}
+                            {isDeleting
+                                ? i18n._(
+                                      'settings.passkeys.item.removingButton',
+                                  )
+                                : i18n._('settings.passkeys.item.removeButton')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

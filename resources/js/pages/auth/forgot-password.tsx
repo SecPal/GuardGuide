@@ -1,6 +1,7 @@
 // Components
 import { Form, Head } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import { LoaderCircle } from 'lucide-react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -11,6 +12,8 @@ import { login } from '@/routes';
 import { email } from '@/routes/password';
 
 export default function ForgotPassword({ status }: { status?: string }) {
+    const { i18n } = useLingui();
+
     return (
         <>
             <Head title={i18n._('auth.forgotPassword.metaTitle')} />
@@ -70,7 +73,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
     );
 }
 
-ForgotPassword.layout = {
+ForgotPassword.layout = () => ({
     title: i18n._('auth.forgotPassword.layoutTitle'),
     description: i18n._('auth.forgotPassword.layoutDescription'),
-};
+});

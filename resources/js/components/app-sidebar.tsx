@@ -1,6 +1,6 @@
 import type { SharedPageProps } from '@inertiajs/core';
 import { Link, usePage } from '@inertiajs/react';
-import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import { BookOpen, FolderGit2, LayoutGrid, Network, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -21,6 +21,7 @@ import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
+    const { i18n } = useLingui();
     const { auth } = usePage<SharedPageProps>().props;
     const isAdmin = Boolean(auth.user?.is_admin);
 

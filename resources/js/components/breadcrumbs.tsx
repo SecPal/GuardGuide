@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { useLingui } from '@lingui/react';
 import { Fragment } from 'react';
 import {
     Breadcrumb,
@@ -15,6 +16,8 @@ export function Breadcrumbs({
 }: {
     breadcrumbs: BreadcrumbItemType[];
 }) {
+    useLingui();
+
     return (
         <>
             {breadcrumbs.length > 0 && (
@@ -22,18 +25,22 @@ export function Breadcrumbs({
                     <BreadcrumbList>
                         {breadcrumbs.map((item, index) => {
                             const isLast = index === breadcrumbs.length - 1;
+                            const title =
+                                typeof item.title === 'function'
+                                    ? item.title()
+                                    : item.title;
 
                             return (
                                 <Fragment key={index}>
                                     <BreadcrumbItem>
                                         {isLast ? (
                                             <BreadcrumbPage>
-                                                {item.title}
+                                                {title}
                                             </BreadcrumbPage>
                                         ) : (
                                             <BreadcrumbLink asChild>
                                                 <Link href={item.href}>
-                                                    {item.title}
+                                                    {title}
                                                 </Link>
                                             </BreadcrumbLink>
                                         )}

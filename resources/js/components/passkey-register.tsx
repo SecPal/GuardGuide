@@ -1,4 +1,5 @@
 import { usePasskeyRegister } from '@laravel/passkeys/react';
+import { useLingui } from '@lingui/react';
 import { useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default function PasskeyRegistration({ onSuccess }: Props) {
+    const { i18n } = useLingui();
     const [name, setName] = useState(() => {
         const ua = navigator.userAgent;
 
@@ -51,7 +53,7 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
     if (!isSupported) {
         return (
             <div className="text-sm text-muted-foreground">
-                Passkeys are not supported in this browser.
+                {i18n._('settings.passkeys.register.notSupported')}
             </div>
         );
     }
@@ -59,7 +61,7 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
     if (!showForm) {
         return (
             <Button variant="outline" onClick={() => setShowForm(true)}>
-                Add passkey
+                {i18n._('settings.passkeys.register.addButton')}
             </Button>
         );
     }
@@ -70,18 +72,22 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
             className="space-y-4 rounded-lg border border-border bg-muted/50 p-4"
         >
             <div className="grid gap-2">
-                <Label htmlFor="passkey-name">Passkey name</Label>
+                <Label htmlFor="passkey-name">
+                    {i18n._('settings.passkeys.register.nameLabel')}
+                </Label>
                 <Input
                     id="passkey-name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g., MacBook Pro, iPhone"
+                    placeholder={i18n._(
+                        'settings.passkeys.register.namePlaceholder',
+                    )}
                     className="mt-1 block w-full border-foreground/20"
                     autoFocus
                 />
                 <p className="text-xs text-muted-foreground">
-                    A name helps you identify this passkey later.
+                    {i18n._('settings.passkeys.register.nameHelp')}
                 </p>
             </div>
 
@@ -89,10 +95,12 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
 
             <div className="flex gap-2">
                 <Button type="submit" disabled={isLoading || !name.trim()}>
-                    {isLoading ? 'Registering...' : 'Register passkey'}
+                    {isLoading
+                        ? i18n._('settings.passkeys.register.registeringButton')
+                        : i18n._('settings.passkeys.register.registerButton')}
                 </Button>
                 <Button type="button" variant="ghost" onClick={handleCancel}>
-                    Cancel
+                    {i18n._('common.cancel')}
                 </Button>
             </div>
         </form>

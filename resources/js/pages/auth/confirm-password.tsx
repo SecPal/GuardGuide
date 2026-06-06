@@ -1,4 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
+import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import {
     index as confirmOptions,
     store as confirmStore,
@@ -12,29 +14,35 @@ import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/password/confirm';
 
 export default function ConfirmPassword() {
+    const { i18n } = useLingui();
+
     return (
         <>
-            <Head title="Confirm password" />
+            <Head title={i18n._('auth.confirmPassword.metaTitle')} />
 
             <PasskeyVerify
                 routes={{
                     options: confirmOptions(),
                     submit: confirmStore(),
                 }}
-                label="Confirm with passkey"
-                loadingLabel="Confirming..."
-                separator="Or confirm with password"
+                label={i18n._('auth.confirmPassword.passkeyLabel')}
+                loadingLabel={i18n._('auth.confirmPassword.passkeyLoading')}
+                separator={i18n._('auth.confirmPassword.passkeySeparator')}
             />
 
             <Form {...store.form()} resetOnSuccess={['password']}>
                 {({ processing, errors }) => (
                     <div className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">
+                                {i18n._('auth.login.password')}
+                            </Label>
                             <PasswordInput
                                 id="password"
                                 name="password"
-                                placeholder="Password"
+                                placeholder={i18n._(
+                                    'auth.login.passwordPlaceholder',
+                                )}
                                 autoComplete="current-password"
                                 autoFocus
                             />
@@ -49,7 +57,7 @@ export default function ConfirmPassword() {
                                 data-test="confirm-password-button"
                             >
                                 {processing && <Spinner />}
-                                Confirm password
+                                {i18n._('auth.confirmPassword.submit')}
                             </Button>
                         </div>
                     </div>
@@ -59,8 +67,7 @@ export default function ConfirmPassword() {
     );
 }
 
-ConfirmPassword.layout = {
-    title: 'Confirm password',
-    description:
-        'This is a secure area of the application. Please confirm your password before continuing.',
-};
+ConfirmPassword.layout = () => ({
+    title: i18n._('auth.confirmPassword.layoutTitle'),
+    description: i18n._('auth.confirmPassword.layoutDescription'),
+});
