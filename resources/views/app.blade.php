@@ -57,8 +57,8 @@
         @else
             <meta name="theme-color" content="{{ $usesDarkBrowserAppearance ? '#011B2E' : '#FFFFFF' }}">
         @endif
-        <meta name="application-name" content="GuardGuide">
-        <meta name="apple-mobile-web-app-title" content="GuardGuide">
+        <meta name="application-name" content="{{ config('app.name', 'GuardGuide') }}">
+        <meta name="apple-mobile-web-app-title" content="{{ config('app.name', 'GuardGuide') }}">
 
         @fonts
 
