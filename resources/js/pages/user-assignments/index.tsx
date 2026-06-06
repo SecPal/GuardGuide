@@ -1,4 +1,5 @@
 import { Head, router, useForm } from '@inertiajs/react';
+import { i18n } from '@lingui/core';
 import { Building2, Landmark, Plus, Trash2, UserRound } from 'lucide-react';
 import type { FormEvent, ReactNode } from 'react';
 import Heading from '@/components/heading';
@@ -81,13 +82,13 @@ export default function UserAssignments({
 
     return (
         <>
-            <Head title="Nutzer-Zuordnungen" />
+            <Head title={i18n._('userAssignments.metaTitle')} />
 
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <Heading
-                        title="Nutzer-Zuordnungen"
-                        description="Organisations-, Kunden- und Objektzuordnungen im GuardGuide-Backend pflegen"
+                        title={i18n._('userAssignments.heading.title')}
+                        description={i18n._('userAssignments.heading.description')}
                     />
 
                     <div className="w-full sm:w-80">
@@ -131,8 +132,8 @@ export default function UserAssignments({
                 <div className="grid gap-6 xl:grid-cols-3">
                     <AssignmentSection
                         icon={<Building2 className="size-4" />}
-                        title="Organisationen"
-                        emptyText="Keine Organisationszuordnungen vorhanden."
+                        title={i18n._('userAssignments.orgUnits.title')}
+                        emptyText={i18n._('userAssignments.orgUnits.empty')}
                         form={
                             <AddOrganizationalUnitForm
                                 userId={selectedUser.id}
@@ -152,8 +153,8 @@ export default function UserAssignments({
 
                     <AssignmentSection
                         icon={<Landmark className="size-4" />}
-                        title="Kunden"
-                        emptyText="Keine Kundenzuordnungen vorhanden."
+                        title={i18n._('userAssignments.customers.title')}
+                        emptyText={i18n._('userAssignments.customers.empty')}
                         form={
                             <AddCustomerForm
                                 userId={selectedUser.id}
@@ -172,8 +173,8 @@ export default function UserAssignments({
 
                     <AssignmentSection
                         icon={<Building2 className="size-4" />}
-                        title="Objekte"
-                        emptyText="Keine Objektzuordnungen vorhanden."
+                        title={i18n._('userAssignments.sites.title')}
+                        emptyText={i18n._('userAssignments.sites.empty')}
                         form={
                             <AddSiteForm
                                 userId={selectedUser.id}
@@ -189,7 +190,8 @@ export default function UserAssignments({
                                 key={site.id}
                                 title={site.name}
                                 subtitle={
-                                    site.customer_name ?? 'Kunde unbekannt'
+                                    site.customer_name ??
+                                    i18n._('userAssignments.sites.unknownCustomer')
                                 }
                                 deleteUrl={`/users/${selectedUser.id}/assignments/sites/${site.id}`}
                             />
@@ -234,11 +236,13 @@ function AddOrganizationalUnitForm({
                 disabled={options.length === 0}
             >
                 <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Organisation auswählen" />
+                    <SelectValue
+                        placeholder={i18n._('userAssignments.orgUnits.selectPlaceholder')}
+                    />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value={noSelectionValue} disabled>
-                        Organisation auswählen
+                        {i18n._('userAssignments.orgUnits.selectPlaceholder')}
                     </SelectItem>
                     {options.map((unit) => (
                         <SelectItem key={unit.id} value={unit.id}>
@@ -250,7 +254,7 @@ function AddOrganizationalUnitForm({
             <InputError message={form.errors.organizational_unit_id} />
             <Button type="submit" disabled={form.processing}>
                 <Plus />
-                Hinzufügen
+                {i18n._('userAssignments.add')}
             </Button>
         </form>
     );
@@ -289,11 +293,13 @@ function AddCustomerForm({
                 disabled={options.length === 0}
             >
                 <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Kunde auswählen" />
+                    <SelectValue
+                        placeholder={i18n._('userAssignments.customers.selectPlaceholder')}
+                    />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value={noSelectionValue} disabled>
-                        Kunde auswählen
+                        {i18n._('userAssignments.customers.selectPlaceholder')}
                     </SelectItem>
                     {options.map((customer) => (
                         <SelectItem key={customer.id} value={customer.id}>
@@ -305,7 +311,7 @@ function AddCustomerForm({
             <InputError message={form.errors.customer_id} />
             <Button type="submit" disabled={form.processing}>
                 <Plus />
-                Hinzufügen
+                {i18n._('userAssignments.add')}
             </Button>
         </form>
     );
@@ -347,11 +353,13 @@ function AddSiteForm({
                 disabled={disabled}
             >
                 <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Objekt auswählen" />
+                    <SelectValue
+                        placeholder={i18n._('userAssignments.sites.selectPlaceholder')}
+                    />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value={noSelectionValue} disabled>
-                        Objekt auswählen
+                        {i18n._('userAssignments.sites.selectPlaceholder')}
                     </SelectItem>
                     {options.map((site) => (
                         <SelectItem key={site.id} value={site.id}>
@@ -363,7 +371,7 @@ function AddSiteForm({
             <InputError message={form.errors.site_id} />
             <Button type="submit" disabled={form.processing || disabled}>
                 <Plus />
-                Hinzufügen
+                {i18n._('userAssignments.add')}
             </Button>
         </form>
     );
@@ -435,7 +443,7 @@ function AssignmentRow({
                 size="icon"
                 disabled={form.processing}
                 onClick={() => form.delete(deleteUrl, { preserveScroll: true })}
-                aria-label={`${title} entfernen`}
+                aria-label={i18n._('userAssignments.removeAriaLabel', { title })}
             >
                 <Trash2 />
             </Button>
@@ -446,7 +454,7 @@ function AssignmentRow({
 UserAssignments.layout = {
     breadcrumbs: [
         {
-            title: 'Nutzer-Zuordnungen',
+            title: i18n._('userAssignments.breadcrumb'),
             href: '/user-assignments',
         },
     ],

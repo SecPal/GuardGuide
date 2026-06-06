@@ -9,6 +9,11 @@ enum OrganizationalUnitType: string
     case Department = 'department';
     case Team = 'team';
 
+    public function label(): string
+    {
+        return $this->value;
+    }
+
     /**
      * @return list<string>
      */

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrganizationalUnitType;
+use App\Http\Requests\UserAssignments\StoreCustomerAssignmentRequest;
+use App\Http\Requests\UserAssignments\StoreOrganizationalUnitAssignmentRequest;
+use App\Http\Requests\UserAssignments\StoreSiteAssignmentRequest;
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
 use App\Models\Site;
@@ -11,8 +14,6 @@ use App\Models\UserCustomerAssignment;
 use App\Models\UserOrganizationalUnitAssignment;
 use App\Models\UserSiteAssignment;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -21,6 +22,8 @@ class UserAssignmentController extends Controller
 {
     public function redirectToFirstUser(): RedirectResponse
     {
+        $this->authorize('viewAny', User::class);
+
         $user = User::query()
             ->select(['id'])
             ->orderBy('name')
@@ -32,6 +35,8 @@ class UserAssignmentController extends Controller
 
     public function index(User $user): Response
     {
+        $this->authorize('manage', $user);
+
         $user->load([
             'organizationalUnits' => fn ($query) => $query->select(['organizational_units.id', 'type', 'name'])->orderBy('name'),
             'customers' => fn ($query) => $query->select(['customers.id', 'name'])->orderBy('name'),
@@ -50,15 +55,15 @@ class UserAssignmentController extends Controller
                 ->orderBy('name')
                 ->orderBy('email')
                 ->get()
-                ->map(fn (User $user): array => [
-                    'id' => $user->getKey(),
-                    'name' => $user->name,
-                    'email' => $user->email,
+                ->map(fn (User $u): array => [
+                    'id' => $u->getKey(),
+                    'name' => $u->name,
+                    'email' => $u->email,
                 ]),
             'assignments' => [
                 'organizationalUnits' => $user->organizationalUnits->map(fn (OrganizationalUnit $unit): array => [
                     'id' => $unit->getKey(),
-                    'type' => $this->typeValue($unit->type),
+                    'type' => $unit->type instanceof OrganizationalUnitType ? $unit->type->label() : $unit->type,
                     'name' => $unit->name,
                 ])->values(),
                 'customers' => $user->customers->map(fn (Customer $customer): array => [
@@ -79,7 +84,7 @@ class UserAssignmentController extends Controller
                     ->get()
                     ->map(fn (OrganizationalUnit $unit): array => [
                         'id' => $unit->getKey(),
-                        'type' => $this->typeValue($unit->type),
+                        'type' => $unit->type instanceof OrganizationalUnitType ? $unit->type->label() : $unit->type,
                         'name' => $unit->name,
                     ]),
                 'customers' => Customer::query()
@@ -105,17 +110,11 @@ class UserAssignmentController extends Controller
         ]);
     }
 
-    public function storeOrganizationalUnit(Request $request, User $user): RedirectResponse
+    public function storeOrganizationalUnit(StoreOrganizationalUnitAssignmentRequest $request, User $user): RedirectResponse
     {
-        $validated = $request->validate([
-            'organizational_unit_id' => [
-                'required',
-                'uuid',
-                Rule::exists('organizational_units', 'id')->whereNull('deleted_at'),
-                Rule::unique('user_organizational_unit_assignments', 'organizational_unit_id')
-                    ->where('user_id', $user->getKey()),
-            ],
-        ]);
+        $this->authorize('manage', $user);
+
+        $validated = $request->validated();
 
         UserOrganizationalUnitAssignment::query()->create([
             'user_id' => $user->getKey(),
@@ -129,6 +128,8 @@ class UserAssignmentController extends Controller
 
     public function destroyOrganizationalUnit(User $user, OrganizationalUnit $organizationalUnit): RedirectResponse
     {
+        $this->authorize('manage', $user);
+
         UserOrganizationalUnitAssignment::query()
             ->where('user_id', $user->getKey())
             ->where('organizational_unit_id', $organizationalUnit->getKey())
@@ -139,17 +140,11 @@ class UserAssignmentController extends Controller
         return to_route('user-assignments.index', $user);
     }
 
-    public function storeCustomer(Request $request, User $user): RedirectResponse
+    public function storeCustomer(StoreCustomerAssignmentRequest $request, User $user): RedirectResponse
     {
-        $validated = $request->validate([
-            'customer_id' => [
-                'required',
-                'uuid',
-                Rule::exists('customers', 'id')->whereNull('deleted_at'),
-                Rule::unique('user_customer_assignments', 'customer_id')
-                    ->where('user_id', $user->getKey()),
-            ],
-        ]);
+        $this->authorize('manage', $user);
+
+        $validated = $request->validated();
 
         UserCustomerAssignment::query()->create([
             'user_id' => $user->getKey(),
@@ -163,6 +158,8 @@ class UserAssignmentController extends Controller
 
     public function destroyCustomer(User $user, Customer $customer): RedirectResponse
     {
+        $this->authorize('manage', $user);
+
         UserCustomerAssignment::query()
             ->where('user_id', $user->getKey())
             ->where('customer_id', $customer->getKey())
@@ -180,17 +177,11 @@ class UserAssignmentController extends Controller
         return to_route('user-assignments.index', $user);
     }
 
-    public function storeSite(Request $request, User $user): RedirectResponse
+    public function storeSite(StoreSiteAssignmentRequest $request, User $user): RedirectResponse
     {
-        $validated = $request->validate([
-            'site_id' => [
-                'required',
-                'uuid',
-                Rule::exists('sites', 'id')->whereNull('deleted_at'),
-                Rule::unique('user_site_assignments', 'site_id')
-                    ->where('user_id', $user->getKey()),
-            ],
-        ]);
+        $this->authorize('manage', $user);
+
+        $validated = $request->validated();
 
         $site = Site::query()->select(['id', 'customer_id'])->findOrFail($validated['site_id']);
 
@@ -217,6 +208,8 @@ class UserAssignmentController extends Controller
 
     public function destroySite(User $user, Site $site): RedirectResponse
     {
+        $this->authorize('manage', $user);
+
         UserSiteAssignment::query()
             ->where('user_id', $user->getKey())
             ->where('site_id', $site->getKey())
@@ -225,14 +218,5 @@ class UserAssignmentController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Site assignment removed.']);
 
         return to_route('user-assignments.index', $user);
-    }
-
-    private function typeValue(OrganizationalUnitType|string $type): string
-    {
-        if ($type instanceof OrganizationalUnitType) {
-            return $type->value;
-        }
-
-        return $type;
     }
 }

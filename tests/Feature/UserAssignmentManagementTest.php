@@ -265,3 +265,32 @@ test('duplicate assignment submissions are shown as validation errors', function
         ->assertSessionHasErrors('customer_id')
         ->assertRedirect(route('user-assignments.index', $selectedUser));
 });
+
+test('storing a site assignment is rejected when the customer assignment was removed concurrently', function () {
+    $actingUser = User::factory()->create();
+    $selectedUser = User::factory()->create();
+    $customer = Customer::factory()->create();
+    $site = Site::factory()->forCustomer($customer)->create();
+
+    $customerAssignment = UserCustomerAssignment::factory()
+        ->forUser($selectedUser)
+        ->forCustomer($customer)
+        ->create();
+
+    // Simulate concurrent removal of the customer assignment between the
+    // client loading the form (customer shown as assigned) and submitting.
+    $customerAssignment->delete();
+
+    $this->actingAs($actingUser)
+        ->from(route('user-assignments.index', $selectedUser))
+        ->post(route('user-assignments.sites.store', $selectedUser), [
+            'site_id' => $site->getKey(),
+        ])
+        ->assertSessionHasErrors('site_id')
+        ->assertRedirect(route('user-assignments.index', $selectedUser));
+
+    $this->assertDatabaseMissing('user_site_assignments', [
+        'user_id' => $selectedUser->getKey(),
+        'site_id' => $site->getKey(),
+    ]);
+});

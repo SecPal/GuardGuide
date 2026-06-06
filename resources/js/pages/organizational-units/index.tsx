@@ -1,4 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
+import { i18n } from '@lingui/core';
 import { Building2, Pencil, Plus } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
@@ -89,20 +90,22 @@ export default function OrganizationalUnits({
 
     return (
         <>
-            <Head title="Organisationsstruktur" />
+            <Head title={i18n._('orgUnits.metaTitle')} />
 
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <Heading
-                        title="Organisationsstruktur"
-                        description="Root- und Child-Einheiten im GuardGuide-Backend pflegen"
+                        title={i18n._('orgUnits.heading.title')}
+                        description={i18n._('orgUnits.heading.description')}
                     />
                 </div>
 
                 <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
                     <section className="rounded-md border bg-background">
                         <div className="border-b px-4 py-3">
-                            <h2 className="text-sm font-medium">Hierarchie</h2>
+                            <h2 className="text-sm font-medium">
+                                {i18n._('orgUnits.hierarchy.title')}
+                            </h2>
                         </div>
 
                         <div className="p-3">
@@ -119,7 +122,7 @@ export default function OrganizationalUnits({
                                 </ul>
                             ) : (
                                 <div className="flex min-h-40 items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
-                                    Noch keine Organisationseinheiten vorhanden.
+                                    {i18n._('orgUnits.hierarchy.empty')}
                                 </div>
                             )}
                         </div>
@@ -131,8 +134,8 @@ export default function OrganizationalUnits({
                                 <Plus className="size-4" />
                                 <Heading
                                     variant="small"
-                                    title="Neue Einheit"
-                                    description="Auf Root-Ebene oder unterhalb einer bestehenden Einheit anlegen"
+                                    title={i18n._('orgUnits.createForm.title')}
+                                    description={i18n._('orgUnits.createForm.description')}
                                 />
                             </div>
 
@@ -150,7 +153,7 @@ export default function OrganizationalUnits({
                                     disabled={createForm.processing}
                                 >
                                     <Plus />
-                                    Anlegen
+                                    {i18n._('orgUnits.createForm.submit')}
                                 </Button>
                             </form>
                         </section>
@@ -160,8 +163,8 @@ export default function OrganizationalUnits({
                                 <Pencil className="size-4" />
                                 <Heading
                                     variant="small"
-                                    title="Einheit bearbeiten"
-                                    description="Name, Typ, Position und Parent-Einheit aktualisieren"
+                                    title={i18n._('orgUnits.editForm.title')}
+                                    description={i18n._('orgUnits.editForm.description')}
                                 />
                             </div>
 
@@ -180,7 +183,7 @@ export default function OrganizationalUnits({
                                 />
                             ) : (
                                 <p className="text-sm text-muted-foreground">
-                                    Wählen Sie eine Einheit aus der Hierarchie.
+                                    {i18n._('orgUnits.editForm.placeholder')}
                                 </p>
                             )}
                         </section>
@@ -230,7 +233,7 @@ function EditUnitForm({
             />
 
             <Button type="submit" disabled={form.processing}>
-                Speichern
+                {i18n._('orgUnits.editForm.submit')}
             </Button>
         </form>
     );
@@ -264,7 +267,7 @@ function UnitTreeItem({
                         {unit.name}
                     </span>
                     <span className="block text-xs text-muted-foreground">
-                        {unit.type} · Sortierung {unit.sort_order}
+                        {unit.type} · {i18n._('orgUnits.hierarchy.sortOrder')} {unit.sort_order}
                     </span>
                 </span>
                 {unit.children.length > 0 && (
@@ -311,7 +314,9 @@ function UnitFields({
     return (
         <>
             <div className="grid gap-2">
-                <Label htmlFor={`name-${data.parent_id ?? 'root'}`}>Name</Label>
+                <Label htmlFor={`name-${data.parent_id ?? 'root'}`}>
+                    {i18n._('orgUnits.fields.name')}
+                </Label>
                 <Input
                     id={`name-${data.parent_id ?? 'root'}`}
                     value={data.name}
@@ -322,7 +327,7 @@ function UnitFields({
             </div>
 
             <div className="grid gap-2">
-                <Label>Typ</Label>
+                <Label>{i18n._('orgUnits.fields.type')}</Label>
                 <Select
                     value={data.type}
                     onValueChange={(value) => onChange('type', value)}
@@ -342,7 +347,7 @@ function UnitFields({
             </div>
 
             <div className="grid gap-2">
-                <Label>Parent-Einheit</Label>
+                <Label>{i18n._('orgUnits.fields.parent')}</Label>
                 <Select
                     value={data.parent_id ?? rootParentValue}
                     onValueChange={(value) =>
@@ -357,7 +362,7 @@ function UnitFields({
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value={rootParentValue}>
-                            Root-Ebene
+                            {i18n._('orgUnits.fields.parentRoot')}
                         </SelectItem>
                         {parentOptions.map((unit) => (
                             <SelectItem
@@ -375,7 +380,7 @@ function UnitFields({
 
             <div className="grid gap-2">
                 <Label htmlFor={`sort-order-${data.parent_id ?? 'root'}`}>
-                    Sortierung
+                    {i18n._('orgUnits.fields.sortOrder')}
                 </Label>
                 <Input
                     id={`sort-order-${data.parent_id ?? 'root'}`}
@@ -427,7 +432,7 @@ function formatParentOption(unit: FlatOrganizationalUnit) {
 OrganizationalUnits.layout = {
     breadcrumbs: [
         {
-            title: 'Organisationsstruktur',
+            title: i18n._('orgUnits.breadcrumb'),
             href: orgUnitsPath,
         },
     ],

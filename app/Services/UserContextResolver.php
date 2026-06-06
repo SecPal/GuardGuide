@@ -80,7 +80,7 @@ class UserContextResolver
         $id = (string) $unit->getKey();
         $context = $contexts[$id] ?? [
             'id' => $id,
-            'type' => $this->typeValue($unit->type),
+            'type' => $this->typeLabel($unit->type),
             'name' => $unit->name,
             'parent_id' => $unit->parent_id,
             'sources' => [],
@@ -167,10 +167,10 @@ class UserContextResolver
         return $sources;
     }
 
-    private function typeValue(OrganizationalUnitType|string $type): string
+    private function typeLabel(OrganizationalUnitType|string $type): string
     {
         if ($type instanceof OrganizationalUnitType) {
-            return $type->value;
+            return $type->label();
         }
 
         return $type;
