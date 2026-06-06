@@ -73,11 +73,6 @@ SPDX-FileCopyrightText = "2026 SecPal Contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["public/site.webmanifest"]
-SPDX-FileCopyrightText = "2026 SecPal Contributors"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
 path = ["**/*.php", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.css", "**/*.blade.php"]
 SPDX-FileCopyrightText = "2026 SecPal Contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

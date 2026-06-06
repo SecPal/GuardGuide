@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
-Route::get('manifest.webmanifest', function (Request $request) {
+$manifest = function (Request $request) {
     $appearance = $request->query('appearance');
     $usesDarkAppearance = $appearance === 'dark';
 
@@ -44,7 +44,10 @@ Route::get('manifest.webmanifest', function (Request $request) {
             ],
         ],
     ])->header('Content-Type', 'application/manifest+json');
-})->name('manifest');
+};
+
+Route::get('manifest.webmanifest', $manifest)->name('manifest');
+Route::get('site.webmanifest', $manifest);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
