@@ -444,7 +444,7 @@ function formatParentOption(unit: FlatOrganizationalUnit) {
 OrganizationalUnits.layout = () => ({
     breadcrumbs: [
         {
-            title: i18n._('orgUnits.breadcrumb'),
+            title: () => i18n._('orgUnits.breadcrumb'),
             href: orgUnitsPath,
         },
     ],

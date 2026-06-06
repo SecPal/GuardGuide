@@ -149,17 +149,31 @@ export default function TwoFactorRecoveryCodes({
 
                                 <div className="text-xs text-muted-foreground select-none">
                                     <p id="regenerate-warning">
-                                        {i18n._(
-                                            'settings.recoveryCodes.regenerateWarning1',
-                                        )}{' '}
-                                        <span className="font-bold">
-                                            {i18n._(
-                                                'settings.recoveryCodes.regenerateLink',
-                                            )}
-                                        </span>{' '}
-                                        {i18n._(
-                                            'settings.recoveryCodes.regenerateWarning2',
-                                        )}
+                                        {(() => {
+                                            const tail = i18n._(
+                                                'settings.recoveryCodes.regenerateWarning2',
+                                            );
+                                            const tailNeedsSpace =
+                                                tail.length > 0 &&
+                                                !/^[\s.,;:!?)\]}»”"']/.test(
+                                                    tail,
+                                                );
+
+                                            return (
+                                                <>
+                                                    {i18n._(
+                                                        'settings.recoveryCodes.regenerateWarning1',
+                                                    )}{' '}
+                                                    <span className="font-bold">
+                                                        {i18n._(
+                                                            'settings.recoveryCodes.regenerateLink',
+                                                        )}
+                                                    </span>
+                                                    {tailNeedsSpace ? ' ' : ''}
+                                                    {tail}
+                                                </>
+                                            );
+                                        })()}
                                     </p>
                                 </div>
                             </>

@@ -11,8 +11,37 @@ import SettingsLayout from '@/layouts/settings/layout';
 
 const appName = import.meta.env.VITE_APP_NAME || 'GuardGuide';
 
+/**
+ * Read the server-resolved locale from the inlined Inertia page payload so
+ * SSR and the initial client render activate the same catalog. Falls back
+ * to browser-side detection when no payload is available (e.g. tests).
+ */
+function readSharedLocale(): string | null {
+    if (typeof document === 'undefined') {
+        return null;
+    }
+
+    const root = document.getElementById('app');
+    const raw = root?.getAttribute('data-page');
+
+    if (!raw) {
+        return null;
+    }
+
+    try {
+        const page = JSON.parse(raw) as { props?: { locale?: unknown } };
+        const locale = page.props?.locale;
+
+        return typeof locale === 'string' ? locale : null;
+    } catch {
+        return null;
+    }
+}
+
 async function bootstrap() {
-    await activateLocaleWithFallback(detectLocale());
+    const initialLocale = readSharedLocale() ?? detectLocale();
+
+    await activateLocaleWithFallback(initialLocale);
 
     await createInertiaApp({
         title: (title) => (title ? `${title} - ${appName}` : appName),

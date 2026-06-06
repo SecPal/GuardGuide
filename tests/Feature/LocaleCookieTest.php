@@ -53,3 +53,34 @@ test('locale defaults to English when no cookie is present', function () {
     expect(View::shared('locale'))->toBe('en');
     expect(App::getLocale())->toBe('en');
 });
+
+test('locale is detected from Accept-Language when no cookie is present', function () {
+    $response = $this->withHeaders(['Accept-Language' => 'de-DE,de;q=0.9,en;q=0.8'])
+        ->get(route('home'))
+        ->assertOk();
+
+    $response->assertSee('lang="de"', escape: false);
+    expect(View::shared('locale'))->toBe('de');
+    expect(App::getLocale())->toBe('de');
+});
+
+test('locale falls back to English when Accept-Language has no allowed match', function () {
+    $response = $this->withHeaders(['Accept-Language' => 'fr-FR,fr;q=0.9'])
+        ->get(route('home'))
+        ->assertOk();
+
+    $response->assertSee('lang="en"', escape: false);
+    expect(View::shared('locale'))->toBe('en');
+    expect(App::getLocale())->toBe('en');
+});
+
+test('locale cookie wins over Accept-Language', function () {
+    $response = $this->withUnencryptedCookie('locale', 'en')
+        ->withHeaders(['Accept-Language' => 'de-DE,de;q=0.9'])
+        ->get(route('home'))
+        ->assertOk();
+
+    $response->assertSee('lang="en"', escape: false);
+    expect(View::shared('locale'))->toBe('en');
+    expect(App::getLocale())->toBe('en');
+});

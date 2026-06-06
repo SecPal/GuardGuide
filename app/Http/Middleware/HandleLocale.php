@@ -28,7 +28,8 @@ class HandleLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $this->normalizeLocale($request->cookie(self::COOKIE_NAME))
+        $locale = $this->resolveFromCookie($request)
+            ?? $this->resolveFromAcceptLanguage($request)
             ?? self::DEFAULT_LOCALE;
 
         App::setLocale($locale);
@@ -37,13 +38,36 @@ class HandleLocale
         return $next($request);
     }
 
+    private function resolveFromCookie(Request $request): ?string
+    {
+        return $this->normalizeLocale($request->cookie(self::COOKIE_NAME));
+    }
+
+    /**
+     * Pick the first allowed locale advertised by the browser. Returns null
+     * when none of the preferences match so the caller can fall back to the
+     * default locale.
+     */
+    private function resolveFromAcceptLanguage(Request $request): ?string
+    {
+        foreach ($request->getLanguages() as $language) {
+            $locale = $this->normalizeLocale($language);
+
+            if ($locale !== null) {
+                return $locale;
+            }
+        }
+
+        return null;
+    }
+
     private function normalizeLocale(mixed $value): ?string
     {
         if (! is_string($value) || $value === '') {
             return null;
         }
 
-        $locale = strtolower(explode('-', $value, 2)[0]);
+        $locale = strtolower(explode('-', str_replace('_', '-', $value), 2)[0]);
 
         if (! in_array($locale, self::ALLOWED_LOCALES, true)) {
             return null;

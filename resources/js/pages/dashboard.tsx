@@ -33,7 +33,7 @@ export default function Dashboard() {
 Dashboard.layout = () => ({
     breadcrumbs: [
         {
-            title: i18n._('dashboard.breadcrumb'),
+            title: () => i18n._('dashboard.breadcrumb'),
             href: dashboard(),
         },
     ],

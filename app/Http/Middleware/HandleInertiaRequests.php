@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Services\UserContextResolver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -45,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'effectiveContext' => fn () => $request->user() === null
                 ? null
                 : app(UserContextResolver::class)->resolve($request->user()),
+            'locale' => App::getLocale(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

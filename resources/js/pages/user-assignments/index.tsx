@@ -484,7 +484,7 @@ function AssignmentRow({
 UserAssignments.layout = () => ({
     breadcrumbs: [
         {
-            title: i18n._('userAssignments.breadcrumb'),
+            title: () => i18n._('userAssignments.breadcrumb'),
             href: '/user-assignments',
         },
     ],

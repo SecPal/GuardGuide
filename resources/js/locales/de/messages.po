@@ -642,7 +642,7 @@ msgstr "Passkey entfernen"
 
 #: resources/js/components/passkey-item.tsx
 msgid "settings.passkeys.item.removeDialogDescription"
-msgstr "Möchtest Du den Passkey „{name}\" wirklich entfernen? Du kannst Dich damit dann nicht mehr anmelden."
+msgstr "Möchtest Du den Passkey „{name}“ wirklich entfernen? Du kannst Dich damit dann nicht mehr anmelden."
 
 #: resources/js/components/passkey-item.tsx
 msgid "settings.passkeys.item.removeDialogTitle"
