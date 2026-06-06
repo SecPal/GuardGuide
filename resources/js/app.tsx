@@ -1,6 +1,8 @@
-import { createInertiaApp, router } from '@inertiajs/react';
+import { createInertiaApp } from '@inertiajs/react';
+import type { ResolvedComponent } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
@@ -10,6 +12,9 @@ import AuthLayout from '@/layouts/auth-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 
 const appName = import.meta.env.VITE_APP_NAME || 'GuardGuide';
+const pages = import.meta.glob<{ default: ResolvedComponent }>(
+    './pages/**/*.tsx',
+);
 
 /**
  * Read the server-resolved locale from the inlined Inertia page payload so
@@ -38,12 +43,12 @@ function readSharedLocale(): string | null {
     }
 }
 
-function syncSharedLocale(locale: unknown): void {
+async function syncSharedLocale(locale: unknown): Promise<void> {
     if (typeof locale !== 'string' || locale === i18n.locale) {
         return;
     }
 
-    void activateLocaleWithFallback(locale).catch((error: unknown) => {
+    await activateLocaleWithFallback(locale).catch((error: unknown) => {
         console.error('Failed to sync GuardGuide i18n locale:', error);
     });
 }
@@ -55,6 +60,11 @@ async function bootstrap() {
 
     await createInertiaApp({
         title: (title) => (title ? `${title} - ${appName}` : appName),
+        resolve: async (name, page) => {
+            await syncSharedLocale(page?.props.locale);
+
+            return resolvePageComponent(`./pages/${name}.tsx`, pages);
+        },
         layout: (name) => {
             switch (true) {
                 case name === 'welcome':
@@ -81,11 +91,6 @@ async function bootstrap() {
         progress: {
             color: '#4B5563',
         },
-    });
-
-    // Keep Lingui aligned with the server-resolved locale on later visits.
-    router.on('navigate', (event) => {
-        syncSharedLocale(event.detail.page.props.locale);
     });
 }
 
