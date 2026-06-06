@@ -28,14 +28,27 @@ class HandleLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $cookie = $request->cookie(self::COOKIE_NAME);
-        $locale = is_string($cookie) && in_array($cookie, self::ALLOWED_LOCALES, true)
-            ? $cookie
-            : self::DEFAULT_LOCALE;
+        $locale = $this->normalizeLocale($request->cookie(self::COOKIE_NAME))
+            ?? self::DEFAULT_LOCALE;
 
         App::setLocale($locale);
         View::share('locale', $locale);
 
         return $next($request);
+    }
+
+    private function normalizeLocale(mixed $value): ?string
+    {
+        if (! is_string($value) || $value === '') {
+            return null;
+        }
+
+        $locale = strtolower(explode('-', $value, 2)[0]);
+
+        if (! in_array($locale, self::ALLOWED_LOCALES, true)) {
+            return null;
+        }
+
+        return $locale;
     }
 }

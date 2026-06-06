@@ -13,6 +13,19 @@ test('locale cookie is propagated when it matches an allowed language', function
     expect(App::getLocale())->toBe('de');
 });
 
+test('locale cookie normalizes compatible values before applying them', function (string $cookie) {
+    $response = $this->withUnencryptedCookie('locale', $cookie)
+        ->get(route('home'))
+        ->assertOk();
+
+    $response->assertSee('lang="de"', escape: false);
+    expect(View::shared('locale'))->toBe('de');
+    expect(App::getLocale())->toBe('de');
+})->with([
+    'uppercase locale' => ['DE'],
+    'locale with region' => ['de-DE'],
+]);
+
 test('locale cookie falls back to English when the value is unknown', function () {
     $response = $this->withUnencryptedCookie('locale', 'fr')
         ->get(route('home'))
