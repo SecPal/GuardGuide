@@ -1,8 +1,10 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
 
+export type BreadcrumbTitle = string | (() => string);
+
 export type BreadcrumbItem = {
-    title: string;
+    title: BreadcrumbTitle;
     href: NonNullable<InertiaLinkProps['href']>;
 };
 

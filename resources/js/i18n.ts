@@ -90,9 +90,11 @@ export function detectLocale(
         ? navigator
         : undefined,
 ): Locale {
-    const stored = getStoredLocale() ?? getCookieLocale();
+    const stored = getCookieLocale() ?? getStoredLocale();
 
     if (stored) {
+        persistLocale(stored);
+
         return stored;
     }
 

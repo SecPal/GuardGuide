@@ -146,7 +146,7 @@ export default function Profile({
 Profile.layout = () => ({
     breadcrumbs: [
         {
-            title: i18n._('settings.profile.breadcrumb'),
+            title: () => i18n._('settings.profile.breadcrumb'),
             href: edit(),
         },
     ],

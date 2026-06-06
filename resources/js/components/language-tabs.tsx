@@ -28,7 +28,14 @@ export default function LanguageTabs({
 
         try {
             const activated = await activateLocale(next);
-            persistLocale(activated);
+
+            if (activated !== next) {
+                setError(i18n._('settings.language.error'));
+
+                return;
+            }
+
+            persistLocale(next);
         } catch {
             setError(i18n._('settings.language.error'));
         } finally {

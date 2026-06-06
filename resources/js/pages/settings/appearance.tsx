@@ -33,7 +33,7 @@ export default function Appearance() {
 Appearance.layout = () => ({
     breadcrumbs: [
         {
-            title: i18n._('settings.appearance.breadcrumb'),
+            title: () => i18n._('settings.appearance.breadcrumb'),
             href: editAppearance(),
         },
     ],

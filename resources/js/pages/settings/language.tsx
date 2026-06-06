@@ -29,7 +29,7 @@ export default function Language() {
 Language.layout = () => ({
     breadcrumbs: [
         {
-            title: i18n._('settings.language.breadcrumb'),
+            title: () => i18n._('settings.language.breadcrumb'),
             href: editLanguage(),
         },
     ],
