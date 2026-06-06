@@ -12,6 +12,7 @@ import {
     detectLocale,
     loadAllCatalogs,
     LOCALE_STORAGE_KEY,
+    locales,
 } from '@/i18n';
 import AppLayout from '@/layouts/app-layout';
 import AuthLayout from '@/layouts/auth-layout';
@@ -60,14 +61,22 @@ function readStoredLocale(): string | null {
     }
 
     try {
-        return window.localStorage.getItem(LOCALE_STORAGE_KEY);
+        const locale = window.localStorage.getItem(LOCALE_STORAGE_KEY);
+
+        return locale && Object.hasOwn(locales, locale) ? locale : null;
     } catch {
         return null;
     }
 }
 
 async function syncSharedLocale(locale: unknown): Promise<void> {
-    if (typeof locale !== 'string' || locale === i18n.locale) {
+    const storedLocale = readStoredLocale();
+
+    if (
+        typeof locale !== 'string' ||
+        locale === i18n.locale ||
+        (storedLocale !== null && storedLocale !== locale)
+    ) {
         return;
     }
 
