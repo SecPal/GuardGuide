@@ -90,6 +90,8 @@ export function detectLocale(
         ? navigator
         : undefined,
 ): Locale {
+    // Cookie is the server-authoritative source; localStorage is only a
+    // client-side fallback for environments where cookies are unavailable.
     const stored = getCookieLocale() ?? getStoredLocale();
 
     if (stored) {
@@ -120,21 +122,31 @@ async function loadMessages(locale: Locale): Promise<Messages> {
 export async function activateLocale(locale: string): Promise<Locale> {
     const selectedLocale = normalizeLocale(locale) ?? defaultLocale;
 
-    try {
-        i18n.load(selectedLocale, await loadMessages(selectedLocale));
-        i18n.activate(selectedLocale);
-    } catch (error) {
-        if (selectedLocale !== defaultLocale) {
-            i18n.load(defaultLocale, await loadMessages(defaultLocale));
-            i18n.activate(defaultLocale);
-        } else {
-            throw error;
-        }
-    }
+    i18n.load(selectedLocale, await loadMessages(selectedLocale));
+    i18n.activate(selectedLocale);
 
     if (typeof document !== 'undefined') {
         document.documentElement.lang = i18n.locale || defaultLocale;
     }
 
     return (i18n.locale as Locale | '') || defaultLocale;
+}
+
+/**
+ * Like `activateLocale`, but silently falls back to the default locale when
+ * the requested catalog cannot be loaded. Intended only for the application
+ * bootstrap path where a hard failure would leave the UI in a broken state.
+ */
+export async function activateLocaleWithFallback(locale: string): Promise<Locale> {
+    const selectedLocale = normalizeLocale(locale) ?? defaultLocale;
+
+    try {
+        return await activateLocale(selectedLocale);
+    } catch {
+        if (selectedLocale !== defaultLocale) {
+            return await activateLocale(defaultLocale);
+        }
+
+        throw new Error(`Failed to load default locale catalog: ${defaultLocale}`);
+    }
 }

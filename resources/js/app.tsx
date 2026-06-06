@@ -4,7 +4,7 @@ import { I18nProvider } from '@lingui/react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
-import { activateLocale, detectLocale } from '@/i18n';
+import { activateLocaleWithFallback, detectLocale } from '@/i18n';
 import AppLayout from '@/layouts/app-layout';
 import AuthLayout from '@/layouts/auth-layout';
 import SettingsLayout from '@/layouts/settings/layout';
@@ -12,7 +12,7 @@ import SettingsLayout from '@/layouts/settings/layout';
 const appName = import.meta.env.VITE_APP_NAME || 'GuardGuide';
 
 async function bootstrap() {
-    await activateLocale(detectLocale());
+    await activateLocaleWithFallback(detectLocale());
 
     await createInertiaApp({
         title: (title) => (title ? `${title} - ${appName}` : appName),
