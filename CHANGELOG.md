@@ -14,11 +14,13 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Added
 
+- Added an `is_admin` flag on users with a matching factory state, seeded the local test user as admin, and required admin privileges to view or modify organizational units and user assignments so the management surfaces no longer allow any verified account to manage other users.
 - Added the initial GuardGuide repository governance baseline, project decision record, and GitHub automation bootstrap.
 - Added the first Laravel 13 backend baseline for GuardGuide, including a backend-only Composer scaffold, Pest as the default test runner, and PHPStan/Pint wiring for the initial PHP slice.
 - Added the first React/Vite frontend shell baseline for GuardGuide with strict TypeScript and Lingui English/German localization wiring.
 - Added the new Laravel 13 Inertia React starter baseline with shadcn/ui, Fortify, passkeys, and the GuardGuide-branded localized welcome and login surfaces.
 - Added a dedicated Composer `analyse` script for PHPStan so local automation and Polyscope can invoke the current GuardGuide static-analysis entry point through the repo script surface.
+- Added the organization-context foundation with internal units, customers, sites, user assignments, management UI, and an effective user-context resolver for follow-up instruction features.
 
 ### Changed
 
@@ -50,3 +52,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Held ESLint on the supported 9.x line and typed shared Inertia page props so frontend linting and strict TypeScript checks keep passing while the ESLint 10 plugin ecosystem catches up.
 - Restored the full AGPLv3-or-later license text in the repository license files so local license scanners and reviewers do not depend on an external URL.
 - Dropped the misleading `CC0-1.0` REUSE annotation for `LICENSE` and `LICENSES/*.txt` so the FSF AGPL document is no longer reported as CC0-licensed in REUSE/SPDX scans.
+- Cleared dependent `user_organizational_unit_assignments` and `user_site_assignments` rows when the related organizational unit or site is soft-deleted so the management UI and effective user context no longer hide assignments that still exist in the pivot tables.
+- Selected trashed sites for customer-assignment cleanup through an explicit `withTrashed` subquery instead of `whereHas`, so removing a customer assignment also removes site assignments that point at soft-deleted sites of that customer.
+- Pre-grouped organizational units by `parent_id` when rendering the hierarchy so building the tree and flattened list runs in a single linear pass instead of O(n²) repeated filtering for every node.
+- Fell back to the existing localized "unknown customer" string in the site assignment dropdown so soft-deleted or unloaded customer relations no longer surface a literal "null" next to the site name.
+- Localized the application sidebar entries through Lingui keys and routed the navigation through the generated Wayfinder helpers so English and German translations stay in sync with the rest of the UI.
+- Generated stable unique input IDs for organizational-unit form fields with `useId()` so create and edit forms on the same page no longer share `name-root` / `sort-order-root` identifiers that broke label-to-input association.
+- Disabled the assignment "Hinzufügen" buttons until a value is selected and required a selection in the dropdown so the form no longer submits an empty request that returns "The customer id field is required".
+- Updated ADR 0002 to reflect that `sites.organizational_unit_id` is nullable and that `tenant_id` scoping is documented as a follow-up rather than an enforced invariant in this slice.

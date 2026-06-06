@@ -115,6 +115,26 @@ msgstr "Resend verification email"
 msgid "common.appName"
 msgstr "GuardGuide"
 
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.dashboard"
+msgstr "Dashboard"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.organizationalUnits"
+msgstr "Organizational structure"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.userAssignments"
+msgstr "User assignments"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.repository"
+msgstr "Repository"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.documentation"
+msgstr "Documentation"
+
 #: resources/js/pages/dashboard.tsx
 msgid "dashboard.breadcrumb"
 msgstr "Dashboard"
@@ -197,3 +217,143 @@ msgstr "GuardGuide"
 #: resources/js/pages/welcome.tsx
 msgid "welcome.title"
 msgstr "GuardGuide keeps instructions clear and acknowledgements accountable."
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.breadcrumb"
+msgstr "Organisation structure"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.metaTitle"
+msgstr "Organisation structure"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.heading.title"
+msgstr "Organisation structure"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.heading.description"
+msgstr "Manage root and child units in the GuardGuide backend"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.hierarchy.title"
+msgstr "Hierarchy"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.hierarchy.empty"
+msgstr "No organisational units yet."
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.hierarchy.sortOrder"
+msgstr "Order"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.createForm.title"
+msgstr "New unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.createForm.description"
+msgstr "Create at root level or below an existing unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.createForm.submit"
+msgstr "Create"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.title"
+msgstr "Edit unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.description"
+msgstr "Update name, type, position and parent unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.submit"
+msgstr "Save"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.placeholder"
+msgstr "Select a unit from the hierarchy."
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.name"
+msgstr "Name"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.type"
+msgstr "Type"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.parent"
+msgstr "Parent unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.parentRoot"
+msgstr "Root level"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.sortOrder"
+msgstr "Sort order"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.breadcrumb"
+msgstr "User assignments"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.metaTitle"
+msgstr "User assignments"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.heading.title"
+msgstr "User assignments"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.heading.description"
+msgstr "Manage organisation, customer and site assignments in the GuardGuide backend"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.add"
+msgstr "Add"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.removeAriaLabel"
+msgstr "Remove {title}"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.orgUnits.title"
+msgstr "Organisations"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.orgUnits.empty"
+msgstr "No organisation assignments."
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.orgUnits.selectPlaceholder"
+msgstr "Select organisation"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.customers.title"
+msgstr "Customers"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.customers.empty"
+msgstr "No customer assignments."
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.customers.selectPlaceholder"
+msgstr "Select customer"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.title"
+msgstr "Sites"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.empty"
+msgstr "No site assignments."
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.selectPlaceholder"
+msgstr "Select site"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.unknownCustomer"
+msgstr "Unknown customer"
