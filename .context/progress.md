@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 SecPal Contributors
+SPDX-License-Identifier: CC0-1.0
+-->
+
 ## Codebase Patterns
 
 - Architecture decisions live in `docs/decisions` as numbered Markdown records with SPDX comments,
@@ -94,6 +99,7 @@
     drive this implementation slice.
 
 ## US-005: Nutzer-Zuordnungen zu Organisationen und Zielobjekten speichern
+
 - Added separate user assignment persistence for internal organizational units, customers, and sites,
   each with a UUID primary key, explicit user/target foreign keys, timestamps, and composite unique
   constraints to reject duplicate identical assignments.
@@ -121,6 +127,7 @@
     columns instead of assuming a uniform key type.
 
 ## US-006: Zuordnungen im UI verwalten
+
 - Added a protected user-assignment management area with a stable sidebar entry, user switcher, and
   visible lists for organizational-unit, customer, and site assignments.
 - Added Laravel endpoints for adding and removing organizational-unit, customer, and site
@@ -147,6 +154,7 @@
     raw strings, so controller serializers should normalize enum-or-string values through a helper.
 
 ## US-007: Verwendbaren Arbeitskontext für Folgefeatures auflösen
+
 - Added a central `UserContextResolver` service that resolves effective organizational-unit,
   customer, and site contexts for a user.
 - Exposed the resolved context as an authenticated Inertia shared prop named `effectiveContext` and

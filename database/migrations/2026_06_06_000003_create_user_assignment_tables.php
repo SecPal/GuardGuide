@@ -14,27 +14,29 @@ return new class extends Migration
         Schema::create('user_organizational_unit_assignments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignId('user_id')
-                ->constrained()
+                ->constrained(table: 'users', indexName: 'user_unit_assignment_user_fk')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignUuid('organizational_unit_id')
-                ->constrained('organizational_units')
+            $table->foreignUuid('organizational_unit_id');
+            $table->foreign('organizational_unit_id', 'user_unit_assignment_unit_fk')
+                ->references('id')
+                ->on('organizational_units')
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
             $table->timestamps();
 
             $table->unique(['user_id', 'organizational_unit_id'], 'user_unit_assignment_unique');
-            $table->index('organizational_unit_id');
+            $table->index('organizational_unit_id', 'user_unit_assignment_unit_idx');
         });
 
         Schema::create('user_customer_assignments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignId('user_id')
-                ->constrained()
+                ->constrained(table: 'users', indexName: 'user_customer_assignment_user_fk')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->foreignUuid('customer_id')
-                ->constrained()
+                ->constrained(indexName: 'user_customer_assignment_customer_fk')
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
             $table->timestamps();
@@ -46,11 +48,11 @@ return new class extends Migration
         Schema::create('user_site_assignments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignId('user_id')
-                ->constrained()
+                ->constrained(table: 'users', indexName: 'user_site_assignment_user_fk')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->foreignUuid('site_id')
-                ->constrained('sites')
+                ->constrained(table: 'sites', indexName: 'user_site_assignment_site_fk')
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
             $table->timestamps();
