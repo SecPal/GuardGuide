@@ -30,6 +30,12 @@ class OrganizationalUnit extends Model
             $unit->validateName();
             $unit->validateHierarchy();
         });
+
+        static::deleting(function (OrganizationalUnit $unit) {
+            UserOrganizationalUnitAssignment::query()
+                ->where('organizational_unit_id', $unit->getKey())
+                ->delete();
+        });
     }
 
     /**

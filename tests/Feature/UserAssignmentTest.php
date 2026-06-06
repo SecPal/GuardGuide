@@ -101,6 +101,75 @@ test('soft-deleting a customer clears its user assignment pivots', function () {
     ]);
 });
 
+test('soft-deleting an organizational unit clears its user assignment pivots', function () {
+    $user = User::factory()->create();
+    $unit = OrganizationalUnit::factory()->create();
+
+    UserOrganizationalUnitAssignment::factory()
+        ->forUser($user)
+        ->forOrganizationalUnit($unit)
+        ->create();
+
+    $unit->delete();
+
+    $this->assertDatabaseMissing('user_organizational_unit_assignments', [
+        'user_id' => $user->getKey(),
+        'organizational_unit_id' => $unit->getKey(),
+    ]);
+
+    $unit->restore();
+
+    $this->actingAs($user)
+        ->post(route('user-assignments.organizational-units.store', $user), [
+            'organizational_unit_id' => $unit->getKey(),
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('user-assignments.index', $user));
+
+    $this->assertDatabaseHas('user_organizational_unit_assignments', [
+        'user_id' => $user->getKey(),
+        'organizational_unit_id' => $unit->getKey(),
+    ]);
+});
+
+test('soft-deleting a site clears its user assignment pivots', function () {
+    $user = User::factory()->create();
+    $customer = Customer::factory()->create();
+    $site = Site::factory()->create([
+        'customer_id' => $customer->getKey(),
+    ]);
+
+    UserCustomerAssignment::factory()
+        ->forUser($user)
+        ->forCustomer($customer)
+        ->create();
+    UserSiteAssignment::factory()
+        ->forUser($user)
+        ->forSite($site)
+        ->create();
+
+    $site->delete();
+
+    $this->assertDatabaseMissing('user_site_assignments', [
+        'user_id' => $user->getKey(),
+        'site_id' => $site->getKey(),
+    ]);
+
+    $site->restore();
+
+    $this->actingAs($user)
+        ->post(route('user-assignments.sites.store', $user), [
+            'site_id' => $site->getKey(),
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('user-assignments.index', $user));
+
+    $this->assertDatabaseHas('user_site_assignments', [
+        'user_id' => $user->getKey(),
+        'site_id' => $site->getKey(),
+    ]);
+});
+
 test('users can be assigned to multiple individual sites', function () {
     $user = User::factory()->create();
     $firstSite = Site::factory()->create([

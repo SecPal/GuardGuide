@@ -51,3 +51,5 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Held ESLint on the supported 9.x line and typed shared Inertia page props so frontend linting and strict TypeScript checks keep passing while the ESLint 10 plugin ecosystem catches up.
 - Restored the full AGPLv3-or-later license text in the repository license files so local license scanners and reviewers do not depend on an external URL.
 - Dropped the misleading `CC0-1.0` REUSE annotation for `LICENSE` and `LICENSES/*.txt` so the FSF AGPL document is no longer reported as CC0-licensed in REUSE/SPDX scans.
+- Cleared dependent `user_organizational_unit_assignments` and `user_site_assignments` rows when the related organizational unit or site is soft-deleted so the management UI and effective user context no longer hide assignments that still exist in the pivot tables.
+- Selected trashed sites for customer-assignment cleanup through an explicit `withTrashed` subquery instead of `whereHas`, so removing a customer assignment also removes site assignments that point at soft-deleted sites of that customer.

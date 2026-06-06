@@ -30,7 +30,9 @@ class Customer extends Model
                 ->delete();
 
             UserSiteAssignment::query()
-                ->whereHas('site', fn ($query) => $query->withTrashed()->where('customer_id', $customer->getKey()))
+                ->whereIn('site_id', Site::withTrashed()
+                    ->select('id')
+                    ->where('customer_id', $customer->getKey()))
                 ->delete();
         });
     }

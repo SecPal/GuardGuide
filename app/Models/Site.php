@@ -24,6 +24,12 @@ class Site extends Model
         static::saving(function (Site $site) {
             $site->validateRequiredFields();
         });
+
+        static::deleting(function (Site $site) {
+            UserSiteAssignment::query()
+                ->where('site_id', $site->getKey())
+                ->delete();
+        });
     }
 
     /**
