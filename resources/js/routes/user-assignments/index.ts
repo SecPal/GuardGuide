@@ -85,7 +85,7 @@ redirect.form = redirectForm
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:33
+* @see app/Http/Controllers/UserAssignmentController.php:35
 * @route '/users/{user}/assignments'
 */
 export const index = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -100,7 +100,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:33
+* @see app/Http/Controllers/UserAssignmentController.php:35
 * @route '/users/{user}/assignments'
 */
 index.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -133,7 +133,7 @@ index.url = (args: { user: number | { id: number } } | [user: number | { id: num
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:33
+* @see app/Http/Controllers/UserAssignmentController.php:35
 * @route '/users/{user}/assignments'
 */
 index.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -143,7 +143,7 @@ index.get = (args: { user: number | { id: number } } | [user: number | { id: num
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:33
+* @see app/Http/Controllers/UserAssignmentController.php:35
 * @route '/users/{user}/assignments'
 */
 index.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -153,7 +153,7 @@ index.head = (args: { user: number | { id: number } } | [user: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:33
+* @see app/Http/Controllers/UserAssignmentController.php:35
 * @route '/users/{user}/assignments'
 */
 const indexForm = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -163,7 +163,7 @@ const indexForm = (args: { user: number | { id: number } } | [user: number | { i
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:33
+* @see app/Http/Controllers/UserAssignmentController.php:35
 * @route '/users/{user}/assignments'
 */
 indexForm.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -173,7 +173,7 @@ indexForm.get = (args: { user: number | { id: number } } | [user: number | { id:
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:33
+* @see app/Http/Controllers/UserAssignmentController.php:35
 * @route '/users/{user}/assignments'
 */
 indexForm.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::index
-* @see app/Http/Controllers/OrganizationalUnitController.php:18
+* @see app/Http/Controllers/OrganizationalUnitController.php:17
 * @route '/organizational-units'
 */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::index
-* @see app/Http/Controllers/OrganizationalUnitController.php:18
+* @see app/Http/Controllers/OrganizationalUnitController.php:17
 * @route '/organizational-units'
 */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::index
-* @see app/Http/Controllers/OrganizationalUnitController.php:18
+* @see app/Http/Controllers/OrganizationalUnitController.php:17
 * @route '/organizational-units'
 */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::index
-* @see app/Http/Controllers/OrganizationalUnitController.php:18
+* @see app/Http/Controllers/OrganizationalUnitController.php:17
 * @route '/organizational-units'
 */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::index
-* @see app/Http/Controllers/OrganizationalUnitController.php:18
+* @see app/Http/Controllers/OrganizationalUnitController.php:17
 * @route '/organizational-units'
 */
 const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::index
-* @see app/Http/Controllers/OrganizationalUnitController.php:18
+* @see app/Http/Controllers/OrganizationalUnitController.php:17
 * @route '/organizational-units'
 */
 indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::index
-* @see app/Http/Controllers/OrganizationalUnitController.php:18
+* @see app/Http/Controllers/OrganizationalUnitController.php:17
 * @route '/organizational-units'
 */
 indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -82,7 +82,7 @@ index.form = indexForm
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::store
-* @see app/Http/Controllers/OrganizationalUnitController.php:39
+* @see app/Http/Controllers/OrganizationalUnitController.php:40
 * @route '/organizational-units'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -97,7 +97,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::store
-* @see app/Http/Controllers/OrganizationalUnitController.php:39
+* @see app/Http/Controllers/OrganizationalUnitController.php:40
 * @route '/organizational-units'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -106,7 +106,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::store
-* @see app/Http/Controllers/OrganizationalUnitController.php:39
+* @see app/Http/Controllers/OrganizationalUnitController.php:40
 * @route '/organizational-units'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -116,7 +116,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::store
-* @see app/Http/Controllers/OrganizationalUnitController.php:39
+* @see app/Http/Controllers/OrganizationalUnitController.php:40
 * @route '/organizational-units'
 */
 const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -126,7 +126,7 @@ const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::store
-* @see app/Http/Controllers/OrganizationalUnitController.php:39
+* @see app/Http/Controllers/OrganizationalUnitController.php:40
 * @route '/organizational-units'
 */
 storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -138,10 +138,10 @@ store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::update
-* @see app/Http/Controllers/OrganizationalUnitController.php:48
+* @see app/Http/Controllers/OrganizationalUnitController.php:57
 * @route '/organizational-units/{organizationalUnit}'
 */
-export const update = (args: { organizationalUnit: string | number | { id: string | number } } | [organizationalUnit: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { organizationalUnit: string | { id: string } } | [organizationalUnit: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -153,10 +153,10 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::update
-* @see app/Http/Controllers/OrganizationalUnitController.php:48
+* @see app/Http/Controllers/OrganizationalUnitController.php:57
 * @route '/organizational-units/{organizationalUnit}'
 */
-update.url = (args: { organizationalUnit: string | number | { id: string | number } } | [organizationalUnit: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+update.url = (args: { organizationalUnit: string | { id: string } } | [organizationalUnit: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { organizationalUnit: args }
     }
@@ -186,20 +186,20 @@ update.url = (args: { organizationalUnit: string | number | { id: string | numbe
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::update
-* @see app/Http/Controllers/OrganizationalUnitController.php:48
+* @see app/Http/Controllers/OrganizationalUnitController.php:57
 * @route '/organizational-units/{organizationalUnit}'
 */
-update.put = (args: { organizationalUnit: string | number | { id: string | number } } | [organizationalUnit: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { organizationalUnit: string | { id: string } } | [organizationalUnit: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::update
-* @see app/Http/Controllers/OrganizationalUnitController.php:48
+* @see app/Http/Controllers/OrganizationalUnitController.php:57
 * @route '/organizational-units/{organizationalUnit}'
 */
-const updateForm = (args: { organizationalUnit: string | number | { id: string | number } } | [organizationalUnit: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+const updateForm = (args: { organizationalUnit: string | { id: string } } | [organizationalUnit: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: update.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'PUT',
@@ -211,10 +211,10 @@ const updateForm = (args: { organizationalUnit: string | number | { id: string |
 
 /**
 * @see \App\Http\Controllers\OrganizationalUnitController::update
-* @see app/Http/Controllers/OrganizationalUnitController.php:48
+* @see app/Http/Controllers/OrganizationalUnitController.php:57
 * @route '/organizational-units/{organizationalUnit}'
 */
-updateForm.put = (args: { organizationalUnit: string | number | { id: string | number } } | [organizationalUnit: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+updateForm.put = (args: { organizationalUnit: string | { id: string } } | [organizationalUnit: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: update.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'PUT',

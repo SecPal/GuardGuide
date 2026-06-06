@@ -258,7 +258,10 @@ function AddOrganizationalUnitForm({
                 </SelectContent>
             </Select>
             <InputError message={form.errors.organizational_unit_id} />
-            <Button type="submit" disabled={form.processing}>
+            <Button
+                type="submit"
+                disabled={form.processing || !form.data.organizational_unit_id}
+            >
                 <Plus />
                 {i18n._('userAssignments.add')}
             </Button>
@@ -317,7 +320,10 @@ function AddCustomerForm({
                 </SelectContent>
             </Select>
             <InputError message={form.errors.customer_id} />
-            <Button type="submit" disabled={form.processing}>
+            <Button
+                type="submit"
+                disabled={form.processing || !form.data.customer_id}
+            >
                 <Plus />
                 {i18n._('userAssignments.add')}
             </Button>
@@ -379,7 +385,10 @@ function AddSiteForm({
                 </SelectContent>
             </Select>
             <InputError message={form.errors.site_id} />
-            <Button type="submit" disabled={form.processing || disabled}>
+            <Button
+                type="submit"
+                disabled={form.processing || disabled || !form.data.site_id}
+            >
                 <Plus />
                 {i18n._('userAssignments.add')}
             </Button>
