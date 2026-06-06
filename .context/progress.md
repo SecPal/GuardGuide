@@ -12,6 +12,8 @@
   `resources/js/pages`, and Wayfinder refreshes typed route/action helpers during Vite builds.
 - User-to-domain-target visibility rules are modeled as dedicated UUID assignment models/tables with
   explicit foreign keys and composite unique indexes, not as overloaded columns on `users`.
+- Dependent UI choices, such as site assignments that require customer assignments, should be
+  filtered in React for clarity and enforced again in Laravel validation for crafted requests.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -115,3 +117,29 @@
   - Gotchas encountered: User IDs are still integer keys while the organization-context domain models
     use UUIDs, so assignment migrations need `foreignId('user_id')` and `foreignUuid(...)` target
     columns instead of assuming a uniform key type.
+
+## US-006: Zuordnungen im UI verwalten
+- Added a protected user-assignment management area with a stable sidebar entry, user switcher, and
+  visible lists for organizational-unit, customer, and site assignments.
+- Added Laravel endpoints for adding and removing organizational-unit, customer, and site
+  assignments with Inertia flash messages and validation errors for duplicates, invalid targets, and
+  site assignments without an existing customer assignment.
+- Added UI filtering so site choices only appear when the selected user already has the related
+  customer assignment; removing a customer assignment also removes its dependent site assignments.
+- Added feature coverage for auth/verification access, page props, the landing redirect, add/remove
+  flows, duplicate validation, and the customer-before-site rule.
+- Files changed: `app/Http/Controllers/UserAssignmentController.php`, `routes/web.php`,
+  `resources/js/components/app-sidebar.tsx`, `resources/js/pages/user-assignments/index.tsx`,
+  `resources/js/actions/App/Http/Controllers/UserAssignmentController.ts`,
+  `resources/js/actions/App/Http/Controllers/index.ts`,
+  `resources/js/routes/user-assignments/index.ts`,
+  `resources/js/routes/user-assignments/organizational-units/index.ts`,
+  `resources/js/routes/user-assignments/customers/index.ts`,
+  `resources/js/routes/user-assignments/sites/index.ts`,
+  `tests/Feature/UserAssignmentManagementTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Assignment management pages can expose both assigned records and global
+    options from one Inertia response, letting React filter already-selected and dependency-blocked
+    choices without extra requests.
+  - Gotchas encountered: PHPStan treats partially selected enum-cast Eloquent attributes as possibly
+    raw strings, so controller serializers should normalize enum-or-string values through a helper.
