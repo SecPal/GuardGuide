@@ -1,7 +1,8 @@
+import type { GlobalEvent } from '@inertiajs/core';
 import { router } from '@inertiajs/react';
 import { useEffect } from 'react';
 
-const MUTATION_METHODS = new Set(['post', 'put', 'patch', 'delete']);
+const MUTATION_METHODS = new Set<string>(['post', 'put', 'patch', 'delete']);
 
 /**
  * Inertia caches prefetched page responses (the default lifetime is 30
@@ -18,17 +19,10 @@ const MUTATION_METHODS = new Set(['post', 'put', 'patch', 'delete']);
  */
 export function useFlushPrefetchOnMutation(): void {
     useEffect(() => {
-        return router.on('finish', (event) => {
-            const visit = (event as CustomEvent).detail?.visit as
-                | { method?: string }
-                | undefined;
-            const method = visit?.method;
+        return router.on('finish', (event: GlobalEvent<'finish'>) => {
+            const method = event.detail.visit.method;
 
-            if (typeof method !== 'string') {
-                return;
-            }
-
-            if (!MUTATION_METHODS.has(method.toLowerCase())) {
+            if (!MUTATION_METHODS.has(method)) {
                 return;
             }
 
