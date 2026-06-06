@@ -104,11 +104,17 @@ export function detectLocale(
         const locale = normalizeLocale(candidate);
 
         if (locale) {
+            persistLocale(locale);
+
             return locale;
         }
     }
 
-    return normalizeLocale(source?.language) ?? defaultLocale;
+    const locale = normalizeLocale(source?.language) ?? defaultLocale;
+
+    persistLocale(locale);
+
+    return locale;
 }
 
 async function loadMessages(locale: Locale): Promise<Messages> {
