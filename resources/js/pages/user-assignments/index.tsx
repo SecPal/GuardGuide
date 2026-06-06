@@ -159,7 +159,10 @@ export default function UserAssignments({
                                 key={unit.id}
                                 title={unit.name}
                                 subtitle={unit.type}
-                                deleteUrl={orgUnitAssignments.destroy.url({ user: selectedUser.id, organizationalUnit: unit.id })}
+                                deleteUrl={orgUnitAssignments.destroy.url({
+                                    user: selectedUser.id,
+                                    organizationalUnit: unit.id,
+                                })}
                             />
                         ))}
                     </AssignmentSection>
@@ -179,7 +182,10 @@ export default function UserAssignments({
                             <AssignmentRow
                                 key={customer.id}
                                 title={customer.name}
-                                deleteUrl={customerAssignments.destroy.url({ user: selectedUser.id, customer: customer.id })}
+                                deleteUrl={customerAssignments.destroy.url({
+                                    user: selectedUser.id,
+                                    customer: customer.id,
+                                })}
                             />
                         ))}
                     </AssignmentSection>
@@ -208,7 +214,10 @@ export default function UserAssignments({
                                         'userAssignments.sites.unknownCustomer',
                                     )
                                 }
-                                deleteUrl={siteAssignments.destroy.url({ user: selectedUser.id, site: site.id })}
+                                deleteUrl={siteAssignments.destroy.url({
+                                    user: selectedUser.id,
+                                    site: site.id,
+                                })}
                             />
                         ))}
                     </AssignmentSection>
