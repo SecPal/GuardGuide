@@ -13,6 +13,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import {
+    index as userAssignmentsIndex,
+    redirect as userAssignmentsRedirect,
+} from '@/routes/user-assignments';
+import * as customerAssignments from '@/routes/user-assignments/customers';
+import * as orgUnitAssignments from '@/routes/user-assignments/organizational-units';
+import * as siteAssignments from '@/routes/user-assignments/sites';
 
 const noSelectionValue = '__none__';
 
@@ -99,7 +106,9 @@ export default function UserAssignments({
                         <Select
                             value={String(selectedUser.id)}
                             onValueChange={(value) =>
-                                router.visit(`/users/${value}/assignments`)
+                                router.visit(
+                                    userAssignmentsIndex.url(Number(value)),
+                                )
                             }
                         >
                             <SelectTrigger className="w-full">
@@ -150,7 +159,7 @@ export default function UserAssignments({
                                 key={unit.id}
                                 title={unit.name}
                                 subtitle={unit.type}
-                                deleteUrl={`/users/${selectedUser.id}/assignments/organizational-units/${unit.id}`}
+                                deleteUrl={orgUnitAssignments.destroy.url({ user: selectedUser.id, organizationalUnit: unit.id })}
                             />
                         ))}
                     </AssignmentSection>
@@ -170,7 +179,7 @@ export default function UserAssignments({
                             <AssignmentRow
                                 key={customer.id}
                                 title={customer.name}
-                                deleteUrl={`/users/${selectedUser.id}/assignments/customers/${customer.id}`}
+                                deleteUrl={customerAssignments.destroy.url({ user: selectedUser.id, customer: customer.id })}
                             />
                         ))}
                     </AssignmentSection>
@@ -199,7 +208,7 @@ export default function UserAssignments({
                                         'userAssignments.sites.unknownCustomer',
                                     )
                                 }
-                                deleteUrl={`/users/${selectedUser.id}/assignments/sites/${site.id}`}
+                                deleteUrl={siteAssignments.destroy.url({ user: selectedUser.id, site: site.id })}
                             />
                         ))}
                     </AssignmentSection>
@@ -224,7 +233,7 @@ function AddOrganizationalUnitForm({
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        form.post(`/users/${userId}/assignments/organizational-units`, {
+        form.post(orgUnitAssignments.store.url(userId), {
             preserveScroll: true,
             onSuccess: () => form.reset(),
         });
@@ -287,7 +296,7 @@ function AddCustomerForm({
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        form.post(`/users/${userId}/assignments/customers`, {
+        form.post(customerAssignments.store.url(userId), {
             preserveScroll: true,
             onSuccess: () => form.reset(),
         });
@@ -353,7 +362,7 @@ function AddSiteForm({
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        form.post(`/users/${userId}/assignments/sites`, {
+        form.post(siteAssignments.store.url(userId), {
             preserveScroll: true,
             onSuccess: () => form.reset(),
         });
@@ -485,7 +494,7 @@ UserAssignments.layout = () => ({
     breadcrumbs: [
         {
             title: () => i18n._('userAssignments.breadcrumb'),
-            href: '/user-assignments',
+            href: userAssignmentsRedirect.url(),
         },
     ],
 });

@@ -96,6 +96,7 @@ test('admin users can view assignments for a user', function () {
             ->where('assignments.customers.0.id', $customer->getKey())
             ->where('assignments.sites.0.id', $site->getKey())
             ->where('assignments.sites.0.customer_id', $customer->getKey())
+            ->where('assignments.sites.0.customer_name', 'Acme Security')
             ->has('options.organizationalUnits', 1)
             ->has('options.customers', 1)
             ->has('options.sites', 1),
@@ -327,4 +328,21 @@ test('storing a site assignment is rejected when the customer assignment was rem
         'user_id' => $selectedUser->getKey(),
         'site_id' => $site->getKey(),
     ]);
+});
+
+test('assigned site carries its customer name in the index payload', function () {
+    $actingUser = User::factory()->admin()->create();
+    $selectedUser = User::factory()->create();
+    $customer = Customer::factory()->create(['name' => 'Regression Customer']);
+    $site = Site::factory()->forCustomer($customer)->create(['name' => 'Regression Site']);
+
+    UserCustomerAssignment::factory()->forUser($selectedUser)->forCustomer($customer)->create();
+    UserSiteAssignment::factory()->forUser($selectedUser)->forSite($site)->create();
+
+    $this->actingAs($actingUser)
+        ->get(route('user-assignments.index', $selectedUser))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('assignments.sites.0.customer_name', 'Regression Customer'),
+        );
 });

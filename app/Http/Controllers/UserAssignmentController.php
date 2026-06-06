@@ -39,8 +39,8 @@ class UserAssignmentController extends Controller
         $user->load([
             'organizationalUnits' => fn ($query) => $query->select(['organizational_units.id', 'type', 'name'])->orderBy('name'),
             'customers' => fn ($query) => $query->select(['customers.id', 'name'])->orderBy('name'),
-            'sites.customer:id,name',
             'sites' => fn ($query) => $query->select(['sites.id', 'customer_id', 'name'])->orderBy('name'),
+            'sites.customer' => fn ($query) => $query->select(['customers.id', 'name']),
         ]);
 
         return Inertia::render('user-assignments/index', [

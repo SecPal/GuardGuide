@@ -6,6 +6,7 @@ use App\Models\OrganizationalUnit;
 use App\Models\User;
 use App\Policies\OrganizationalUnitPolicy;
 use App\Policies\UserAssignmentPolicy;
+use App\Services\UserContextResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->scoped(UserContextResolver::class);
     }
 
     /**
