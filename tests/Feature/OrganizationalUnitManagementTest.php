@@ -193,6 +193,30 @@ test('organizational units can be edited', function () {
         ->sort_order->toBe(15);
 });
 
+test('organizational units can be edited when their parent is soft deleted', function () {
+    $deletedParent = OrganizationalUnit::factory()->root()->create(['name' => 'Archived Company']);
+    $unit = OrganizationalUnit::factory()->childOf($deletedParent)->create(['name' => 'Visible Division']);
+    $user = User::factory()->create();
+
+    $deletedParent->delete();
+
+    $this->actingAs($user)
+        ->put(route('organizational-units.update', $unit), [
+            'type' => OrganizationalUnitType::Department->value,
+            'name' => 'Updated Division',
+            'parent_id' => $deletedParent->getKey(),
+            'sort_order' => 15,
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('organizational-units.index'));
+
+    expect($unit->refresh())
+        ->type->toBe(OrganizationalUnitType::Department)
+        ->name->toBe('Updated Division')
+        ->parent_id->toBe($deletedParent->getKey())
+        ->sort_order->toBe(15);
+});
+
 test('organizational units can be moved within the hierarchy', function () {
     $oldParent = OrganizationalUnit::factory()->root()->create(['name' => 'Old Parent']);
     $newParent = OrganizationalUnit::factory()->root()->create(['name' => 'New Parent']);
