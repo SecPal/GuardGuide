@@ -90,18 +90,47 @@ const getCookieAppearance = (): Appearance | null => {
     return isAppearance(appearanceCookie) ? appearanceCookie : null;
 };
 
+const getLocalStorageAppearance = (): Appearance | null => {
+    if (typeof window === 'undefined') {
+        return null;
+    }
+
+    try {
+        const stored = localStorage.getItem('appearance');
+
+        return isAppearance(stored) ? stored : null;
+    } catch {
+        return null;
+    }
+};
+
+const writeLocalStorageAppearance = (mode: Appearance): void => {
+    if (typeof window === 'undefined') {
+        return;
+    }
+
+    try {
+        localStorage.setItem('appearance', mode);
+    } catch {
+        // localStorage might be unavailable (e.g. private mode); the cookie
+        // is the authoritative store, so this fallback is best-effort only.
+    }
+};
+
+/**
+ * Cookie is the server-authoritative source for appearance, mirroring the
+ * convention used by the locale handling. The Blade head, the inline
+ * appearance script and the dynamic manifest URL all read the cookie at
+ * render time, so we must resolve the same value on the client to avoid a
+ * flash where head metadata and the bundle disagree. localStorage is only
+ * a fallback for environments where cookies are unavailable.
+ */
 const getStoredAppearance = (): Appearance => {
     if (typeof window === 'undefined') {
         return 'system';
     }
 
-    const storedAppearance = localStorage.getItem('appearance');
-
-    if (isAppearance(storedAppearance)) {
-        return storedAppearance;
-    }
-
-    return getCookieAppearance() ?? 'system';
+    return getCookieAppearance() ?? getLocalStorageAppearance() ?? 'system';
 };
 
 const isDarkMode = (appearance: Appearance): boolean => {
@@ -236,21 +265,16 @@ export function initializeTheme(): void {
         return;
     }
 
-    if (!localStorage.getItem('appearance')) {
-        const cookieAppearance = getCookieAppearance();
-        const initialAppearance = cookieAppearance ?? 'system';
+    currentAppearance = getStoredAppearance();
 
-        localStorage.setItem('appearance', initialAppearance);
-
-        if (!cookieAppearance) {
-            setCookie('appearance', initialAppearance);
-        }
+    if (!getCookieAppearance()) {
+        setCookie('appearance', currentAppearance);
     }
 
-    currentAppearance = getStoredAppearance();
+    writeLocalStorageAppearance(currentAppearance);
+
     applyTheme(currentAppearance);
 
-    // Set up system theme change listener
     mediaQuery()?.addEventListener('change', handleSystemThemeChange);
 }
 
@@ -268,11 +292,11 @@ export function useAppearance(): UseAppearanceReturn {
     const updateAppearance = (mode: Appearance): void => {
         currentAppearance = mode;
 
-        // Store in localStorage for client-side persistence...
-        localStorage.setItem('appearance', mode);
-
-        // Store in cookie for SSR...
+        // Cookie is the server-authoritative store...
         setCookie('appearance', mode);
+
+        // ...with localStorage as a best-effort client-only fallback.
+        writeLocalStorageAppearance(mode);
 
         applyTheme(mode);
         notify();
