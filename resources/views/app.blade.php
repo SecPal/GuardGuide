@@ -31,8 +31,18 @@
         </style>
 
         <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/brand/guardguide/symbol-light-32.png" media="(prefers-color-scheme: light)">
+        <link rel="icon" type="image/png" sizes="32x32" href="/brand/guardguide/symbol-dark-32.png" media="(prefers-color-scheme: dark)">
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/guardguide-192.png" media="(prefers-color-scheme: light)">
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/guardguide-512.png" media="(prefers-color-scheme: light)">
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/guardguide-dark-192.png" media="(prefers-color-scheme: dark)">
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/guardguide-dark-512.png" media="(prefers-color-scheme: dark)">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="#011B2E" media="(prefers-color-scheme: dark)">
+        <meta name="application-name" content="GuardGuide">
+        <meta name="apple-mobile-web-app-title" content="GuardGuide">
 
         @fonts
 
