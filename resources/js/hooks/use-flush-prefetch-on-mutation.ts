@@ -12,35 +12,67 @@ const MUTATION_METHODS = new Set<string>(['post', 'put', 'patch', 'delete']);
  * assignments dropdowns until the cache expired or the user reloaded the
  * page.
  *
- * Listening for the `finish` router event lets us inspect the visit method
- * regardless of whether the request succeeded, was redirected, or returned
- * validation errors, and flush the prefetch cache after every mutation so
- * subsequent navigation always fetches fresh data.
- *
  * `flushAll` alone is not enough: in `@inertiajs/core` 3.3 it only clears
  * the already-resolved `cached` entries (and their removal timers) and
  * leaves in-flight prefetch requests untouched. A prefetch that was
- * triggered (e.g. by hover) just before the mutation finished would
- * resolve afterwards and push its now-stale response back into the cache.
- * Cancelling async prefetch requests first rejects those in-flight
- * promises so their `then` handler never runs and the freshly flushed
- * cache stays empty.
+ * triggered (e.g. by hover) just before the mutation finished resolves
+ * afterwards and its registered `.then` handler pushes the now-stale
+ * response back into the cache.
+ *
+ * Rather than calling `router.cancelAll` to abort the in-flight prefetch
+ * promise — which would also kill unrelated async traffic like
+ * `router.reload()`, polling, or deferred props — we track each prefetch's
+ * start time via `prefetching`/`prefetched` events. When a prefetch
+ * resolves after we've recorded a mutation finish, we know its response
+ * was generated before the server state changed and re-flush the cache.
+ * The flush is deferred to the next macrotask so it runs after Inertia's
+ * own `.then` chain has populated the cache for this prefetch entry.
  */
 export function useFlushPrefetchOnMutation(): void {
     useEffect(() => {
-        return router.on('finish', (event: GlobalEvent<'finish'>) => {
-            const method = event.detail.visit.method;
+        const inFlightPrefetches = new Map<string, number>();
+        let lastMutationAt = 0;
 
-            if (!MUTATION_METHODS.has(method)) {
-                return;
-            }
+        const offPrefetching = router.on(
+            'prefetching',
+            (event: GlobalEvent<'prefetching'>) => {
+                inFlightPrefetches.set(event.detail.visit.url.href, Date.now());
+            },
+        );
 
-            router.cancelAll({
-                async: true,
-                prefetch: true,
-                sync: false,
-            });
-            router.flushAll();
-        });
+        const offPrefetched = router.on(
+            'prefetched',
+            (event: GlobalEvent<'prefetched'>) => {
+                const url = event.detail.visit.url.href;
+                const startedAt = inFlightPrefetches.get(url);
+                inFlightPrefetches.delete(url);
+
+                if (startedAt === undefined || startedAt >= lastMutationAt) {
+                    return;
+                }
+
+                window.setTimeout(() => router.flushAll(), 0);
+            },
+        );
+
+        const offFinish = router.on(
+            'finish',
+            (event: GlobalEvent<'finish'>) => {
+                const method = event.detail.visit.method;
+
+                if (!MUTATION_METHODS.has(method)) {
+                    return;
+                }
+
+                lastMutationAt = Date.now();
+                router.flushAll();
+            },
+        );
+
+        return () => {
+            offPrefetching();
+            offPrefetched();
+            offFinish();
+        };
     }, []);
 }
