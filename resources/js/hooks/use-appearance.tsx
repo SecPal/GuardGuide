@@ -23,7 +23,10 @@ declare global {
     }
 }
 
-const BROWSER_APPEARANCE_ASSETS: Record<ResolvedAppearance, BrowserAppearanceAssetSet> = {
+const BROWSER_APPEARANCE_ASSETS: Record<
+    ResolvedAppearance,
+    BrowserAppearanceAssetSet
+> = {
     light: {
         icon32: '/brand/guardguide/symbol-light-32.png',
         icon192: '/icons/guardguide-192.png',
@@ -106,7 +109,9 @@ const isDarkMode = (appearance: Appearance): boolean => {
 };
 
 const clearBrowserAppearanceTags = (): void => {
-    Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="icon"]')).forEach((link) => {
+    Array.from(
+        document.head.querySelectorAll<HTMLLinkElement>('link[rel="icon"]'),
+    ).forEach((link) => {
         const href = link.getAttribute('href');
 
         if (href && MANAGED_BROWSER_APPEARANCE_ICON_HREFS.has(href)) {
@@ -114,13 +119,23 @@ const clearBrowserAppearanceTags = (): void => {
         }
     });
 
-    Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="manifest"]')).forEach((link) => {
-        if (link.getAttribute('href')?.startsWith('/manifest.webmanifest?appearance=')) {
+    Array.from(
+        document.head.querySelectorAll<HTMLLinkElement>('link[rel="manifest"]'),
+    ).forEach((link) => {
+        if (
+            link
+                .getAttribute('href')
+                ?.startsWith('/manifest.webmanifest?appearance=')
+        ) {
             link.remove();
         }
     });
 
-    Array.from(document.head.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')).forEach((meta) => {
+    Array.from(
+        document.head.querySelectorAll<HTMLMetaElement>(
+            'meta[name="theme-color"]',
+        ),
+    ).forEach((meta) => {
         const media = meta.getAttribute('media');
         const content = meta.getAttribute('content');
 
@@ -165,7 +180,9 @@ const syncBrowserAppearance = (appearance: Appearance): void => {
         return;
     }
 
-    const resolvedAppearance: ResolvedAppearance = isDarkMode(appearance) ? 'dark' : 'light';
+    const resolvedAppearance: ResolvedAppearance = isDarkMode(appearance)
+        ? 'dark'
+        : 'light';
     const assets = BROWSER_APPEARANCE_ASSETS[resolvedAppearance];
     const fragment = document.createDocumentFragment();
 
