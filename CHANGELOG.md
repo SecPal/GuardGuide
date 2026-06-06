@@ -14,6 +14,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Fixed stale prefetch cache after mutations so newly created organizational units, customers, and sites appear in the user assignments dropdowns immediately, without requiring a manual page reload; a global `useFlushPrefetchOnMutation` hook now flushes Inertia's prefetch cache after every non-GET request.
 - Fixed an eager-load conflict in `UserAssignmentController::index` where `sites.customer` was silently dropped by a duplicate `sites` key, causing `customer_name` to always be `null` in the assignments payload; added a regression test to prevent recurrence.
 - Fixed `effectiveContext` in `HandleInertiaRequests` running three database queries on every authenticated page load with no per-request deduplication; `UserContextResolver` is now bound as a scoped singleton so repeated calls within the same request resolve to the cached result.
 - Fixed hardcoded URL template literals in `user-assignments/index.tsx` replaced with typed wayfinder route helpers so route renames are caught at compile time.

@@ -3,6 +3,7 @@ import type { ResolvedComponent } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { InertiaCacheManager } from '@/components/inertia-cache-manager';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
@@ -134,6 +135,7 @@ async function bootstrap() {
             return (
                 <I18nProvider i18n={i18n}>
                     <TooltipProvider delayDuration={0}>
+                        <InertiaCacheManager />
                         {app}
                         <Toaster />
                     </TooltipProvider>
