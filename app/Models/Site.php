@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable(['customer_id', 'organizational_unit_id', 'name'])]
@@ -38,6 +40,23 @@ class Site extends Model
     public function organizationalUnit(): BelongsTo
     {
         return $this->belongsTo(OrganizationalUnit::class);
+    }
+
+    /**
+     * @return HasMany<UserSiteAssignment, $this>
+     */
+    public function userAssignments(): HasMany
+    {
+        return $this->hasMany(UserSiteAssignment::class);
+    }
+
+    /**
+     * @return BelongsToMany<User, $this>
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_site_assignments')
+            ->withTimestamps();
     }
 
     private function validateRequiredFields(): void

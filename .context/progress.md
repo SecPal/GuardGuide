@@ -10,6 +10,8 @@
   non-null strings.
 - GuardGuide Inertia pages are exposed through Laravel route middleware, render React pages under
   `resources/js/pages`, and Wayfinder refreshes typed route/action helpers during Vite builds.
+- User-to-domain-target visibility rules are modeled as dedicated UUID assignment models/tables with
+  explicit foreign keys and composite unique indexes, not as overloaded columns on `users`.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -86,3 +88,30 @@
   - Gotchas encountered: The accepted ADR described `sites.organizational_unit_id` as required, but
     US-004 explicitly makes the internal organizational reference optional; the story criteria should
     drive this implementation slice.
+
+## US-005: Nutzer-Zuordnungen zu Organisationen und Zielobjekten speichern
+- Added separate user assignment persistence for internal organizational units, customers, and sites,
+  each with a UUID primary key, explicit user/target foreign keys, timestamps, and composite unique
+  constraints to reject duplicate identical assignments.
+- Added assignment Eloquent models, factories, and relationship accessors on `User`,
+  `OrganizationalUnit`, `Customer`, and `Site` so callers can use either assignment records or direct
+  many-to-many target relations.
+- Added feature coverage for assigning one user to multiple internal units, customers, and sites;
+  removing assignments; rejecting duplicate assignments; and rejecting invalid users or target
+  references.
+- Files changed: `app/Models/User.php`, `app/Models/OrganizationalUnit.php`,
+  `app/Models/Customer.php`, `app/Models/Site.php`,
+  `app/Models/UserOrganizationalUnitAssignment.php`, `app/Models/UserCustomerAssignment.php`,
+  `app/Models/UserSiteAssignment.php`,
+  `database/factories/UserOrganizationalUnitAssignmentFactory.php`,
+  `database/factories/UserCustomerAssignmentFactory.php`,
+  `database/factories/UserSiteAssignmentFactory.php`,
+  `database/migrations/2026_06_06_000003_create_user_assignment_tables.php`,
+  `tests/Feature/UserAssignmentTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Assignment tables should stay narrow and enforce identity with database
+    uniqueness while exposing both explicit assignment models and `belongsToMany` convenience
+    relations.
+  - Gotchas encountered: User IDs are still integer keys while the organization-context domain models
+    use UUIDs, so assignment migrations need `foreignId('user_id')` and `foreignUuid(...)` target
+    columns instead of assuming a uniform key type.
