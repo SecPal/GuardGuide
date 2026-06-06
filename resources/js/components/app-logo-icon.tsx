@@ -7,6 +7,13 @@ type AppLogoIconProps = Omit<
     ImgHTMLAttributes<HTMLImageElement>,
     'src' | 'srcSet' | 'alt'
 > & {
+    /**
+     * Accessible name for the logo. Defaults to an empty string because
+     * most call sites wrap the logo in a link that already carries the
+     * GuardGuide brand text (visible or `sr-only`); pass an explicit
+     * `alt` only when the logo is genuinely standalone, so screen
+     * readers do not announce duplicated names.
+     */
     alt?: string;
     /**
      * Choose which symbol variant to render.
@@ -40,7 +47,7 @@ const DARK_SRC_SET = [
 
 export default function AppLogoIcon({
     className,
-    alt = 'GuardGuide',
+    alt = '',
     variant = 'auto',
     ...props
 }: AppLogoIconProps) {
