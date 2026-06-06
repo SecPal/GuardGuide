@@ -1,13 +1,108 @@
-import type { SVGAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
+import { cn } from '@/lib/utils';
 
-export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
-    return (
-        <svg {...props} viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg">
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M17.2 5.63325L8.6 0.855469L0 5.63325V32.1434L16.2 41.1434L32.4 32.1434V23.699L40 19.4767V9.85547L31.4 5.07769L22.8 9.85547V18.2999L17.2 21.411V5.63325ZM38 18.2999L32.4 21.411V15.2545L38 12.1434V18.2999ZM36.9409 10.4439L31.4 13.5221L25.8591 10.4439L31.4 7.36561L36.9409 10.4439ZM24.8 18.2999V12.1434L30.4 15.2545V21.411L24.8 18.2999ZM23.8 20.0323L29.3409 23.1105L16.2 30.411L10.6591 27.3328L23.8 20.0323ZM7.6 27.9212L15.2 32.1434V38.2999L2 30.9666V7.92116L7.6 11.0323V27.9212ZM8.6 9.29991L3.05913 6.22165L8.6 3.14339L14.1409 6.22165L8.6 9.29991ZM30.4 24.8101L17.2 32.1434V38.2999L30.4 30.9666V24.8101ZM9.6 11.0323L15.2 7.92117V22.5221L9.6 25.6333V11.0323Z"
+type AppLogoIconVariant = 'auto' | 'on-light' | 'on-dark';
+
+type AppLogoIconProps = Omit<
+    ImgHTMLAttributes<HTMLImageElement>,
+    'src' | 'srcSet' | 'alt'
+> & {
+    /**
+     * Accessible name for the logo. Defaults to an empty string because
+     * most call sites wrap the logo in a link that already carries the
+     * GuardGuide brand text (visible or `sr-only`); pass an explicit
+     * `alt` only when the logo is genuinely standalone, so screen
+     * readers do not announce duplicated names.
+     */
+    alt?: string;
+    /**
+     * Choose which symbol variant to render.
+     * - `auto` (default) follows the active color scheme via the `dark` class.
+     * - `on-light` forces the variant intended for light backgrounds.
+     * - `on-dark` forces the variant intended for dark backgrounds.
+     */
+    variant?: AppLogoIconVariant;
+};
+
+/*
+ * The logo is rendered at small intrinsic sizes (typically 20-48 CSS px) across
+ * sidebars, headers and auth layouts. Density descriptors (1x/2x/3x) let the
+ * browser pick exactly one candidate based on the device pixel ratio without
+ * needing a `sizes` attribute — `w`-descriptors would otherwise default to
+ * `100vw` and pull the 512 px asset on every wide viewport.
+ */
+const LIGHT_SRC = '/brand/guardguide/symbol-light-128.png';
+const LIGHT_SRC_SET = [
+    '/brand/guardguide/symbol-light-128.png 1x',
+    '/brand/guardguide/symbol-light-256.png 2x',
+    '/brand/guardguide/symbol-light-512.png 3x',
+].join(', ');
+
+const DARK_SRC = '/brand/guardguide/symbol-dark-128.png';
+const DARK_SRC_SET = [
+    '/brand/guardguide/symbol-dark-128.png 1x',
+    '/brand/guardguide/symbol-dark-256.png 2x',
+    '/brand/guardguide/symbol-dark-512.png 3x',
+].join(', ');
+
+export default function AppLogoIcon({
+    className,
+    alt = '',
+    variant = 'auto',
+    ...props
+}: AppLogoIconProps) {
+    if (variant === 'on-light') {
+        return (
+            <img
+                {...props}
+                src={LIGHT_SRC}
+                srcSet={LIGHT_SRC_SET}
+                alt={alt}
+                className={className}
             />
-        </svg>
+        );
+    }
+
+    if (variant === 'on-dark') {
+        return (
+            <img
+                {...props}
+                src={DARK_SRC}
+                srcSet={DARK_SRC_SET}
+                alt={alt}
+                className={className}
+            />
+        );
+    }
+
+    /*
+     * Both <img>s share the same `alt` so the visible variant always carries
+     * the accessible name. The hidden one is removed from the accessibility
+     * tree by `display: none` (Tailwind `hidden`/`dark:hidden`), so screen
+     * readers never announce it twice.
+     *
+     * We keep two real <img> elements (instead of a <picture> with
+     * `prefers-color-scheme`) because the app exposes an explicit
+     * appearance toggle (light/dark/system) that toggles the `dark` class
+     * on <html>. A media-query-based <source> would mismatch whenever the
+     * user's choice differs from the OS preference.
+     */
+    return (
+        <>
+            <img
+                {...props}
+                src={LIGHT_SRC}
+                srcSet={LIGHT_SRC_SET}
+                alt={alt}
+                className={cn('block dark:hidden', className)}
+            />
+            <img
+                {...props}
+                src={DARK_SRC}
+                srcSet={DARK_SRC_SET}
+                alt={alt}
+                className={cn('hidden dark:block', className)}
+            />
+        </>
     );
 }

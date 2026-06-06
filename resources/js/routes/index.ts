@@ -218,6 +218,80 @@ homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 home.form = homeForm
 
 /**
+* @see routes/web.php:10
+* @route '/manifest.webmanifest'
+*/
+export const manifest = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: manifest.url(options),
+    method: 'get',
+})
+
+manifest.definition = {
+    methods: ["get","head"],
+    url: '/manifest.webmanifest',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see routes/web.php:10
+* @route '/manifest.webmanifest'
+*/
+manifest.url = (options?: RouteQueryOptions) => {
+    return manifest.definition.url + queryParams(options)
+}
+
+/**
+* @see routes/web.php:10
+* @route '/manifest.webmanifest'
+*/
+manifest.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: manifest.url(options),
+    method: 'get',
+})
+
+/**
+* @see routes/web.php:10
+* @route '/manifest.webmanifest'
+*/
+manifest.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: manifest.url(options),
+    method: 'head',
+})
+
+/**
+* @see routes/web.php:10
+* @route '/manifest.webmanifest'
+*/
+const manifestForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: manifest.url(options),
+    method: 'get',
+})
+
+/**
+* @see routes/web.php:10
+* @route '/manifest.webmanifest'
+*/
+manifestForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: manifest.url(options),
+    method: 'get',
+})
+
+/**
+* @see routes/web.php:10
+* @route '/manifest.webmanifest'
+*/
+manifestForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: manifest.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+manifest.form = manifestForm
+
+/**
 * @see \Inertia\Controller::__invoke
 * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
 * @route '/dashboard'

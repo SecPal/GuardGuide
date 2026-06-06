@@ -8,13 +8,15 @@
         <script>
             (function() {
                 const appearance = @json($appearance ?? 'system');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const resolvedAppearance = appearance === 'system'
+                    ? (prefersDark ? 'dark' : 'light')
+                    : appearance;
 
-                if (appearance === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                window.__guardGuideBrowserAppearance = resolvedAppearance;
 
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
-                    }
+                if (resolvedAppearance === 'dark') {
+                    document.documentElement.classList.add('dark');
                 }
             })();
         </script>
@@ -30,9 +32,47 @@
             }
         </style>
 
+        @php
+            $browserAppearance = $appearance ?? 'system';
+            $usesSystemBrowserAppearance = $browserAppearance === 'system';
+            $usesDarkBrowserAppearance = $browserAppearance === 'dark';
+            $manifestAppearance = $usesDarkBrowserAppearance ? 'dark' : 'light';
+        @endphp
+
         <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        @if ($usesSystemBrowserAppearance)
+            <link rel="icon" type="image/png" sizes="32x32" href="/brand/guardguide/symbol-light-32.png" media="(prefers-color-scheme: light)">
+            <link rel="icon" type="image/png" sizes="32x32" href="/brand/guardguide/symbol-dark-32.png" media="(prefers-color-scheme: dark)">
+            <link rel="icon" type="image/png" sizes="192x192" href="/icons/guardguide-192.png" media="(prefers-color-scheme: light)">
+            <link rel="icon" type="image/png" sizes="512x512" href="/icons/guardguide-512.png" media="(prefers-color-scheme: light)">
+            <link rel="icon" type="image/png" sizes="192x192" href="/icons/guardguide-dark-192.png" media="(prefers-color-scheme: dark)">
+            <link rel="icon" type="image/png" sizes="512x512" href="/icons/guardguide-dark-512.png" media="(prefers-color-scheme: dark)">
+        @else
+            <link rel="icon" type="image/png" sizes="32x32" href="{{ $usesDarkBrowserAppearance ? '/brand/guardguide/symbol-dark-32.png' : '/brand/guardguide/symbol-light-32.png' }}">
+            <link rel="icon" type="image/png" sizes="192x192" href="{{ $usesDarkBrowserAppearance ? '/icons/guardguide-dark-192.png' : '/icons/guardguide-192.png' }}">
+            <link rel="icon" type="image/png" sizes="512x512" href="{{ $usesDarkBrowserAppearance ? '/icons/guardguide-dark-512.png' : '/icons/guardguide-512.png' }}">
+        @endif
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        @if ($usesSystemBrowserAppearance)
+            <script>
+                (function() {
+                    const manifest = document.createElement('link');
+                    manifest.rel = 'manifest';
+                    manifest.href = `/manifest.webmanifest?appearance=${window.__guardGuideBrowserAppearance}`;
+                    document.head.appendChild(manifest);
+                })();
+            </script>
+        @else
+            <link rel="manifest" href="/manifest.webmanifest?appearance={{ $manifestAppearance }}">
+        @endif
+        @if ($usesSystemBrowserAppearance)
+            <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+            <meta name="theme-color" content="#011B2E" media="(prefers-color-scheme: dark)">
+        @else
+            <meta name="theme-color" content="{{ $usesDarkBrowserAppearance ? '#011B2E' : '#FFFFFF' }}">
+        @endif
+        <meta name="application-name" content="{{ config('app.name', 'GuardGuide') }}">
+        <meta name="apple-mobile-web-app-title" content="{{ config('app.name', 'GuardGuide') }}">
 
         @fonts
 
