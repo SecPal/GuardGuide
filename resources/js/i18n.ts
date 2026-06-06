@@ -125,15 +125,56 @@ async function loadMessages(locale: Locale): Promise<Messages> {
     return messages;
 }
 
+const loadedLocales = new Set<Locale>();
+
+/**
+ * Pre-register every supported catalog so subsequent `activateLocale` calls
+ * become synchronous. This avoids a render with stale strings while a new
+ * catalog is being fetched (e.g. on Inertia navigation responses).
+ */
+export async function loadAllCatalogs(): Promise<void> {
+    await Promise.all(
+        (Object.keys(locales) as Locale[]).map(async (locale) => {
+            i18n.load(locale, await loadMessages(locale));
+            loadedLocales.add(locale);
+        }),
+    );
+}
+
+function applyDocumentLang(locale: Locale): void {
+    if (typeof document !== 'undefined') {
+        document.documentElement.lang = locale;
+    }
+}
+
+/**
+ * Activate a previously preloaded catalog without performing any async work.
+ * Returns null when the catalog has not been loaded yet so callers can fall
+ * back to {@link activateLocale}.
+ */
+export function activatePreloadedLocale(locale: string): Locale | null {
+    const selectedLocale = normalizeLocale(locale) ?? defaultLocale;
+
+    if (!loadedLocales.has(selectedLocale)) {
+        return null;
+    }
+
+    i18n.activate(selectedLocale);
+    applyDocumentLang(selectedLocale);
+
+    return selectedLocale;
+}
+
 export async function activateLocale(locale: string): Promise<Locale> {
     const selectedLocale = normalizeLocale(locale) ?? defaultLocale;
 
-    i18n.load(selectedLocale, await loadMessages(selectedLocale));
-    i18n.activate(selectedLocale);
-
-    if (typeof document !== 'undefined') {
-        document.documentElement.lang = i18n.locale || defaultLocale;
+    if (!loadedLocales.has(selectedLocale)) {
+        i18n.load(selectedLocale, await loadMessages(selectedLocale));
+        loadedLocales.add(selectedLocale);
     }
+
+    i18n.activate(selectedLocale);
+    applyDocumentLang(selectedLocale);
 
     return (i18n.locale as Locale | '') || defaultLocale;
 }
