@@ -1,4 +1,4 @@
-import { createInertiaApp } from '@inertiajs/react';
+import { createInertiaApp, router } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { Toaster } from '@/components/ui/sonner';
@@ -38,6 +38,16 @@ function readSharedLocale(): string | null {
     }
 }
 
+function syncSharedLocale(locale: unknown): void {
+    if (typeof locale !== 'string' || locale === i18n.locale) {
+        return;
+    }
+
+    void activateLocaleWithFallback(locale).catch((error: unknown) => {
+        console.error('Failed to sync GuardGuide i18n locale:', error);
+    });
+}
+
 async function bootstrap() {
     const initialLocale = readSharedLocale() ?? detectLocale();
 
@@ -71,6 +81,11 @@ async function bootstrap() {
         progress: {
             color: '#4B5563',
         },
+    });
+
+    // Keep Lingui aligned with the server-resolved locale on later visits.
+    router.on('navigate', (event) => {
+        syncSharedLocale(event.detail.page.props.locale);
     });
 }
 
