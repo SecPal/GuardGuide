@@ -81,7 +81,7 @@ class OrganizationalUnitController extends Controller
         return $this->unitsForParent($units, $parentId)
             ->map(fn (OrganizationalUnit $unit): array => [
                 'id' => $unit->getKey(),
-                'type' => $unit->type instanceof OrganizationalUnitType ? $unit->type->label() : $unit->type,
+                'type' => $this->organizationalUnitTypeLabel($unit->type),
                 'name' => $unit->name,
                 'parent_id' => $unit->parent_id,
                 'sort_order' => $unit->sort_order,
@@ -101,7 +101,7 @@ class OrganizationalUnitController extends Controller
             ->flatMap(fn (OrganizationalUnit $unit): array => [
                 [
                     'id' => $unit->getKey(),
-                    'type' => $unit->type instanceof OrganizationalUnitType ? $unit->type->label() : $unit->type,
+                    'type' => $this->organizationalUnitTypeLabel($unit->type),
                     'name' => $unit->name,
                     'parent_id' => $unit->parent_id,
                     'sort_order' => $unit->sort_order,

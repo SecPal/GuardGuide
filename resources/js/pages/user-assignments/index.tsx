@@ -88,7 +88,9 @@ export default function UserAssignments({
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <Heading
                         title={i18n._('userAssignments.heading.title')}
-                        description={i18n._('userAssignments.heading.description')}
+                        description={i18n._(
+                            'userAssignments.heading.description',
+                        )}
                     />
 
                     <div className="w-full sm:w-80">
@@ -191,7 +193,9 @@ export default function UserAssignments({
                                 title={site.name}
                                 subtitle={
                                     site.customer_name ??
-                                    i18n._('userAssignments.sites.unknownCustomer')
+                                    i18n._(
+                                        'userAssignments.sites.unknownCustomer',
+                                    )
                                 }
                                 deleteUrl={`/users/${selectedUser.id}/assignments/sites/${site.id}`}
                             />
@@ -237,7 +241,9 @@ function AddOrganizationalUnitForm({
             >
                 <SelectTrigger className="w-full">
                     <SelectValue
-                        placeholder={i18n._('userAssignments.orgUnits.selectPlaceholder')}
+                        placeholder={i18n._(
+                            'userAssignments.orgUnits.selectPlaceholder',
+                        )}
                     />
                 </SelectTrigger>
                 <SelectContent>
@@ -294,7 +300,9 @@ function AddCustomerForm({
             >
                 <SelectTrigger className="w-full">
                     <SelectValue
-                        placeholder={i18n._('userAssignments.customers.selectPlaceholder')}
+                        placeholder={i18n._(
+                            'userAssignments.customers.selectPlaceholder',
+                        )}
                     />
                 </SelectTrigger>
                 <SelectContent>
@@ -354,7 +362,9 @@ function AddSiteForm({
             >
                 <SelectTrigger className="w-full">
                     <SelectValue
-                        placeholder={i18n._('userAssignments.sites.selectPlaceholder')}
+                        placeholder={i18n._(
+                            'userAssignments.sites.selectPlaceholder',
+                        )}
                     />
                 </SelectTrigger>
                 <SelectContent>
@@ -443,7 +453,9 @@ function AssignmentRow({
                 size="icon"
                 disabled={form.processing}
                 onClick={() => form.delete(deleteUrl, { preserveScroll: true })}
-                aria-label={i18n._('userAssignments.removeAriaLabel', { title })}
+                aria-label={i18n._('userAssignments.removeAriaLabel', {
+                    title,
+                })}
             >
                 <Trash2 />
             </Button>

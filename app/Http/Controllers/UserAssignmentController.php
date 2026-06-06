@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrganizationalUnitType;
 use App\Http\Requests\UserAssignments\StoreCustomerAssignmentRequest;
 use App\Http\Requests\UserAssignments\StoreOrganizationalUnitAssignmentRequest;
 use App\Http\Requests\UserAssignments\StoreSiteAssignmentRequest;
@@ -63,7 +62,7 @@ class UserAssignmentController extends Controller
             'assignments' => [
                 'organizationalUnits' => $user->organizationalUnits->map(fn (OrganizationalUnit $unit): array => [
                     'id' => $unit->getKey(),
-                    'type' => $unit->type instanceof OrganizationalUnitType ? $unit->type->label() : $unit->type,
+                    'type' => $this->organizationalUnitTypeLabel($unit->type),
                     'name' => $unit->name,
                 ])->values(),
                 'customers' => $user->customers->map(fn (Customer $customer): array => [
@@ -84,7 +83,7 @@ class UserAssignmentController extends Controller
                     ->get()
                     ->map(fn (OrganizationalUnit $unit): array => [
                         'id' => $unit->getKey(),
-                        'type' => $unit->type instanceof OrganizationalUnitType ? $unit->type->label() : $unit->type,
+                        'type' => $this->organizationalUnitTypeLabel($unit->type),
                         'name' => $unit->name,
                     ]),
                 'customers' => Customer::query()

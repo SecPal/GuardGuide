@@ -135,7 +135,9 @@ export default function OrganizationalUnits({
                                 <Heading
                                     variant="small"
                                     title={i18n._('orgUnits.createForm.title')}
-                                    description={i18n._('orgUnits.createForm.description')}
+                                    description={i18n._(
+                                        'orgUnits.createForm.description',
+                                    )}
                                 />
                             </div>
 
@@ -164,7 +166,9 @@ export default function OrganizationalUnits({
                                 <Heading
                                     variant="small"
                                     title={i18n._('orgUnits.editForm.title')}
-                                    description={i18n._('orgUnits.editForm.description')}
+                                    description={i18n._(
+                                        'orgUnits.editForm.description',
+                                    )}
                                 />
                             </div>
 
@@ -267,7 +271,8 @@ function UnitTreeItem({
                         {unit.name}
                     </span>
                     <span className="block text-xs text-muted-foreground">
-                        {unit.type} · {i18n._('orgUnits.hierarchy.sortOrder')} {unit.sort_order}
+                        {unit.type} · {i18n._('orgUnits.hierarchy.sortOrder')}{' '}
+                        {unit.sort_order}
                     </span>
                 </span>
                 {unit.children.length > 0 && (
