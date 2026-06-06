@@ -1,4 +1,5 @@
-import { Link } from '@inertiajs/react';
+import type { SharedPageProps } from '@inertiajs/core';
+import { Link, usePage } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { BookOpen, FolderGit2, LayoutGrid, Network, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
@@ -20,22 +21,29 @@ import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
+    const { auth } = usePage<SharedPageProps>().props;
+    const isAdmin = Boolean(auth.user?.is_admin);
+
     const mainNavItems: NavItem[] = [
         {
             title: i18n._('sidebar.dashboard'),
             href: dashboard(),
             icon: LayoutGrid,
         },
-        {
-            title: i18n._('sidebar.organizationalUnits'),
-            href: organizationalUnitsIndex(),
-            icon: Network,
-        },
-        {
-            title: i18n._('sidebar.userAssignments'),
-            href: userAssignmentsRedirect(),
-            icon: Users,
-        },
+        ...(isAdmin
+            ? [
+                  {
+                      title: i18n._('sidebar.organizationalUnits'),
+                      href: organizationalUnitsIndex(),
+                      icon: Network,
+                  },
+                  {
+                      title: i18n._('sidebar.userAssignments'),
+                      href: userAssignmentsRedirect(),
+                      icon: Users,
+                  },
+              ]
+            : []),
     ];
 
     const footerNavItems: NavItem[] = [

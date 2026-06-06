@@ -226,7 +226,7 @@ test('organizational units can be edited', function () {
 test('organizational units can be edited when their parent is soft deleted', function () {
     $deletedParent = OrganizationalUnit::factory()->root()->create(['name' => 'Archived Company']);
     $unit = OrganizationalUnit::factory()->childOf($deletedParent)->create(['name' => 'Visible Division']);
-    $user = User::factory()->create();
+    $user = User::factory()->admin()->create();
 
     $deletedParent->delete();
 
