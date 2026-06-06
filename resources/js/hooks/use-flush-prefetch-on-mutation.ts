@@ -16,6 +16,15 @@ const MUTATION_METHODS = new Set<string>(['post', 'put', 'patch', 'delete']);
  * regardless of whether the request succeeded, was redirected, or returned
  * validation errors, and flush the prefetch cache after every mutation so
  * subsequent navigation always fetches fresh data.
+ *
+ * `flushAll` alone is not enough: in `@inertiajs/core` 3.3 it only clears
+ * the already-resolved `cached` entries (and their removal timers) and
+ * leaves in-flight prefetch requests untouched. A prefetch that was
+ * triggered (e.g. by hover) just before the mutation finished would
+ * resolve afterwards and push its now-stale response back into the cache.
+ * Cancelling async prefetch requests first rejects those in-flight
+ * promises so their `then` handler never runs and the freshly flushed
+ * cache stays empty.
  */
 export function useFlushPrefetchOnMutation(): void {
     useEffect(() => {
@@ -26,6 +35,11 @@ export function useFlushPrefetchOnMutation(): void {
                 return;
             }
 
+            router.cancelAll({
+                async: true,
+                prefetch: true,
+                sync: false,
+            });
             router.flushAll();
         });
     }, []);
