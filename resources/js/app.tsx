@@ -63,7 +63,12 @@ async function bootstrap() {
         resolve: async (name, page) => {
             await syncSharedLocale(page?.props.locale);
 
-            return resolvePageComponent(`./pages/${name}.tsx`, pages);
+            const module = await resolvePageComponent(
+                `./pages/${name}.tsx`,
+                pages,
+            );
+
+            return module.default;
         },
         layout: (name) => {
             switch (true) {
