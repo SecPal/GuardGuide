@@ -1,10 +1,13 @@
 import { Head } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
 import { edit as editAppearance } from '@/routes/appearance';
 
 export default function Appearance() {
+    const { i18n } = useLingui();
+
     return (
         <>
             <Head title={i18n._('settings.appearance.metaTitle')} />
@@ -27,11 +30,11 @@ export default function Appearance() {
     );
 }
 
-Appearance.layout = {
+Appearance.layout = () => ({
     breadcrumbs: [
         {
             title: i18n._('settings.appearance.breadcrumb'),
             href: editAppearance(),
         },
     ],
-};
+});

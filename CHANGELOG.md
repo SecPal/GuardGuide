@@ -14,6 +14,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Added
 
+- Added a language settings page and locale cookie handling so users can switch
+  between English and German while the server keeps the document locale aligned.
 - Added an `is_admin` flag on users with a matching factory state, seeded the local test user as admin, and required admin privileges to view or modify organizational units and user assignments so the management surfaces no longer allow any verified account to manage other users.
 - Added the initial GuardGuide repository governance baseline, project decision record, and GitHub automation bootstrap.
 - Added the first Laravel 13 backend baseline for GuardGuide, including a backend-only Composer scaffold, Pest as the default test runner, and PHPStan/Pint wiring for the initial PHP slice.

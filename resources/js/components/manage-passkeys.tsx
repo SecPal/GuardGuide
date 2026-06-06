@@ -1,4 +1,5 @@
 import { router } from '@inertiajs/react';
+import { useLingui } from '@lingui/react';
 import { KeyRound } from 'lucide-react';
 import { destroy } from '@/actions/Laravel/Passkeys/Http/Controllers/PasskeyRegistrationController';
 import Heading from '@/components/heading';
@@ -12,20 +13,25 @@ export type Props = {
 };
 
 const EmptyState = () => {
+    const { i18n } = useLingui();
+
     return (
         <div className="p-8 text-center">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
                 <KeyRound className="h-7 w-7 text-muted-foreground" />
             </div>
-            <p className="font-medium">No passkeys yet</p>
+            <p className="font-medium">
+                {i18n._('settings.passkeys.emptyTitle')}
+            </p>
             <p className="mt-1 text-sm text-muted-foreground">
-                Add a passkey to sign in without a password
+                {i18n._('settings.passkeys.emptyDescription')}
             </p>
         </div>
     );
 };
 
 export default function ManagePasskeys(props: Props) {
+    const { i18n } = useLingui();
     const passkeys = props.passkeys ?? [];
 
     const handleDelete = (id: number, onError: () => void) => {
@@ -47,8 +53,8 @@ export default function ManagePasskeys(props: Props) {
         <div className="space-y-6">
             <Heading
                 variant="small"
-                title="Passkeys"
-                description="Manage your passkeys for passwordless sign-in"
+                title={i18n._('settings.passkeys.title')}
+                description={i18n._('settings.passkeys.description')}
             />
 
             <div className="overflow-hidden rounded-lg border border-border">

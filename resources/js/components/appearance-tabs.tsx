@@ -1,3 +1,4 @@
+import { useLingui } from '@lingui/react';
 import type { LucideIcon } from 'lucide-react';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import type { HTMLAttributes } from 'react';
@@ -9,12 +10,21 @@ export default function AppearanceToggleTab({
     className = '',
     ...props
 }: HTMLAttributes<HTMLDivElement>) {
+    const { i18n } = useLingui();
     const { appearance, updateAppearance } = useAppearance();
 
     const tabs: { value: Appearance; icon: LucideIcon; label: string }[] = [
-        { value: 'light', icon: Sun, label: 'Light' },
-        { value: 'dark', icon: Moon, label: 'Dark' },
-        { value: 'system', icon: Monitor, label: 'System' },
+        {
+            value: 'light',
+            icon: Sun,
+            label: i18n._('appearance.tabs.light'),
+        },
+        { value: 'dark', icon: Moon, label: i18n._('appearance.tabs.dark') },
+        {
+            value: 'system',
+            icon: Monitor,
+            label: i18n._('appearance.tabs.system'),
+        },
     ];
 
     return (

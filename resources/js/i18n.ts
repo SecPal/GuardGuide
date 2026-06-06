@@ -9,6 +9,9 @@ export type Locale = keyof typeof locales;
 
 export const defaultLocale: Locale = 'en';
 
+export const LOCALE_COOKIE = 'locale';
+export const LOCALE_STORAGE_KEY = 'locale';
+
 export type BrowserLocaleSource = {
     language?: string | null;
     languages?: readonly string[];
@@ -34,11 +37,65 @@ function normalizeLocale(value: string | null | undefined): Locale | null {
     return language;
 }
 
+function getCookieLocale(): Locale | null {
+    if (typeof document === 'undefined') {
+        return null;
+    }
+
+    const cookieValue =
+        document.cookie
+            .split('; ')
+            .find((cookie) => cookie.startsWith(`${LOCALE_COOKIE}=`))
+            ?.slice(`${LOCALE_COOKIE}=`.length) ?? null;
+
+    return normalizeLocale(cookieValue);
+}
+
+function getStoredLocale(): Locale | null {
+    if (typeof window === 'undefined') {
+        return null;
+    }
+
+    try {
+        return normalizeLocale(localStorage.getItem(LOCALE_STORAGE_KEY));
+    } catch {
+        return null;
+    }
+}
+
+function setLocaleCookie(locale: Locale, days = 365): void {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie = `${LOCALE_COOKIE}=${locale};path=/;max-age=${maxAge};SameSite=Lax`;
+}
+
+export function persistLocale(locale: Locale): void {
+    if (typeof window !== 'undefined') {
+        try {
+            localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+        } catch {
+            // localStorage might be unavailable (e.g. private mode); the
+            // cookie below still keeps the choice across reloads.
+        }
+    }
+
+    setLocaleCookie(locale);
+}
+
 export function detectLocale(
     source: BrowserLocaleSource | undefined = typeof navigator !== 'undefined'
         ? navigator
         : undefined,
 ): Locale {
+    const stored = getStoredLocale() ?? getCookieLocale();
+
+    if (stored) {
+        return stored;
+    }
+
     for (const candidate of source?.languages ?? []) {
         const locale = normalizeLocale(candidate);
 

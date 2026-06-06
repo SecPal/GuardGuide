@@ -166,6 +166,55 @@ msgstr "Darstellung"
 msgid "settings.appearance.metaTitle"
 msgstr "Darstellungseinstellungen"
 
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.heading.description"
+msgstr "Verwalte Dein Profil und Deine Kontoeinstellungen"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.heading.title"
+msgstr "Einstellungen"
+
+#: resources/js/components/language-tabs.tsx
+msgid "settings.language.error"
+msgstr "Sprache konnte nicht geändert werden. Bitte versuche es erneut."
+
+#: resources/js/pages/settings/language.tsx
+msgid "settings.language.breadcrumb"
+msgstr "Sprache"
+
+#: resources/js/pages/settings/language.tsx
+msgid "settings.language.headingDescription"
+msgstr "Wähle die Sprache, die in der GuardGuide-Oberfläche verwendet wird."
+
+#: resources/js/pages/settings/language.tsx
+#: resources/js/components/language-tabs.tsx
+msgid "settings.language.headingTitle"
+msgstr "Sprache"
+
+#: resources/js/pages/settings/language.tsx
+msgid "settings.language.metaTitle"
+msgstr "Spracheinstellungen"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.appearance"
+msgstr "Darstellung"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.ariaLabel"
+msgstr "Einstellungen"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.language"
+msgstr "Sprache"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.profile"
+msgstr "Profil"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.security"
+msgstr "Sicherheit"
+
 #: resources/js/pages/welcome.tsx
 msgid "welcome.body"
 msgstr "Für Teams, die strukturierte Anweisungen, kontrollierte "
@@ -359,3 +408,482 @@ msgstr "Objekt auswählen"
 #: resources/js/pages/user-assignments/index.tsx
 msgid "userAssignments.sites.unknownCustomer"
 msgstr "Kunde unbekannt"
+
+#: resources/js/components/appearance-tabs.tsx
+msgid "appearance.tabs.dark"
+msgstr "Dunkel"
+
+#: resources/js/components/appearance-tabs.tsx
+msgid "appearance.tabs.light"
+msgstr "Hell"
+
+#: resources/js/components/appearance-tabs.tsx
+msgid "appearance.tabs.system"
+msgstr "System"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.layoutDescription"
+msgstr "Dies ist ein geschützter Bereich der Anwendung. Bitte bestätige Dein Passwort, um fortzufahren."
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.layoutTitle"
+msgstr "Passwort bestätigen"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.metaTitle"
+msgstr "Passwort bestätigen"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.passkeyLabel"
+msgstr "Mit Passkey bestätigen"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.passkeyLoading"
+msgstr "Bestätigung läuft …"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.passkeySeparator"
+msgstr "Oder mit Passwort bestätigen"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.submit"
+msgstr "Passwort bestätigen"
+
+#: resources/js/components/passkey-verify.tsx
+msgid "auth.passkey.defaultLabel"
+msgstr "Mit Passkey anmelden"
+
+#: resources/js/components/passkey-verify.tsx
+msgid "auth.passkey.defaultLoading"
+msgstr "Anmeldung läuft …"
+
+#: resources/js/components/passkey-verify.tsx
+msgid "auth.passkey.defaultSeparator"
+msgstr "Oder mit E-Mail fortfahren"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.confirmLabel"
+msgstr "Passwort bestätigen"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.confirmPlaceholder"
+msgstr "Passwort bestätigen"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.emailLabel"
+msgstr "E-Mail"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.layoutDescription"
+msgstr "Bitte gib unten Dein neues Passwort ein."
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.layoutTitle"
+msgstr "Passwort zurücksetzen"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.metaTitle"
+msgstr "Passwort zurücksetzen"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.passwordLabel"
+msgstr "Passwort"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.passwordPlaceholder"
+msgstr "Passwort"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.submit"
+msgstr "Passwort zurücksetzen"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.alternativeLead"
+msgstr "oder Du kannst"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.continue"
+msgstr "Weiter"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.metaTitle"
+msgstr "Zwei-Faktor-Authentifizierung"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.otp.description"
+msgstr "Gib den Authentifizierungs-Code aus Deiner Authenticator-App ein."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.otp.title"
+msgstr "Authentifizierungs-Code"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.otp.toggle"
+msgstr "mit einem Wiederherstellungscode anmelden"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.recovery.description"
+msgstr "Bitte bestätige den Zugang zu Deinem Konto, indem Du einen Deiner Notfall-Wiederherstellungscodes eingibst."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.recovery.placeholder"
+msgstr "Wiederherstellungscode eingeben"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.recovery.title"
+msgstr "Wiederherstellungscode"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.recovery.toggle"
+msgstr "mit einem Authentifizierungs-Code anmelden"
+
+#: resources/js/components/delete-user.tsx
+#: resources/js/components/passkey-item.tsx
+#: resources/js/components/passkey-register.tsx
+msgid "common.cancel"
+msgstr "Abbrechen"
+
+#: resources/js/pages/settings/profile.tsx
+#: resources/js/pages/settings/security.tsx
+msgid "common.save"
+msgstr "Speichern"
+
+#: resources/js/components/app-header.tsx
+msgid "header.documentation"
+msgstr "Dokumentation"
+
+#: resources/js/components/app-header.tsx
+msgid "header.mainNav.dashboard"
+msgstr "Dashboard"
+
+#: resources/js/components/app-header.tsx
+msgid "header.navigationMenu"
+msgstr "Navigationsmenü"
+
+#: resources/js/components/app-header.tsx
+msgid "header.repository"
+msgstr "Repository"
+
+#: resources/js/components/app-header.tsx
+msgid "header.search"
+msgstr "Suche"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.confirmDialog.cancel"
+msgstr "Abbrechen"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.confirmDialog.confirm"
+msgstr "Konto löschen"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.confirmDialog.description"
+msgstr "Wenn Dein Konto gelöscht ist, werden auch alle zugehörigen Ressourcen und Daten dauerhaft entfernt. Bitte gib Dein Passwort ein, um die endgültige Löschung Deines Kontos zu bestätigen."
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.confirmDialog.passwordLabel"
+msgstr "Passwort"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.confirmDialog.passwordPlaceholder"
+msgstr "Passwort"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.confirmDialog.title"
+msgstr "Möchtest Du Dein Konto wirklich löschen?"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.deleteButton"
+msgstr "Konto löschen"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.description"
+msgstr "Lösche Dein Konto und alle zugehörigen Ressourcen."
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.title"
+msgstr "Konto löschen"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.warning"
+msgstr "Achtung"
+
+#: resources/js/components/delete-user.tsx
+msgid "settings.deleteAccount.warningDescription"
+msgstr "Bitte mit Vorsicht fortfahren – dies kann nicht rückgängig gemacht werden."
+
+#: resources/js/components/manage-passkeys.tsx
+msgid "settings.passkeys.description"
+msgstr "Verwalte Deine Passkeys für die passwortlose Anmeldung."
+
+#: resources/js/components/manage-passkeys.tsx
+msgid "settings.passkeys.emptyDescription"
+msgstr "Lege einen Passkey an, um Dich ohne Passwort anzumelden."
+
+#: resources/js/components/manage-passkeys.tsx
+msgid "settings.passkeys.emptyTitle"
+msgstr "Noch keine Passkeys"
+
+#: resources/js/components/passkey-item.tsx
+msgid "settings.passkeys.item.added"
+msgstr "Hinzugefügt {when}"
+
+#: resources/js/components/passkey-item.tsx
+msgid "settings.passkeys.item.lastUsed"
+msgstr "Zuletzt verwendet {when}"
+
+#: resources/js/components/passkey-item.tsx
+msgid "settings.passkeys.item.removeAriaLabel"
+msgstr "Entfernen"
+
+#: resources/js/components/passkey-item.tsx
+msgid "settings.passkeys.item.removeButton"
+msgstr "Passkey entfernen"
+
+#: resources/js/components/passkey-item.tsx
+msgid "settings.passkeys.item.removeDialogDescription"
+msgstr "Möchtest Du den Passkey „{name}\" wirklich entfernen? Du kannst Dich damit dann nicht mehr anmelden."
+
+#: resources/js/components/passkey-item.tsx
+msgid "settings.passkeys.item.removeDialogTitle"
+msgstr "Passkey entfernen"
+
+#: resources/js/components/passkey-item.tsx
+msgid "settings.passkeys.item.removingButton"
+msgstr "Wird entfernt …"
+
+#: resources/js/components/passkey-register.tsx
+msgid "settings.passkeys.register.addButton"
+msgstr "Passkey hinzufügen"
+
+#: resources/js/components/passkey-register.tsx
+msgid "settings.passkeys.register.nameHelp"
+msgstr "Ein Name hilft Dir, diesen Passkey später wiederzuerkennen."
+
+#: resources/js/components/passkey-register.tsx
+msgid "settings.passkeys.register.nameLabel"
+msgstr "Name des Passkeys"
+
+#: resources/js/components/passkey-register.tsx
+msgid "settings.passkeys.register.namePlaceholder"
+msgstr "z. B. MacBook Pro, iPhone"
+
+#: resources/js/components/passkey-register.tsx
+msgid "settings.passkeys.register.notSupported"
+msgstr "Passkeys werden in diesem Browser nicht unterstützt."
+
+#: resources/js/components/passkey-register.tsx
+msgid "settings.passkeys.register.registerButton"
+msgstr "Passkey registrieren"
+
+#: resources/js/components/passkey-register.tsx
+msgid "settings.passkeys.register.registeringButton"
+msgstr "Wird registriert …"
+
+#: resources/js/components/manage-passkeys.tsx
+msgid "settings.passkeys.title"
+msgstr "Passkeys"
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.breadcrumb"
+msgstr "Profil­einstellungen"
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.emailLabel"
+msgstr "E-Mail-Adresse"
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.emailPlaceholder"
+msgstr "E-Mail-Adresse"
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.emailResendLink"
+msgstr "Klicke hier, um die Bestätigungs-E-Mail erneut zu senden."
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.emailResendSent"
+msgstr "Wir haben einen neuen Bestätigungslink an Deine E-Mail-Adresse gesendet."
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.emailUnverified"
+msgstr "Deine E-Mail-Adresse ist nicht bestätigt."
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.headingDescription"
+msgstr "Aktualisiere Deinen Namen und Deine E-Mail-Adresse."
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.headingTitle"
+msgstr "Profil"
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.metaTitle"
+msgstr "Profil­einstellungen"
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.nameLabel"
+msgstr "Name"
+
+#: resources/js/pages/settings/profile.tsx
+msgid "settings.profile.namePlaceholder"
+msgstr "Vollständiger Name"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.description"
+msgstr "Mit Wiederherstellungscodes erhältst Du wieder Zugriff, wenn Du Dein 2FA-Gerät verlierst. Bewahre sie in einem sicheren Passwort-Manager auf."
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.hide"
+msgstr "Wiederherstellungscodes verbergen"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.listAriaLabel"
+msgstr "Wiederherstellungscodes"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.loadingAriaLabel"
+msgstr "Wiederherstellungscodes werden geladen"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.regenerate"
+msgstr "Codes neu erstellen"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.regenerateLink"
+msgstr "Codes neu erstellen"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.regenerateWarning1"
+msgstr "Jeder Wiederherstellungscode kann einmal verwendet werden und wird nach Gebrauch entfernt. Wenn Du weitere benötigst, klicke oben auf"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.regenerateWarning2"
+msgstr "."
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.title"
+msgstr "2FA-Wiederherstellungscodes"
+
+#: resources/js/components/two-factor-recovery-codes.tsx
+msgid "settings.recoveryCodes.view"
+msgstr "Wiederherstellungscodes anzeigen"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.breadcrumb"
+msgstr "Sicherheits­einstellungen"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.confirmPasswordLabel"
+msgstr "Passwort bestätigen"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.confirmPasswordPlaceholder"
+msgstr "Passwort bestätigen"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.currentPasswordLabel"
+msgstr "Aktuelles Passwort"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.currentPasswordPlaceholder"
+msgstr "Aktuelles Passwort"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.metaTitle"
+msgstr "Sicherheits­einstellungen"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.newPasswordLabel"
+msgstr "Neues Passwort"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.newPasswordPlaceholder"
+msgstr "Neues Passwort"
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.updateDescription"
+msgstr "Verwende ein langes, zufälliges Passwort, um Dein Konto sicher zu halten."
+
+#: resources/js/pages/settings/security.tsx
+msgid "settings.security.updateTitle"
+msgstr "Passwort aktualisieren"
+
+#: resources/js/components/manage-two-factor.tsx
+msgid "settings.twoFactor.continueSetupButton"
+msgstr "Einrichtung fortsetzen"
+
+#: resources/js/components/manage-two-factor.tsx
+msgid "settings.twoFactor.description"
+msgstr "Verwalte Deine Einstellungen für die Zwei-Faktor-Authentifizierung."
+
+#: resources/js/components/manage-two-factor.tsx
+msgid "settings.twoFactor.disableButton"
+msgstr "2FA deaktivieren"
+
+#: resources/js/components/manage-two-factor.tsx
+msgid "settings.twoFactor.disabledDescription"
+msgstr "Wenn Du die Zwei-Faktor-Authentifizierung aktivierst, wirst Du bei der Anmeldung nach einer sicheren PIN gefragt. Diese PIN erhältst Du aus einer TOTP-fähigen App auf Deinem Smartphone."
+
+#: resources/js/components/manage-two-factor.tsx
+msgid "settings.twoFactor.enableButton"
+msgstr "2FA aktivieren"
+
+#: resources/js/components/manage-two-factor.tsx
+msgid "settings.twoFactor.enabledDescription"
+msgstr "Du wirst bei der Anmeldung nach einer sicheren, zufälligen PIN gefragt, die Du aus einer TOTP-fähigen App auf Deinem Smartphone erhältst."
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.backButton"
+msgstr "Zurück"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.closeButton"
+msgstr "Schließen"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.confirmButton"
+msgstr "Bestätigen"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.continueButton"
+msgstr "Weiter"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.enableDescription"
+msgstr "Um die Zwei-Faktor-Authentifizierung zu aktivieren, scanne den QR-Code oder gib den Einrichtungs­schlüssel in Deiner Authenticator-App ein."
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.enableTitle"
+msgstr "Zwei-Faktor-Authentifizierung aktivieren"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.enabledDescription"
+msgstr "Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert. Scanne den QR-Code oder gib den Einrichtungs­schlüssel in Deiner Authenticator-App ein."
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.enabledTitle"
+msgstr "Zwei-Faktor-Authentifizierung aktiviert"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.manualEntry"
+msgstr "oder gib den Code manuell ein"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.verifyDescription"
+msgstr "Gib den 6-stelligen Code aus Deiner Authenticator-App ein."
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.verifyTitle"
+msgstr "Authentifizierungs-Code bestätigen"
+
+#: resources/js/components/manage-two-factor.tsx
+msgid "settings.twoFactor.title"
+msgstr "Zwei-Faktor-Authentifizierung"
+
+#: resources/js/components/user-menu-content.tsx
+msgid "userMenu.logout"
+msgstr "Abmelden"
+
+#: resources/js/components/user-menu-content.tsx
+msgid "userMenu.settings"
+msgstr "Einstellungen"

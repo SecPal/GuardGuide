@@ -1,9 +1,12 @@
 import { Head } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { dashboard } from '@/routes';
 
 export default function Dashboard() {
+    const { i18n } = useLingui();
+
     return (
         <>
             <Head title={i18n._('dashboard.metaTitle')} />
@@ -27,11 +30,11 @@ export default function Dashboard() {
     );
 }
 
-Dashboard.layout = {
+Dashboard.layout = () => ({
     breadcrumbs: [
         {
             title: i18n._('dashboard.breadcrumb'),
             href: dashboard(),
         },
     ],
-};
+});

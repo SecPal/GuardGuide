@@ -1,5 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import { Building2, Pencil, Plus } from 'lucide-react';
 import { useId, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
@@ -52,6 +53,7 @@ export default function OrganizationalUnits({
     flatUnits,
     typeOptions,
 }: PageProps) {
+    const { i18n } = useLingui();
     const [selectedUnitId, setSelectedUnitId] = useState<string | null>(
         flatUnits[0]?.id ?? null,
     );
@@ -209,6 +211,7 @@ function EditUnitForm({
     parentOptions: FlatOrganizationalUnit[];
     disabledParentIds: Set<string>;
 }) {
+    const { i18n } = useLingui();
     const form = useForm<UnitFormData>({
         type: selectedUnit.type,
         name: selectedUnit.name,
@@ -252,6 +255,7 @@ function UnitTreeItem({
     selectedUnitId: string | null;
     onSelect: (unitId: string) => void;
 }) {
+    const { i18n } = useLingui();
     const selected = selectedUnitId === unit.id;
 
     return (
@@ -316,6 +320,7 @@ function UnitFields({
         value: UnitFormData[TKey],
     ) => void;
 }) {
+    const { i18n } = useLingui();
     const fieldId = useId();
     const nameId = `${fieldId}-name`;
     const sortOrderId = `${fieldId}-sort-order`;
@@ -436,11 +441,11 @@ function formatParentOption(unit: FlatOrganizationalUnit) {
     return `${'  '.repeat(unit.depth)}${unit.depth > 0 ? '-> ' : ''}${unit.name}`;
 }
 
-OrganizationalUnits.layout = {
+OrganizationalUnits.layout = () => ({
     breadcrumbs: [
         {
             title: i18n._('orgUnits.breadcrumb'),
             href: orgUnitsPath,
         },
     ],
-};
+});

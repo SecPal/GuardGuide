@@ -1,5 +1,6 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import { Building2, Landmark, Plus, Trash2, UserRound } from 'lucide-react';
 import type { FormEvent, ReactNode } from 'react';
 import Heading from '@/components/heading';
@@ -60,6 +61,7 @@ export default function UserAssignments({
     assignments,
     options,
 }: PageProps) {
+    const { i18n } = useLingui();
     const assignedUnitIds = new Set(
         assignments.organizationalUnits.map((unit) => unit.id),
     );
@@ -214,6 +216,7 @@ function AddOrganizationalUnitForm({
     userId: number;
     options: OrganizationalUnitOption[];
 }) {
+    const { i18n } = useLingui();
     const form = useForm({
         organizational_unit_id: '',
     });
@@ -276,6 +279,7 @@ function AddCustomerForm({
     userId: number;
     options: CustomerOption[];
 }) {
+    const { i18n } = useLingui();
     const form = useForm({
         customer_id: '',
     });
@@ -340,6 +344,7 @@ function AddSiteForm({
     options: SiteOption[];
     hasCustomerAssignment: boolean;
 }) {
+    const { i18n } = useLingui();
     const form = useForm({
         site_id: '',
     });
@@ -447,6 +452,7 @@ function AssignmentRow({
     subtitle?: string;
     deleteUrl: string;
 }) {
+    const { i18n } = useLingui();
     const form = useForm({});
 
     return (
@@ -475,11 +481,11 @@ function AssignmentRow({
     );
 }
 
-UserAssignments.layout = {
+UserAssignments.layout = () => ({
     breadcrumbs: [
         {
             title: i18n._('userAssignments.breadcrumb'),
             href: '/user-assignments',
         },
     ],
-};
+});

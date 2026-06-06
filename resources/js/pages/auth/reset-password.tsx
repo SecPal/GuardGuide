@@ -1,4 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
+import { i18n } from '@lingui/core';
+import { useLingui } from '@lingui/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
@@ -14,9 +16,11 @@ type Props = {
 };
 
 export default function ResetPassword({ token, email, passwordRules }: Props) {
+    const { i18n } = useLingui();
+
     return (
         <>
-            <Head title="Reset password" />
+            <Head title={i18n._('auth.resetPassword.metaTitle')} />
 
             <Form
                 {...update.form()}
@@ -26,7 +30,9 @@ export default function ResetPassword({ token, email, passwordRules }: Props) {
                 {({ processing, errors }) => (
                     <div className="grid gap-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">
+                                {i18n._('auth.resetPassword.emailLabel')}
+                            </Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -43,14 +49,18 @@ export default function ResetPassword({ token, email, passwordRules }: Props) {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">
+                                {i18n._('auth.resetPassword.passwordLabel')}
+                            </Label>
                             <PasswordInput
                                 id="password"
                                 name="password"
                                 autoComplete="new-password"
                                 className="mt-1 block w-full"
                                 autoFocus
-                                placeholder="Password"
+                                placeholder={i18n._(
+                                    'auth.resetPassword.passwordPlaceholder',
+                                )}
                                 passwordrules={passwordRules}
                             />
                             <InputError message={errors.password} />
@@ -58,14 +68,16 @@ export default function ResetPassword({ token, email, passwordRules }: Props) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="password_confirmation">
-                                Confirm password
+                                {i18n._('auth.resetPassword.confirmLabel')}
                             </Label>
                             <PasswordInput
                                 id="password_confirmation"
                                 name="password_confirmation"
                                 autoComplete="new-password"
                                 className="mt-1 block w-full"
-                                placeholder="Confirm password"
+                                placeholder={i18n._(
+                                    'auth.resetPassword.confirmPlaceholder',
+                                )}
                                 passwordrules={passwordRules}
                             />
                             <InputError
@@ -81,7 +93,7 @@ export default function ResetPassword({ token, email, passwordRules }: Props) {
                             data-test="reset-password-button"
                         >
                             {processing && <Spinner />}
-                            Reset password
+                            {i18n._('auth.resetPassword.submit')}
                         </Button>
                     </div>
                 )}
@@ -90,7 +102,7 @@ export default function ResetPassword({ token, email, passwordRules }: Props) {
     );
 }
 
-ResetPassword.layout = {
-    title: 'Reset password',
-    description: 'Please enter your new password below',
-};
+ResetPassword.layout = () => ({
+    title: i18n._('auth.resetPassword.layoutTitle'),
+    description: i18n._('auth.resetPassword.layoutDescription'),
+});
