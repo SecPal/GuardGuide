@@ -112,11 +112,20 @@ class OrganizationalUnit extends Model
             ->withoutGlobalScopes()
             ->select(['id', 'parent_id'])
             ->find($this->parent_id);
+        $visitedAncestorIds = [];
 
         while ($ancestor !== null) {
-            if ($this->exists && $ancestor->getKey() === $this->getKey()) {
+            $ancestorId = $ancestor->getKey();
+
+            if ($this->exists && $ancestorId === $this->getKey()) {
                 throw new DomainException('An organizational unit cannot reference one of its descendants as parent.');
             }
+
+            if (isset($visitedAncestorIds[$ancestorId])) {
+                throw new DomainException('An organizational unit cannot reference a parent in a cyclic hierarchy.');
+            }
+
+            $visitedAncestorIds[$ancestorId] = true;
 
             $ancestor = $ancestor->parent()
                 ->withoutGlobalScopes()
