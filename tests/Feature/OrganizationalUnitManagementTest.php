@@ -92,6 +92,27 @@ test('organizational units can be created below an existing unit', function () {
     ]);
 });
 
+test('organizational units reject whitespace-only names through the UI endpoint', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->from(route('organizational-units.index'))
+        ->post(route('organizational-units.store'), [
+            'type' => OrganizationalUnitType::Division->value,
+            'name' => '   ',
+            'parent_id' => null,
+            'sort_order' => 5,
+        ])
+        ->assertSessionHasErrors('name')
+        ->assertRedirect(route('organizational-units.index'));
+
+    $this->assertDatabaseMissing('organizational_units', [
+        'type' => OrganizationalUnitType::Division->value,
+        'name' => '   ',
+        'sort_order' => 5,
+    ]);
+});
+
 test('organizational units can be edited', function () {
     $unit = OrganizationalUnit::factory()->root()->create();
     $user = User::factory()->create();

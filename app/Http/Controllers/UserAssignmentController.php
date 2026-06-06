@@ -170,7 +170,7 @@ class UserAssignmentController extends Controller
 
         UserSiteAssignment::query()
             ->where('user_id', $user->getKey())
-            ->whereHas('site', fn ($query) => $query->where('customer_id', $customer->getKey()))
+            ->whereHas('site', fn ($query) => $query->withTrashed()->where('customer_id', $customer->getKey()))
             ->delete();
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Customer assignment removed.']);

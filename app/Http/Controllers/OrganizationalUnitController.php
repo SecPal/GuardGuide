@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrganizationalUnitType;
 use App\Models\OrganizationalUnit;
+use Closure;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,7 +69,16 @@ class OrganizationalUnitController extends Controller
     {
         $validated = $request->validate([
             'type' => ['required', Rule::enum(OrganizationalUnitType::class)],
-            'name' => ['required', 'string', 'max:255'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    if (! is_string($value) || trim($value) === '') {
+                        $fail('The name field is required.');
+                    }
+                },
+            ],
             'parent_id' => [
                 'nullable',
                 'uuid',

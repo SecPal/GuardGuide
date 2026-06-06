@@ -62,6 +62,12 @@ test('invalid organizational unit types are rejected by the model', function () 
     ]);
 })->throws(ValueError::class);
 
+test('organizational units require a name', function () {
+    OrganizationalUnit::factory()->create([
+        'name' => '   ',
+    ]);
+})->throws(DomainException::class, 'requires a name');
+
 test('invalid organizational unit types are rejected by the database', function () {
     DB::table('organizational_units')->insert([
         'id' => (string) Str::uuid(),

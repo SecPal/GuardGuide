@@ -162,6 +162,37 @@ test('removing a customer assignment also removes its site assignments', functio
     ]);
 });
 
+test('removing a customer assignment also removes its trashed site assignments', function () {
+    $actingUser = User::factory()->create();
+    $selectedUser = User::factory()->create();
+    $customer = Customer::factory()->create();
+    $site = Site::factory()->forCustomer($customer)->create();
+
+    UserCustomerAssignment::factory()
+        ->forUser($selectedUser)
+        ->forCustomer($customer)
+        ->create();
+    UserSiteAssignment::factory()
+        ->forUser($selectedUser)
+        ->forSite($site)
+        ->create();
+
+    $site->delete();
+
+    $this->actingAs($actingUser)
+        ->delete(route('user-assignments.customers.destroy', [$selectedUser, $customer]))
+        ->assertSessionHasNoErrors();
+
+    $this->assertDatabaseMissing('user_customer_assignments', [
+        'user_id' => $selectedUser->getKey(),
+        'customer_id' => $customer->getKey(),
+    ]);
+    $this->assertDatabaseMissing('user_site_assignments', [
+        'user_id' => $selectedUser->getKey(),
+        'site_id' => $site->getKey(),
+    ]);
+});
+
 test('site assignments require an existing customer assignment', function () {
     $actingUser = User::factory()->create();
     $selectedUser = User::factory()->create();

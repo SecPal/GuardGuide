@@ -27,6 +27,7 @@ class OrganizationalUnit extends Model
     {
         static::saving(function (OrganizationalUnit $unit) {
             $unit->validateType();
+            $unit->validateName();
             $unit->validateHierarchy();
         });
     }
@@ -96,6 +97,15 @@ class OrganizationalUnit extends Model
         }
 
         throw new ValueError('Invalid organizational unit type.');
+    }
+
+    private function validateName(): void
+    {
+        $name = $this->getAttributes()['name'] ?? null;
+
+        if (! is_string($name) || trim($name) === '') {
+            throw new DomainException('An organizational unit requires a name.');
+        }
     }
 
     private function validateHierarchy(): void
