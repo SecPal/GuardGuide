@@ -59,6 +59,48 @@ test('users can be assigned to multiple customers', function () {
     )->and($firstCustomer->refresh()->users->pluck('id')->all())->toBe([$user->getKey()]);
 });
 
+test('soft-deleting a customer clears its user assignment pivots', function () {
+    $user = User::factory()->create();
+    $customer = Customer::factory()->create();
+    $site = Site::factory()->create([
+        'customer_id' => $customer->getKey(),
+    ]);
+
+    UserCustomerAssignment::factory()
+        ->forUser($user)
+        ->forCustomer($customer)
+        ->create();
+    UserSiteAssignment::factory()
+        ->forUser($user)
+        ->forSite($site)
+        ->create();
+
+    $customer->delete();
+
+    $this->assertDatabaseMissing('user_customer_assignments', [
+        'user_id' => $user->getKey(),
+        'customer_id' => $customer->getKey(),
+    ]);
+    $this->assertDatabaseMissing('user_site_assignments', [
+        'user_id' => $user->getKey(),
+        'site_id' => $site->getKey(),
+    ]);
+
+    $customer->restore();
+
+    $this->actingAs($user)
+        ->post(route('user-assignments.customers.store', $user), [
+            'customer_id' => $customer->getKey(),
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('user-assignments.index', $user));
+
+    $this->assertDatabaseHas('user_customer_assignments', [
+        'user_id' => $user->getKey(),
+        'customer_id' => $customer->getKey(),
+    ]);
+});
+
 test('users can be assigned to multiple individual sites', function () {
     $user = User::factory()->create();
     $firstSite = Site::factory()->create([

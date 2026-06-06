@@ -23,6 +23,16 @@ class Customer extends Model
         static::saving(function (Customer $customer) {
             $customer->validateName();
         });
+
+        static::deleting(function (Customer $customer) {
+            UserCustomerAssignment::query()
+                ->where('customer_id', $customer->getKey())
+                ->delete();
+
+            UserSiteAssignment::query()
+                ->whereHas('site', fn ($query) => $query->withTrashed()->where('customer_id', $customer->getKey()))
+                ->delete();
+        });
     }
 
     /**

@@ -39,7 +39,13 @@ class OrganizationalUnitController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        OrganizationalUnit::query()->create($this->validatedData($request));
+        try {
+            OrganizationalUnit::query()->create($this->validatedData($request));
+        } catch (DomainException $exception) {
+            throw ValidationException::withMessages([
+                'parent_id' => $exception->getMessage(),
+            ]);
+        }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Organizational unit created.']);
 
@@ -101,8 +107,7 @@ class OrganizationalUnitController extends Controller
      */
     private function buildTree(Collection $units, ?string $parentId = null): array
     {
-        return $units
-            ->filter(fn (OrganizationalUnit $unit): bool => $unit->parent_id === $parentId)
+        return $this->unitsForParent($units, $parentId)
             ->map(fn (OrganizationalUnit $unit): array => [
                 'id' => $unit->getKey(),
                 'type' => $this->typeValue($unit->type),
@@ -121,8 +126,7 @@ class OrganizationalUnitController extends Controller
      */
     private function flattenUnits(Collection $units, ?string $parentId = null, int $depth = 0): array
     {
-        return $units
-            ->filter(fn (OrganizationalUnit $unit): bool => $unit->parent_id === $parentId)
+        return $this->unitsForParent($units, $parentId)
             ->flatMap(fn (OrganizationalUnit $unit): array => [
                 [
                     'id' => $unit->getKey(),
@@ -136,6 +140,26 @@ class OrganizationalUnitController extends Controller
             ])
             ->values()
             ->all();
+    }
+
+    /**
+     * @param  Collection<int, OrganizationalUnit>  $units
+     * @return Collection<int, OrganizationalUnit>
+     */
+    private function unitsForParent(Collection $units, ?string $parentId): Collection
+    {
+        if ($parentId !== null) {
+            return $units->filter(fn (OrganizationalUnit $unit): bool => $unit->parent_id === $parentId);
+        }
+
+        $availableUnitIds = $units
+            ->map(fn (OrganizationalUnit $unit): string => $unit->getKey())
+            ->flip();
+
+        return $units->filter(
+            fn (OrganizationalUnit $unit): bool => $unit->parent_id === null
+                || ! $availableUnitIds->has($unit->parent_id)
+        );
     }
 
     private function typeValue(OrganizationalUnitType|string $type): string

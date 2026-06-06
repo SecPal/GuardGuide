@@ -49,6 +49,39 @@ test('authenticated users can view organizational units as a hierarchy', functio
         );
 });
 
+test('organizational units with soft-deleted parents remain visible in the hierarchy', function () {
+    $deletedParent = OrganizationalUnit::factory()->root()->create([
+        'name' => 'Archived Company',
+        'sort_order' => 0,
+    ]);
+    $orphanChild = OrganizationalUnit::factory()->childOf($deletedParent)->create([
+        'name' => 'Visible Division',
+        'sort_order' => 10,
+    ]);
+    $grandchild = OrganizationalUnit::factory()->childOf($orphanChild)->create([
+        'name' => 'Visible Team',
+        'sort_order' => 20,
+    ]);
+    $deletedParent->delete();
+
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get(route('organizational-units.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('organizational-units/index')
+            ->has('units', 1)
+            ->has('flatUnits', 2)
+            ->where('units.0.id', $orphanChild->getKey())
+            ->where('units.0.children.0.id', $grandchild->getKey())
+            ->where('flatUnits.0.id', $orphanChild->getKey())
+            ->where('flatUnits.0.depth', 0)
+            ->where('flatUnits.1.id', $grandchild->getKey())
+            ->where('flatUnits.1.depth', 1),
+        );
+});
+
 test('organizational units can be created on root level', function () {
     $user = User::factory()->create();
 
@@ -89,6 +122,32 @@ test('organizational units can be created below an existing unit', function () {
         'name' => 'Response Team',
         'parent_id' => $parent->getKey(),
         'sort_order' => 20,
+    ]);
+});
+
+test('organizational units surface hierarchy validation errors when created through the UI endpoint', function () {
+    $root = OrganizationalUnit::factory()->root()->create();
+    $child = OrganizationalUnit::factory()->childOf($root)->create();
+    $user = User::factory()->create();
+
+    OrganizationalUnit::query()
+        ->withoutGlobalScopes()
+        ->whereKey($root->getKey())
+        ->update(['parent_id' => $child->getKey()]);
+
+    $this->actingAs($user)
+        ->from(route('organizational-units.index'))
+        ->post(route('organizational-units.store'), [
+            'type' => OrganizationalUnitType::Team->value,
+            'name' => 'Cycle Child',
+            'parent_id' => $root->getKey(),
+            'sort_order' => 25,
+        ])
+        ->assertSessionHasErrors('parent_id')
+        ->assertRedirect(route('organizational-units.index'));
+
+    $this->assertDatabaseMissing('organizational_units', [
+        'name' => 'Cycle Child',
     ]);
 });
 
