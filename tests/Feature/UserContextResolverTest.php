@@ -97,6 +97,43 @@ test('resolver includes object assignments and derives parent customer and respo
         ]);
 });
 
+test('resolver does not expose soft-deleted site organizational units in context', function () {
+    $user = User::factory()->create();
+    $customer = Customer::factory()->create(['name' => 'Object Customer']);
+    $unit = OrganizationalUnit::factory()->create(['name' => 'Deleted Unit']);
+    $site = Site::factory()
+        ->forCustomer($customer)
+        ->managedBy($unit)
+        ->create(['name' => 'Werk Nord']);
+
+    UserSiteAssignment::factory()
+        ->forUser($user)
+        ->forSite($site)
+        ->create();
+
+    $unit->delete();
+
+    $context = app(UserContextResolver::class)->resolve($user);
+
+    expect($context['sites'])->toHaveCount(1)
+        ->and($context['sites'][0])->toMatchArray([
+            'id' => $site->getKey(),
+            'customer_id' => $customer->getKey(),
+            'customer_name' => 'Object Customer',
+            'organizational_unit_id' => null,
+            'organizational_unit_name' => null,
+            'name' => 'Werk Nord',
+            'sources' => ['assigned'],
+        ])
+        ->and($context['customers'])->toHaveCount(1)
+        ->and($context['customers'][0])->toMatchArray([
+            'id' => $customer->getKey(),
+            'name' => 'Object Customer',
+            'sources' => ['site'],
+        ])
+        ->and($context['organizationalUnits'])->toBe([]);
+});
+
 test('authenticated inertia responses share the effective user context', function () {
     $user = User::factory()->create();
     $customer = Customer::factory()->create(['name' => 'Shared Customer']);

@@ -143,7 +143,7 @@ class UserContextResolver
                 'id' => (string) $site->getKey(),
                 'customer_id' => $site->customer_id,
                 'customer_name' => $site->customer?->name,
-                'organizational_unit_id' => $site->organizational_unit_id,
+                'organizational_unit_id' => $site->organizationalUnit?->getKey(),
                 'organizational_unit_name' => $site->organizationalUnit?->name,
                 'name' => $site->name,
                 'sources' => ['assigned'],
