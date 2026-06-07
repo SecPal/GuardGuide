@@ -34,6 +34,24 @@ test('customers require a name', function () {
     ]);
 })->throws(DomainException::class, 'requires a name');
 
+test('customers may retain a null organizational unit for legacy rows', function () {
+    $customerId = (string) Str::uuid();
+
+    DB::table('customers')->insert([
+        'id' => $customerId,
+        'organizational_unit_id' => null,
+        'name' => 'Legacy Customer',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    $this->assertDatabaseHas('customers', [
+        'id' => $customerId,
+        'organizational_unit_id' => null,
+        'name' => 'Legacy Customer',
+    ]);
+});
+
 test('customers require a valid organizational unit foreign key', function () {
     DB::table('customers')->insert([
         'id' => (string) Str::uuid(),

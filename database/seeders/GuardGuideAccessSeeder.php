@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Auth\GuardGuideAccessCatalog;
 use App\Auth\RolePermissionSource;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -38,6 +40,18 @@ class GuardGuideAccessSeeder extends Seeder
                 static fn (string $permissionName): Permission => $permissions[$permissionName],
                 $roleDefinition['permissions'],
             ));
+        }
+
+        $platformAdministrator = Role::query()
+            ->where('name', GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR)
+            ->where('guard_name', $this->source->guardName())
+            ->first();
+
+        if ($platformAdministrator !== null) {
+            User::query()
+                ->where('is_admin', true)
+                ->cursor()
+                ->each(fn (User $user) => $user->assignRole($platformAdministrator));
         }
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();

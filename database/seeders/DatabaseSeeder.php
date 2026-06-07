@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
                 $user->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR);
                 $user->forceFill(['is_admin' => false])->save();
             });
-
         if (! app()->environment(['local', 'testing'])) {
             return;
         }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('customers', function (Blueprint $table) {
             $table->foreignUuid('organizational_unit_id')
                 ->after('id')
+                ->nullable()
                 ->constrained('organizational_units')
                 ->restrictOnDelete();
         });
