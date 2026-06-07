@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ValueError;
 
+/**
+ * @property OrganizationalUnitType $type
+ */
 #[Fillable(['type', 'name', 'parent_id', 'sort_order'])]
 class OrganizationalUnit extends Model
 {

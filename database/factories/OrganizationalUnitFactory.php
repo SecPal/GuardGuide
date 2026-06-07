@@ -39,4 +39,11 @@ class OrganizationalUnitFactory extends Factory
             'parent_id' => $parent->getKey(),
         ]);
     }
+
+    public function company(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'type' => OrganizationalUnitType::Company,
+        ]);
+    }
 }

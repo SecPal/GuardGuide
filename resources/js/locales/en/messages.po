@@ -259,6 +259,10 @@ msgid "common.save"
 msgstr "Save"
 
 #: resources/js/pages/customers/index.tsx
+msgid "customers.createForm.noOrganizations"
+msgstr "No writable company is available for customer creation."
+
+#: resources/js/pages/customers/index.tsx
 msgid "customers.createForm.submit"
 msgstr "Create"
 
@@ -271,6 +275,10 @@ msgid "customers.editForm.placeholder"
 msgstr "Select an editable customer from the list."
 
 #: resources/js/pages/customers/index.tsx
+msgid "customers.editForm.organizationLocked"
+msgstr "The assigned company is fixed after the customer is created."
+
+#: resources/js/pages/customers/index.tsx
 msgid "customers.editForm.submit"
 msgstr "Save"
 
@@ -281,6 +289,22 @@ msgstr "Edit customer"
 #: resources/js/pages/customers/index.tsx
 msgid "customers.fields.name"
 msgstr "Name"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnit"
+msgstr "Company"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnitHelp"
+msgstr "Choose the company that owns this customer."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnitLocked"
+msgstr "Your company scope resolves to exactly one option."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnitPlaceholder"
+msgstr "Select a company"
 
 #: resources/js/pages/customers/index.tsx
 msgid "customers.heading.description"

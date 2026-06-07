@@ -3,11 +3,13 @@
 namespace App\Services;
 
 use App\Auth\GuardGuideAccessCatalog;
+use App\Enums\OrganizationalUnitType;
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
 use App\Models\Site;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class AssignmentAccessScope
 {
@@ -54,6 +56,68 @@ class AssignmentAccessScope
         return $this->writableOrganizationalUnits($user)
             ->whereKey($unit->getKey())
             ->exists();
+    }
+
+    /**
+     * @return Collection<int, OrganizationalUnit>
+     */
+    public function writableCustomerOrganizationalUnits(User $user): Collection
+    {
+        if ($user->can(GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_UPDATE)) {
+            return OrganizationalUnit::query()
+                ->select(['id', 'type', 'name', 'parent_id', 'sort_order'])
+                ->where('type', OrganizationalUnitType::Company->value)
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get();
+        }
+
+        $assignedUnitIds = $this->writableOrganizationalUnits($user)
+            ->pluck('organizational_units.id')
+            ->all();
+
+        if ($assignedUnitIds === []) {
+            return collect();
+        }
+
+        $units = OrganizationalUnit::query()
+            ->select(['id', 'type', 'name', 'parent_id', 'sort_order'])
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        $unitsByParent = [];
+
+        foreach ($units as $unit) {
+            if ($unit->parent_id === null) {
+                continue;
+            }
+
+            $unitsByParent[$unit->parent_id] ??= [];
+            $unitsByParent[$unit->parent_id][] = $unit;
+        }
+
+        $descendantIds = [];
+        $queue = array_values(array_unique($assignedUnitIds));
+
+        while ($queue !== []) {
+            $currentId = array_shift($queue);
+
+            if (! is_string($currentId) || isset($descendantIds[$currentId])) {
+                continue;
+            }
+
+            $descendantIds[$currentId] = true;
+
+            foreach ($unitsByParent[$currentId] ?? [] as $childUnit) {
+                $queue[] = $childUnit->getKey();
+            }
+        }
+
+        return $units
+            ->filter(fn (OrganizationalUnit $unit): bool => isset($descendantIds[$unit->getKey()]))
+            ->filter(fn (OrganizationalUnit $unit): bool => $unit->type === OrganizationalUnitType::Company)
+            ->values();
     }
 
     /**

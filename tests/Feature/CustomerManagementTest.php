@@ -1,10 +1,13 @@
 <?php
 
 use App\Auth\GuardGuideAccessCatalog;
+use App\Enums\OrganizationalUnitType;
 use App\Models\Customer;
+use App\Models\OrganizationalUnit;
 use App\Models\Site;
 use App\Models\User;
 use App\Models\UserCustomerAssignment;
+use App\Models\UserOrganizationalUnitAssignment;
 use App\Models\UserSiteAssignment;
 use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
@@ -59,8 +62,18 @@ test('users without customer access cannot view or modify customers', function (
 });
 
 test('customers can be viewed and created by customer managers', function () {
-    Customer::factory()->create(['name' => 'Alpha GmbH']);
+    $existingCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'SecPal West',
+    ]);
+    $newCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'SecPal East',
+    ]);
+    Customer::factory()->create([
+        'organizational_unit_id' => $existingCompany->getKey(),
+        'name' => 'Alpha GmbH',
+    ]);
     $user = customerManager();
+    grantPermissions($user, GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_UPDATE);
 
     $this->actingAs($user)
         ->get(route('customers.index'))
@@ -69,18 +82,24 @@ test('customers can be viewed and created by customer managers', function () {
             ->component('customers/index')
             ->has('customers', 1)
             ->where('customers.0.name', 'Alpha GmbH')
+            ->where('customers.0.organizational_unit_name', 'SecPal West')
             ->where('customers.0.can_update', true)
-            ->where('canCreateCustomers', true),
+            ->where('canCreateCustomers', true)
+            ->has('customerOrganizationOptions', 2)
+            ->where('mustChooseOrganization', true)
+            ->where('organizationSelectionLocked', false),
         );
 
     $this->actingAs($user)
         ->post(route('customers.store'), [
+            'organizational_unit_id' => $newCompany->getKey(),
             'name' => 'Beta AG',
         ])
         ->assertSessionHasNoErrors()
         ->assertRedirect(route('customers.index'));
 
     $this->assertDatabaseHas('customers', [
+        'organizational_unit_id' => $newCompany->getKey(),
         'name' => 'Beta AG',
     ]);
 });
@@ -118,10 +137,17 @@ test('customers can be edited when the user has write scope', function () {
 
 test('customer names must not be blank through management endpoints', function () {
     $user = customerManager();
+    $company = OrganizationalUnit::factory()->company()->create();
+
+    UserOrganizationalUnitAssignment::factory()
+        ->forUser($user)
+        ->forOrganizationalUnit($company)
+        ->create();
 
     $this->actingAs($user)
         ->from(route('customers.index'))
         ->post(route('customers.store'), [
+            'organizational_unit_id' => $company->getKey(),
             'name' => '   ',
         ])
         ->assertSessionHasErrors('name')
@@ -185,4 +211,121 @@ test('users without global customer rights only see customers in their assignmen
     expect($assignedCustomer->refresh()->name)->toBe('Scoped Update')
         ->and($siteCustomer->refresh()->name)->toBe('Site Parent Customer')
         ->and($unassignedCustomer->refresh()->name)->toBe('Unassigned Customer');
+});
+
+test('customer creation is prefilled and locked when the user can write exactly one company', function () {
+    $company = OrganizationalUnit::factory()->company()->create([
+        'name' => 'SecPal North',
+    ]);
+    $user = customerManager();
+
+    UserOrganizationalUnitAssignment::factory()
+        ->forUser($user)
+        ->forOrganizationalUnit($company)
+        ->create();
+
+    $this->actingAs($user)
+        ->get(route('customers.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('customerOrganizationOptions', [[
+                'id' => $company->getKey(),
+                'name' => 'SecPal North',
+            ]])
+            ->where('resolvedOrganizationId', $company->getKey())
+            ->where('mustChooseOrganization', false)
+            ->where('organizationSelectionLocked', true),
+        );
+
+    $this->actingAs($user)
+        ->post(route('customers.store'), [
+            'name' => 'Locked Customer',
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('customers.index'));
+
+    $this->assertDatabaseHas('customers', [
+        'name' => 'Locked Customer',
+        'organizational_unit_id' => $company->getKey(),
+    ]);
+});
+
+test('customer creation requires an explicit choice when several companies are writable', function () {
+    $root = OrganizationalUnit::factory()->create([
+        'type' => OrganizationalUnitType::Division,
+        'name' => 'Operations',
+    ]);
+    OrganizationalUnit::factory()->company()->childOf($root)->create([
+        'name' => 'Alpha GmbH',
+    ]);
+    OrganizationalUnit::factory()->company()->childOf($root)->create([
+        'name' => 'Beta GmbH',
+    ]);
+    $user = customerManager();
+
+    UserOrganizationalUnitAssignment::factory()
+        ->forUser($user)
+        ->forOrganizationalUnit($root)
+        ->create();
+
+    $this->actingAs($user)
+        ->from(route('customers.index'))
+        ->post(route('customers.store'), [
+            'name' => 'Needs Choice',
+        ])
+        ->assertSessionHasErrors('organizational_unit_id')
+        ->assertRedirect(route('customers.index'));
+});
+
+test('customer creation rejects organizational units outside the writable company scope', function () {
+    $allowedCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'Allowed GmbH',
+    ]);
+    $forbiddenCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'Forbidden GmbH',
+    ]);
+    $user = customerManager();
+
+    UserOrganizationalUnitAssignment::factory()
+        ->forUser($user)
+        ->forOrganizationalUnit($allowedCompany)
+        ->create();
+
+    $this->actingAs($user)
+        ->from(route('customers.index'))
+        ->post(route('customers.store'), [
+            'organizational_unit_id' => $forbiddenCompany->getKey(),
+            'name' => 'Out of Scope Customer',
+        ])
+        ->assertSessionHasErrors('organizational_unit_id')
+        ->assertRedirect(route('customers.index'));
+
+    $this->assertDatabaseMissing('customers', [
+        'name' => 'Out of Scope Customer',
+    ]);
+});
+
+test('customer organization assignment remains unchanged on update', function () {
+    $originalCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'Original GmbH',
+    ]);
+    $otherCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'Other GmbH',
+    ]);
+    $customer = Customer::factory()->create([
+        'organizational_unit_id' => $originalCompany->getKey(),
+        'name' => 'Immutable Customer',
+    ]);
+    $user = customerManager();
+
+    $this->actingAs($user)
+        ->put(route('customers.update', $customer), [
+            'organizational_unit_id' => $otherCompany->getKey(),
+            'name' => 'Renamed Customer',
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('customers.index'));
+
+    expect($customer->refresh()->name)->toBe('Renamed Customer')
+        ->and($customer->organizational_unit_id)->toBe($originalCompany->getKey());
 });

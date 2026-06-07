@@ -93,8 +93,8 @@ test('users with assignment management permission can view assignments for a use
         'email' => 'mira@example.test',
     ]);
     $actingUser = userAssignmentManager();
-    $unit = OrganizationalUnit::factory()->create(['name' => 'Einsatzleitung']);
-    $customer = Customer::factory()->create(['name' => 'Acme Security']);
+    $unit = OrganizationalUnit::factory()->company()->create(['name' => 'Einsatzleitung']);
+    $customer = Customer::factory()->for($unit, 'organizationalUnit')->create(['name' => 'Acme Security']);
     $site = Site::factory()->forCustomer($customer)->create(['name' => 'Werk Nord']);
 
     UserOrganizationalUnitAssignment::factory()

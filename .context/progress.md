@@ -231,6 +231,7 @@ SPDX-License-Identifier: CC0-1.0
     attached, so repeated seed runs also correct catalog drift without creating duplicate records.
 
 ## US-003: Hart verdrahtetes Admin-Flag durch Berechtigungen ersetzen
+
 - Replaced `OrganizationalUnitPolicy` and `UserAssignmentPolicy` checks with named GuardGuide
   catalog permissions and removed the model/factory convenience paths that treated `is_admin` as an
   authorization primitive.
@@ -255,6 +256,7 @@ SPDX-License-Identifier: CC0-1.0
     `is_admin`; otherwise a development account can exist but no longer reach management routes.
 
 ## US-004: Rollen an Benutzer im GuardGuide zuweisen können
+
 - Added dedicated `user_roles.view` and `user_roles.manage` catalog permissions, policy abilities,
   authenticated routes, and a `UserRoleController` for viewing, assigning, and removing Spatie roles
   on users.
@@ -281,6 +283,7 @@ SPDX-License-Identifier: CC0-1.0
     otherwise it drops existing generated `.form()` helpers used by the Inertia form components.
 
 ## US-005: Zugriffsscope aus Zuweisungen als eigene Autorisierungsschicht nutzbar machen
+
 - Added a central `AssignmentAccessScope` service that returns reusable readable and writable
   Eloquent scopes for organizational units, customers, and sites, plus target-level `canRead*` and
   `canWrite*` helpers.
@@ -300,6 +303,7 @@ SPDX-License-Identifier: CC0-1.0
     global update permission is present.
 
 ## US-006: Firmen und Kunden nur für berechtigte Rollen anlegbar machen
+
 - Added a GuardGuide customer/company management flow with authenticated routes, a `CustomerPolicy`,
   validated create/update requests, scoped customer list props, and an Inertia page for creating and
   editing customers where allowed.
@@ -324,6 +328,7 @@ SPDX-License-Identifier: CC0-1.0
     needs the concrete `User` type.
 
 ## US-007: Objekte nur für berechtigte Rollen und im zulässigen Kundenscope anlegbar machen
+
 - Added a GuardGuide site/object management flow with authenticated routes, a `SitePolicy`, scoped
   create/update validation, writable customer option props, optional responsible-unit selection, and
   an Inertia page for creating and editing sites.
@@ -346,6 +351,7 @@ SPDX-License-Identifier: CC0-1.0
     `authorize()` so missing permissions return 403 instead of validation redirects.
 
 ## US-008: RBAC-Quelle abstrahieren für spätere SecPal-Übernahme
+
 - Added a `RolePermissionSource` contract, local GuardGuide source implementation, and
   `config/guardguide_access.php` with `GUARDGUIDE_ACCESS_SOURCE=local` as the standalone default.
 - Updated `GuardGuideAccessSeeder` to synchronize Spatie roles and permissions from the configured

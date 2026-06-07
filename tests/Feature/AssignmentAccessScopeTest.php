@@ -1,6 +1,7 @@
 <?php
 
 use App\Auth\GuardGuideAccessCatalog;
+use App\Enums\OrganizationalUnitType;
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
 use App\Models\Site;
@@ -121,6 +122,69 @@ test('site update permission still requires writable customer scope', function (
         ->and($scope->canWriteSite($siteOnlyUser, $site))->toBeFalse()
         ->and($scope->writableSites($scopedSiteUser)->pluck('id')->all())->toBe([$site->getKey()])
         ->and($scope->canWriteSite($scopedSiteUser, $site))->toBeTrue();
+});
+
+test('customer creation organizational unit scope resolves company descendants from assigned subtrees', function () {
+    $user = User::factory()->create();
+    $root = OrganizationalUnit::factory()->create([
+        'type' => OrganizationalUnitType::Division,
+        'name' => 'Operations',
+    ]);
+    $companyA = OrganizationalUnit::factory()->company()->childOf($root)->create([
+        'name' => 'Alpha GmbH',
+        'sort_order' => 10,
+    ]);
+    $team = OrganizationalUnit::factory()->childOf($root)->create([
+        'type' => OrganizationalUnitType::Team,
+        'name' => 'Field Team',
+        'sort_order' => 20,
+    ]);
+    $companyB = OrganizationalUnit::factory()->company()->childOf($team)->create([
+        'name' => 'Beta GmbH',
+        'sort_order' => 30,
+    ]);
+    $outsideCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'Gamma GmbH',
+        'sort_order' => 40,
+    ]);
+
+    UserOrganizationalUnitAssignment::factory()
+        ->forUser($user)
+        ->forOrganizationalUnit($root)
+        ->create();
+
+    $scope = app(AssignmentAccessScope::class);
+
+    expect($scope->writableCustomerOrganizationalUnits($user)->pluck('id')->all())
+        ->toBe([$companyA->getKey(), $companyB->getKey()])
+        ->and($scope->writableCustomerOrganizationalUnits($user)->pluck('name')->all())
+        ->toBe(['Alpha GmbH', 'Beta GmbH'])
+        ->and($scope->writableCustomerOrganizationalUnits($user)->contains('id', $outsideCompany->getKey()))
+        ->toBeFalse();
+});
+
+test('organizational unit update permission allows choosing all company units for customer creation', function () {
+    $user = grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_UPDATE,
+    );
+    $company = OrganizationalUnit::factory()->company()->create([
+        'name' => 'Alpha GmbH',
+        'sort_order' => 10,
+    ]);
+    OrganizationalUnit::factory()->create([
+        'type' => OrganizationalUnitType::Department,
+        'name' => 'Internal Ops',
+    ]);
+    $otherCompany = OrganizationalUnit::factory()->company()->create([
+        'name' => 'Beta GmbH',
+        'sort_order' => 20,
+    ]);
+
+    $scope = app(AssignmentAccessScope::class);
+
+    expect($scope->writableCustomerOrganizationalUnits($user)->pluck('id')->all())
+        ->toBe([$company->getKey(), $otherCompany->getKey()]);
 });
 
 test('global permissions keep unrestricted read and write scopes separate from assignments', function () {

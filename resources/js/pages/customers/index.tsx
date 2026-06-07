@@ -8,27 +8,50 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 const customersPath = '/customers';
+const emptyOption = '__none__';
 
 type CustomerFormData = {
     name: string;
+    organizational_unit_id: string;
 };
 
 type Customer = CustomerFormData & {
     id: string;
+    organizational_unit_name: string | null;
     sites_count: number;
     can_update: boolean;
+};
+
+type Option = {
+    id: string;
+    name: string;
 };
 
 type PageProps = {
     customers: Customer[];
     canCreateCustomers: boolean;
+    customerOrganizationOptions: Option[];
+    resolvedOrganizationId: string | null;
+    mustChooseOrganization: boolean;
+    organizationSelectionLocked: boolean;
 };
 
 export default function Customers({
     customers,
     canCreateCustomers,
+    customerOrganizationOptions,
+    resolvedOrganizationId,
+    mustChooseOrganization,
+    organizationSelectionLocked,
 }: PageProps) {
     const { i18n } = useLingui();
     const editableCustomers = customers.filter(
@@ -97,7 +120,20 @@ export default function Customers({
                                     />
                                 </div>
 
-                                <CustomerCreateForm />
+                                <CustomerCreateForm
+                                    customerOrganizationOptions={
+                                        customerOrganizationOptions
+                                    }
+                                    resolvedOrganizationId={
+                                        resolvedOrganizationId
+                                    }
+                                    mustChooseOrganization={
+                                        mustChooseOrganization
+                                    }
+                                    organizationSelectionLocked={
+                                        organizationSelectionLocked
+                                    }
+                                />
                             </section>
                         )}
 
@@ -128,11 +164,26 @@ export default function Customers({
     );
 }
 
-function CustomerCreateForm() {
+function CustomerCreateForm({
+    customerOrganizationOptions,
+    resolvedOrganizationId,
+    mustChooseOrganization,
+    organizationSelectionLocked,
+}: {
+    customerOrganizationOptions: Option[];
+    resolvedOrganizationId: string | null;
+    mustChooseOrganization: boolean;
+    organizationSelectionLocked: boolean;
+}) {
     const { i18n } = useLingui();
     const form = useForm<CustomerFormData>({
         name: '',
+        organizational_unit_id: resolvedOrganizationId ?? '',
     });
+    const canSubmit =
+        !form.processing &&
+        customerOrganizationOptions.length > 0 &&
+        (!mustChooseOrganization || form.data.organizational_unit_id !== '');
 
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -140,7 +191,11 @@ function CustomerCreateForm() {
         form.post(customersPath, {
             preserveScroll: true,
             onSuccess: () => {
-                form.reset();
+                form.reset('name');
+                form.setData(
+                    'organizational_unit_id',
+                    resolvedOrganizationId ?? '',
+                );
                 form.clearErrors();
             },
         });
@@ -151,10 +206,19 @@ function CustomerCreateForm() {
             <CustomerFields
                 data={form.data}
                 errors={form.errors}
+                customerOrganizationOptions={customerOrganizationOptions}
+                organizationSelectionLocked={organizationSelectionLocked}
+                showOrganizationField={customerOrganizationOptions.length > 0}
                 onChange={form.setData}
             />
 
-            <Button type="submit" disabled={form.processing}>
+            {customerOrganizationOptions.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                    {i18n._('customers.createForm.noOrganizations')}
+                </p>
+            )}
+
+            <Button type="submit" disabled={!canSubmit}>
                 <Plus />
                 {i18n._('customers.createForm.submit')}
             </Button>
@@ -166,6 +230,7 @@ function CustomerEditForm({ customer }: { customer: Customer }) {
     const { i18n } = useLingui();
     const form = useForm<CustomerFormData>({
         name: customer.name,
+        organizational_unit_id: customer.organizational_unit_id,
     });
 
     function submit(event: FormEvent<HTMLFormElement>) {
@@ -182,8 +247,25 @@ function CustomerEditForm({ customer }: { customer: Customer }) {
             <CustomerFields
                 data={form.data}
                 errors={form.errors}
+                customerOrganizationOptions={[]}
+                organizationSelectionLocked
+                showOrganizationField={false}
                 onChange={form.setData}
             />
+
+            {customer.organizational_unit_name && (
+                <div className="grid gap-2">
+                    <Label>
+                        {i18n._('customers.fields.organizationalUnit')}
+                    </Label>
+                    <div className="rounded-md border bg-muted/30 px-3 py-2 text-sm">
+                        {customer.organizational_unit_name}
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                        {i18n._('customers.editForm.organizationLocked')}
+                    </p>
+                </div>
+            )}
 
             <Button type="submit" disabled={form.processing}>
                 {i18n._('customers.editForm.submit')}
@@ -195,10 +277,16 @@ function CustomerEditForm({ customer }: { customer: Customer }) {
 function CustomerFields({
     data,
     errors,
+    customerOrganizationOptions,
+    organizationSelectionLocked,
+    showOrganizationField,
     onChange,
 }: {
     data: CustomerFormData;
     errors: Partial<Record<keyof CustomerFormData, string>>;
+    customerOrganizationOptions: Option[];
+    organizationSelectionLocked: boolean;
+    showOrganizationField: boolean;
     onChange: <TKey extends keyof CustomerFormData>(
         key: TKey,
         value: CustomerFormData[TKey],
@@ -207,17 +295,70 @@ function CustomerFields({
     const { i18n } = useLingui();
     const fieldId = useId();
     const nameId = `${fieldId}-name`;
+    const organizationId = `${fieldId}-organizational-unit`;
 
     return (
-        <div className="grid gap-2">
-            <Label htmlFor={nameId}>{i18n._('customers.fields.name')}</Label>
-            <Input
-                id={nameId}
-                value={data.name}
-                onChange={(event) => onChange('name', event.target.value)}
-                required
-            />
-            <InputError message={errors.name} />
+        <div className="space-y-4">
+            <div className="grid gap-2">
+                <Label htmlFor={nameId}>
+                    {i18n._('customers.fields.name')}
+                </Label>
+                <Input
+                    id={nameId}
+                    value={data.name}
+                    onChange={(event) => onChange('name', event.target.value)}
+                    required
+                />
+                <InputError message={errors.name} />
+            </div>
+
+            {showOrganizationField && (
+                <div className="grid gap-2">
+                    <Label htmlFor={organizationId}>
+                        {i18n._('customers.fields.organizationalUnit')}
+                    </Label>
+                    <Select
+                        value={data.organizational_unit_id || emptyOption}
+                        onValueChange={(value) =>
+                            onChange(
+                                'organizational_unit_id',
+                                value === emptyOption ? '' : value,
+                            )
+                        }
+                        disabled={organizationSelectionLocked}
+                    >
+                        <SelectTrigger id={organizationId} className="w-full">
+                            <SelectValue
+                                placeholder={i18n._(
+                                    'customers.fields.organizationalUnitPlaceholder',
+                                )}
+                            />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {!organizationSelectionLocked && (
+                                <SelectItem value={emptyOption}>
+                                    {i18n._(
+                                        'customers.fields.organizationalUnitPlaceholder',
+                                    )}
+                                </SelectItem>
+                            )}
+                            {customerOrganizationOptions.map((unit) => (
+                                <SelectItem key={unit.id} value={unit.id}>
+                                    {unit.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <InputError message={errors.organizational_unit_id} />
+                    <p className="text-xs text-muted-foreground">
+                        {organizationSelectionLocked
+                            ? i18n._(
+                                  'customers.fields.organizationalUnitLocked',
+                              )
+                            : i18n._('customers.fields.organizationalUnitHelp')}
+                    </p>
+                </div>
+            )}
         </div>
     );
 }
@@ -239,10 +380,17 @@ function CustomerRow({
                 <span className="block truncate font-medium">
                     {customer.name}
                 </span>
-                <span className="block text-xs text-muted-foreground">
-                    {i18n._('customers.list.siteCount', {
-                        count: customer.sites_count,
-                    })}
+                <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                    <span>
+                        {i18n._('customers.list.siteCount', {
+                            count: customer.sites_count,
+                        })}
+                    </span>
+                    {customer.organizational_unit_name && (
+                        <span className="truncate">
+                            {customer.organizational_unit_name}
+                        </span>
+                    )}
                 </span>
             </span>
         </>
