@@ -17,18 +17,15 @@ class DatabaseSeeder extends Seeder
      * The default test user is only intended for local development and the test
      * suite, so we never create it in other environments to avoid shipping a
      * known account to staging or production bootstrap runs.
+     *
+     * Legacy `is_admin` users are promoted by GuardGuideAccessSeeder itself
+     * (guarded by the existence of the platform-admin role) so we do not
+     * duplicate that logic here.
      */
     public function run(): void
     {
         $this->call(GuardGuideAccessSeeder::class);
 
-        User::query()
-            ->where('is_admin', true)
-            ->cursor()
-            ->each(function (User $user): void {
-                $user->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR);
-                $user->forceFill(['is_admin' => false])->save();
-            });
         if (! app()->environment(['local', 'testing'])) {
             return;
         }

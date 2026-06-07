@@ -86,22 +86,42 @@ class AppServiceProvider extends ServiceProvider
                 return null;
             }
 
-            static $permissionsTableExists;
+            // Cache only positive outcomes. A table being present or a single
+            // permission row existing is monotonic for the worker lifetime
+            // (Octane/FPM): once true it stays true. Caching a negative
+            // result would freeze a stale "not yet seeded" decision, so
+            // legacy admins could keep bypassing RBAC long after the
+            // permission catalog has been seeded on the same worker.
+            static $permissionsTableSeeded = false;
 
-            $permissionsTableExists ??= Schema::hasTable(config('permission.table_names.permissions', 'permissions'));
+            if (! $permissionsTableSeeded) {
+                $permissionsTableSeeded = Schema::hasTable(
+                    config('permission.table_names.permissions', 'permissions'),
+                );
 
-            if (! $permissionsTableExists) {
-                return true;
+                if (! $permissionsTableSeeded) {
+                    return true;
+                }
             }
 
             static $seededPermissions = [];
 
-            $permissionExists = $seededPermissions[$ability] ??= Permission::query()
+            if (isset($seededPermissions[$ability])) {
+                return null;
+            }
+
+            $permissionExists = Permission::query()
                 ->where('name', $ability)
                 ->where('guard_name', GuardGuideAccessCatalog::GUARD)
                 ->exists();
 
-            return $permissionExists ? null : true;
+            if (! $permissionExists) {
+                return true;
+            }
+
+            $seededPermissions[$ability] = true;
+
+            return null;
         });
     }
 

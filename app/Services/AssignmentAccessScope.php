@@ -98,10 +98,15 @@ class AssignmentAccessScope
         }
 
         $descendantIds = [];
+        // Use a cursor-based queue: array_shift would reindex the array on
+        // every iteration (O(n) per shift), turning the BFS over a hierarchy
+        // into O(V^2). Appending at the end and advancing an index keeps
+        // both enqueue and dequeue at O(1).
         $queue = array_values(array_unique($assignedUnitIds));
+        $cursor = 0;
 
-        while ($queue !== []) {
-            $currentId = array_shift($queue);
+        while (isset($queue[$cursor])) {
+            $currentId = $queue[$cursor++];
 
             if (! is_string($currentId) || isset($descendantIds[$currentId])) {
                 continue;
