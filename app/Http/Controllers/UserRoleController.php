@@ -16,13 +16,13 @@ class UserRoleController extends Controller
 {
     public function redirectToFirstUser(): RedirectResponse
     {
+        Gate::authorize(GuardGuideAccessCatalog::USER_ROLES_VIEW);
+
         $user = User::query()
             ->select(['id'])
             ->orderBy('name')
             ->orderBy('email')
             ->firstOrFail();
-
-        $this->authorize('viewRoles', $user);
 
         return to_route('user-roles.index', $user);
     }

@@ -125,6 +125,20 @@ test('users with role management permission can view role assignments for a user
         );
 });
 
+test('role landing redirect is forbidden before any db query when caller lacks the permission', function () {
+    // Regression: gate must be evaluated before the firstOrFail() query so that
+    // an unauthorized caller receives 403, not 404, regardless of whether any
+    // users exist in the database.
+    $actingUser = User::factory()->create();
+
+    // Delete all other users so the table would otherwise return no rows.
+    User::where('id', '!=', $actingUser->getKey())->delete();
+
+    $this->actingAs($actingUser)
+        ->get(route('user-roles.redirect'))
+        ->assertForbidden();
+});
+
 test('role landing route redirects to the first user', function () {
     $zUser = userRoleManager(['name' => 'Zoe']);
     $aUser = User::factory()->create(['name' => 'Ada']);

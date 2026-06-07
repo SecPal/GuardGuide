@@ -87,6 +87,41 @@ test('assignment view permission does not allow managing a selected user', funct
         ->assertForbidden();
 });
 
+test('view-only users are forbidden from all assignment store endpoints', function () {
+    // Regression: Form Request authorize() must check USER_ASSIGNMENTS_MANAGE,
+    // not just require authentication, so view-only callers cannot bypass the gate.
+    $actingUser = grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW,
+    );
+    $selectedUser = User::factory()->create();
+    $unit = OrganizationalUnit::factory()->create();
+    $customer = Customer::factory()->create();
+    $site = Site::factory()->forCustomer($customer)->create();
+
+    $this->actingAs($actingUser)
+        ->post(route('user-assignments.organizational-units.store', $selectedUser), [
+            'organizational_unit_id' => $unit->getKey(),
+        ])
+        ->assertForbidden();
+
+    $this->actingAs($actingUser)
+        ->post(route('user-assignments.customers.store', $selectedUser), [
+            'customer_id' => $customer->getKey(),
+        ])
+        ->assertForbidden();
+
+    $this->actingAs($actingUser)
+        ->post(route('user-assignments.sites.store', $selectedUser), [
+            'site_id' => $site->getKey(),
+        ])
+        ->assertForbidden();
+
+    $this->assertDatabaseEmpty('user_organizational_unit_assignments');
+    $this->assertDatabaseEmpty('user_customer_assignments');
+    $this->assertDatabaseEmpty('user_site_assignments');
+});
+
 test('users with assignment management permission can view assignments for a user', function () {
     $selectedUser = User::factory()->create([
         'name' => 'Mira Admin',

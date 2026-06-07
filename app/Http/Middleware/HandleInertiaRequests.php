@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
-                'can' => $this->sharedPermissions($request),
+                'can' => fn () => $this->sharedPermissions($request),
             ],
             'effectiveContext' => fn () => $request->user() === null
                 ? null

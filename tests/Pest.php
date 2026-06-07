@@ -2,8 +2,8 @@
 
 use App\Auth\GuardGuideAccessCatalog;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
+use Tests\RefreshDatabaseWithForcedCommands;
 use Tests\TestCase;
 
 /*
@@ -18,7 +18,7 @@ use Tests\TestCase;
 */
 
 pest()->extend(TestCase::class)
-    ->use(RefreshDatabase::class)
+    ->use(RefreshDatabaseWithForcedCommands::class)
     ->in('Feature');
 
 /*

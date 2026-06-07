@@ -92,6 +92,41 @@ test('organizational unit view permission does not allow writes', function () {
         ->assertForbidden();
 });
 
+test('create permission alone does not grant update access and vice versa', function () {
+    // Regression: SaveOrganizationalUnitRequest::authorize() must check the
+    // specific create or update permission depending on the HTTP method.
+    $createOnlyUser = grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_CREATE,
+    );
+    $updateOnlyUser = grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_UPDATE,
+    );
+    $unit = OrganizationalUnit::factory()->root()->create(['name' => 'Original Name']);
+
+    $this->actingAs($updateOnlyUser)
+        ->post(route('organizational-units.store'), [
+            'type' => OrganizationalUnitType::Division->value,
+            'name' => 'Should Not Create',
+            'parent_id' => null,
+            'sort_order' => 0,
+        ])
+        ->assertForbidden();
+
+    $this->actingAs($createOnlyUser)
+        ->put(route('organizational-units.update', $unit), [
+            'type' => $unit->type->value,
+            'name' => 'Should Not Update',
+            'parent_id' => null,
+            'sort_order' => 0,
+        ])
+        ->assertForbidden();
+
+    $this->assertDatabaseMissing('organizational_units', ['name' => 'Should Not Create']);
+    $this->assertDatabaseMissing('organizational_units', ['name' => 'Should Not Update']);
+});
+
 test('users with organizational unit view permission can view organizational units as a hierarchy', function () {
     $root = OrganizationalUnit::factory()->root()->create([
         'type' => OrganizationalUnitType::Company,
