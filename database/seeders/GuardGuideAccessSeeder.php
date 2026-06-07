@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Auth\GuardGuideAccessCatalog;
+use App\Auth\RolePermissionSource;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -10,6 +10,8 @@ use Spatie\Permission\PermissionRegistrar;
 
 class GuardGuideAccessSeeder extends Seeder
 {
+    public function __construct(private readonly RolePermissionSource $source) {}
+
     public function run(): void
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
@@ -17,19 +19,19 @@ class GuardGuideAccessSeeder extends Seeder
         /** @var array<string, Permission> $permissions */
         $permissions = [];
 
-        foreach (array_keys(GuardGuideAccessCatalog::permissions()) as $permissionName) {
+        foreach (array_keys($this->source->permissions()) as $permissionName) {
             $permission = Permission::firstOrCreate([
                 'name' => $permissionName,
-                'guard_name' => GuardGuideAccessCatalog::GUARD,
+                'guard_name' => $this->source->guardName(),
             ]);
 
             $permissions[$permissionName] = $permission;
         }
 
-        foreach (GuardGuideAccessCatalog::roles() as $roleName => $roleDefinition) {
+        foreach ($this->source->roles() as $roleName => $roleDefinition) {
             $role = Role::firstOrCreate([
                 'name' => $roleName,
-                'guard_name' => GuardGuideAccessCatalog::GUARD,
+                'guard_name' => $this->source->guardName(),
             ]);
 
             $role->syncPermissions(array_map(

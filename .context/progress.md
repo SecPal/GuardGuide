@@ -38,6 +38,8 @@ SPDX-License-Identifier: CC0-1.0
 - Scoped mutation requests that combine route-level permissions with payload-level scope validation
   should enforce the route permission in `FormRequest::authorize()`, because Laravel validates
   FormRequests before the controller body runs.
+- RBAC definition ownership should be selected through a config-backed source contract, while
+  policies continue to reference stable GuardGuide permission names.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -342,3 +344,21 @@ SPDX-License-Identifier: CC0-1.0
   - Gotchas encountered: Controller-level authorization is too late for FormRequest-backed writes
     when validation itself performs scoped existence checks; mirror the route permission in
     `authorize()` so missing permissions return 403 instead of validation redirects.
+
+## US-008: RBAC-Quelle abstrahieren für spätere SecPal-Übernahme
+- Added a `RolePermissionSource` contract, local GuardGuide source implementation, and
+  `config/guardguide_access.php` with `GUARDGUIDE_ACCESS_SOURCE=local` as the standalone default.
+- Updated `GuardGuideAccessSeeder` to synchronize Spatie roles and permissions from the configured
+  source instead of directly assuming the catalog as the source of ownership.
+- Documented the future SecPal insertion point in ADR 0003 and covered both standalone source
+  resolution and configured-source seeding with automated tests.
+- Files changed: `.env.example`, `app/Auth/RolePermissionSource.php`,
+  `app/Auth/Sources/LocalGuardGuideRolePermissionSource.php`, `app/Providers/AppServiceProvider.php`,
+  `config/guardguide_access.php`, `database/seeders/GuardGuideAccessSeeder.php`,
+  `docs/decisions/0003-rbac-source-abstraction.md`,
+  `tests/Feature/GuardGuideAccessSeederTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: RBAC definition ownership should be selected through a config-backed source
+    contract, while policies continue to reference stable GuardGuide permission names.
+  - Gotchas encountered: Composer's `test` script does not forward `--filter` to Pest because it
+    starts with `artisan config:clear`; use `php artisan test --filter=...` for focused test runs.

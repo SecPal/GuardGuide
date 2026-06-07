@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Auth\RolePermissionSource;
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
 use App\Models\Site;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use InvalidArgumentException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,31 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->scoped(UserContextResolver::class);
+        $this->app->scoped(RolePermissionSource::class, function (): RolePermissionSource {
+            $sourceName = config('guardguide_access.source', 'local');
+            $sources = config('guardguide_access.sources', []);
+            $sourceClass = is_array($sources) && is_string($sourceName) ? ($sources[$sourceName] ?? null) : null;
+
+            if (! is_string($sourceClass) || ! is_subclass_of($sourceClass, RolePermissionSource::class)) {
+                throw new InvalidArgumentException(sprintf(
+                    'GuardGuide access source [%s] must be configured as a %s implementation.',
+                    is_scalar($sourceName) ? (string) $sourceName : 'unknown',
+                    RolePermissionSource::class,
+                ));
+            }
+
+            $source = app($sourceClass);
+
+            if (! $source instanceof RolePermissionSource) {
+                throw new InvalidArgumentException(sprintf(
+                    'GuardGuide access source [%s] did not resolve to a %s implementation.',
+                    $sourceName,
+                    RolePermissionSource::class,
+                ));
+            }
+
+            return $source;
+        });
     }
 
     /**
