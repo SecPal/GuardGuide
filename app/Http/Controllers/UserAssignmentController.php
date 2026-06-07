@@ -13,6 +13,7 @@ use App\Models\UserCustomerAssignment;
 use App\Models\UserOrganizationalUnitAssignment;
 use App\Models\UserSiteAssignment;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -34,7 +35,7 @@ class UserAssignmentController extends Controller
 
     public function index(User $user): Response
     {
-        $this->authorize('manage', $user);
+        $this->authorize('viewAny', User::class);
 
         $user->load([
             'organizationalUnits' => fn ($query) => $query->select(['organizational_units.id', 'type', 'name'])->orderBy('name'),
@@ -106,6 +107,7 @@ class UserAssignmentController extends Controller
                         'name' => $site->name,
                     ]),
             ],
+            'canManageAssignments' => Gate::allows('manage', $user),
         ]);
     }
 

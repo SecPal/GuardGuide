@@ -71,12 +71,15 @@ test('users without user assignment permissions cannot view or manage assignment
         ->assertForbidden();
 });
 
-test('assignment view permission does not allow managing a selected user', function () {
+test('assignment view permission shows assignments without allowing changes', function () {
     $actingUser = grantPermissions(
         User::factory()->create(['name' => 'Viewer']),
         GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW,
     );
-    $selectedUser = User::factory()->create(['name' => 'Target']);
+    $selectedUser = User::factory()->create([
+        'name' => 'Target',
+        'email' => 'target@example.test',
+    ]);
 
     $this->actingAs($actingUser)
         ->get(route('user-assignments.redirect'))
@@ -84,7 +87,13 @@ test('assignment view permission does not allow managing a selected user', funct
 
     $this->actingAs($actingUser)
         ->get(route('user-assignments.index', $selectedUser))
-        ->assertForbidden();
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('user-assignments/index')
+            ->where('selectedUser.id', $selectedUser->getKey())
+            ->where('selectedUser.email', 'target@example.test')
+            ->where('canManageAssignments', false),
+        );
 });
 
 test('view-only users are forbidden from all assignment store endpoints', function () {
