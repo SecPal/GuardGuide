@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrganizationalUnitController;
+use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserAssignmentController;
 use App\Http\Controllers\UserRoleController;
@@ -101,6 +102,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('user-roles.store');
     Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'destroy'])
         ->name('user-roles.destroy');
+
+    Route::get('roles', [RoleManagementController::class, 'index'])
+        ->name('roles.index');
+    Route::post('roles', [RoleManagementController::class, 'store'])
+        ->name('roles.store');
+    Route::put('roles/{role}', [RoleManagementController::class, 'update'])
+        ->name('roles.update');
+    Route::delete('roles/{role}', [RoleManagementController::class, 'destroy'])
+        ->name('roles.destroy');
 });
 
 require __DIR__.'/settings.php';

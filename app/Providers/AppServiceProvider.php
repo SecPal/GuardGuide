@@ -10,6 +10,7 @@ use App\Models\Site;
 use App\Models\User;
 use App\Policies\CustomerPolicy;
 use App\Policies\OrganizationalUnitPolicy;
+use App\Policies\RoleManagementPolicy;
 use App\Policies\SitePolicy;
 use App\Policies\UserAssignmentPolicy;
 use App\Services\UserContextResolver;
@@ -22,6 +23,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use InvalidArgumentException;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -74,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(OrganizationalUnit::class, OrganizationalUnitPolicy::class);
         Gate::policy(Site::class, SitePolicy::class);
         Gate::policy(User::class, UserAssignmentPolicy::class);
+        Gate::policy(Role::class, RoleManagementPolicy::class);
     }
 
     protected function configureLegacyAdminFallback(): void

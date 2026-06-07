@@ -28,6 +28,9 @@ export type Auth = {
         userRoles: {
             view: boolean;
         };
+        roles: {
+            view: boolean;
+        };
     };
 };
 

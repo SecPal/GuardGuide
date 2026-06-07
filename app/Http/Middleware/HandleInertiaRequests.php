@@ -56,7 +56,7 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
-     * @return array{organizationalUnits: array{view: bool}, customers: array{view: bool}, sites: array{view: bool}, userAssignments: array{view: bool}, userRoles: array{view: bool}}
+     * @return array{organizationalUnits: array{view: bool}, customers: array{view: bool}, sites: array{view: bool}, userAssignments: array{view: bool}, userRoles: array{view: bool}, roles: array{view: bool}}
      */
     private function sharedPermissions(Request $request): array
     {
@@ -77,6 +77,9 @@ class HandleInertiaRequests extends Middleware
             ],
             'userRoles' => [
                 'view' => $user?->can(GuardGuideAccessCatalog::USER_ROLES_VIEW) ?? false,
+            ],
+            'roles' => [
+                'view' => $user?->can(GuardGuideAccessCatalog::ROLES_VIEW) ?? false,
             ],
         ];
     }

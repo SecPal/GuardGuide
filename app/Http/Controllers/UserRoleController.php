@@ -36,7 +36,7 @@ class UserRoleController extends Controller
             ->where('guard_name', GuardGuideAccessCatalog::GUARD);
 
         $assignedRoles = Role::query()
-            ->select(['id', 'name', 'guard_name'])
+            ->select(['id', 'name', 'label', 'guard_name'])
             ->whereIn('id', $assignedRoleIds->select('roles.id'))
             ->orderBy('name')
             ->get();
@@ -62,7 +62,7 @@ class UserRoleController extends Controller
             ],
             'options' => [
                 'roles' => Role::query()
-                    ->select(['id', 'name', 'guard_name'])
+                    ->select(['id', 'name', 'label', 'guard_name'])
                     ->where('guard_name', GuardGuideAccessCatalog::GUARD)
                     ->orderBy('name')
                     ->get()
@@ -113,12 +113,10 @@ class UserRoleController extends Controller
      */
     private function serializeRole(Role $role): array
     {
-        $definition = GuardGuideAccessCatalog::roles()[$role->name] ?? null;
-
         return [
             'id' => $role->getKey(),
             'name' => $role->name,
-            'label' => $definition['name'] ?? $role->name,
+            'label' => $role->label ?? $role->name,
         ];
     }
 }

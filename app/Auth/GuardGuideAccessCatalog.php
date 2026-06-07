@@ -49,6 +49,14 @@ final class GuardGuideAccessCatalog
 
     public const string USER_ROLES_MANAGE = 'user_roles.manage';
 
+    public const string ROLES_VIEW = 'roles.view';
+
+    public const string ROLES_CREATE = 'roles.create';
+
+    public const string ROLES_UPDATE = 'roles.update';
+
+    public const string ROLES_DELETE = 'roles.delete';
+
     public const string WORKFLOWS_VIEW = 'workflows.view';
 
     public const string WORKFLOWS_MANAGE = 'workflows.manage';
@@ -77,6 +85,10 @@ final class GuardGuideAccessCatalog
             self::USER_ASSIGNMENTS_MANAGE => 'User assignments can be changed.',
             self::USER_ROLES_VIEW => 'User role assignments can be viewed.',
             self::USER_ROLES_MANAGE => 'User role assignments can be changed.',
+            self::ROLES_VIEW => 'Role management can be viewed.',
+            self::ROLES_CREATE => 'Roles can be created.',
+            self::ROLES_UPDATE => 'Roles can be edited.',
+            self::ROLES_DELETE => 'Roles can be deleted.',
             self::WORKFLOWS_VIEW => 'Future workflow runs can be viewed.',
             self::WORKFLOWS_MANAGE => 'Future workflow definitions can be managed.',
             self::WORKFLOWS_EXECUTE => 'Future workflow tasks can be executed.',

@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { translateRoleLabel } from '@/lib/access-i18n';
 import {
     destroy as destroyUserRole,
     index as userRolesIndex,
@@ -194,7 +195,7 @@ function AddRoleForm({
                     </SelectItem>
                     {options.map((role) => (
                         <SelectItem key={role.id} value={String(role.id)}>
-                            {role.label}
+                            {translateRoleLabel(i18n, role.name, role.label)}
                         </SelectItem>
                     ))}
                 </SelectContent>
@@ -222,11 +223,12 @@ function RoleRow({
 }) {
     const { i18n } = useLingui();
     const form = useForm({});
+    const displayLabel = translateRoleLabel(i18n, role.name, role.label);
 
     return (
         <div className="flex min-h-12 items-center gap-3 rounded-md border px-3 py-2">
             <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{role.label}</p>
+                <p className="truncate text-sm font-medium">{displayLabel}</p>
                 <p className="truncate text-xs text-muted-foreground">
                     {role.name}
                 </p>
@@ -247,7 +249,7 @@ function RoleRow({
                         )
                     }
                     aria-label={i18n._('userRoles.roles.removeAriaLabel', {
-                        role: role.label,
+                        role: displayLabel,
                     })}
                 >
                     <Trash2 />

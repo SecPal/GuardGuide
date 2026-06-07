@@ -53,9 +53,61 @@ test('predefined guardguide roles receive their expected permissions', function 
         $role = Role::findByName($roleName, GuardGuideAccessCatalog::GUARD);
 
         expect($role->guard_name)->toBe(GuardGuideAccessCatalog::GUARD)
+            ->and($role->label)->toBe($roleDefinition['name'])
             ->and($role->permissions->pluck('name')->sort()->values()->all())
             ->toBe(collect($roleDefinition['permissions'])->sort()->values()->all());
     }
+});
+
+test('guardguide access seeder adds newly introduced catalog permissions to existing roles on reseed', function () {
+    $this->seed(GuardGuideAccessSeeder::class);
+
+    $role = Role::findByName(
+        GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR,
+        GuardGuideAccessCatalog::GUARD,
+    );
+
+    $originalPermissionNames = $role->permissions->pluck('name')->all();
+
+    // Remove one catalog permission from the role to simulate it being absent
+    // (e.g. because it was added to the catalog after the initial seed).
+    $removedPermission = Permission::findByName(
+        GuardGuideAccessCatalog::ROLES_VIEW,
+        GuardGuideAccessCatalog::GUARD,
+    );
+    $role->revokePermissionTo($removedPermission);
+
+    expect($role->refresh()->hasPermissionTo(GuardGuideAccessCatalog::ROLES_VIEW))->toBeFalse();
+
+    $this->seed(GuardGuideAccessSeeder::class);
+
+    expect($role->refresh()->hasPermissionTo(GuardGuideAccessCatalog::ROLES_VIEW))->toBeTrue()
+        ->and($role->permissions->pluck('name')->sort()->values()->all())
+        ->toBe(collect($originalPermissionNames)->sort()->values()->all());
+});
+
+test('guardguide access seeder preserves edits to predefined roles when reseeded', function () {
+    $this->seed(GuardGuideAccessSeeder::class);
+
+    $role = Role::findByName(
+        GuardGuideAccessCatalog::ROLE_OPERATIONS_USER,
+        GuardGuideAccessCatalog::GUARD,
+    );
+    $permission = Permission::findByName(
+        GuardGuideAccessCatalog::CUSTOMERS_DELETE,
+        GuardGuideAccessCatalog::GUARD,
+    );
+
+    $role->forceFill([
+        'label' => 'Custom operations',
+    ])->save();
+    $role->givePermissionTo($permission);
+
+    $this->seed(GuardGuideAccessSeeder::class);
+
+    expect($role->refresh()->label)->toBe('Custom operations')
+        ->and($role->permissions->pluck('name')->contains(GuardGuideAccessCatalog::CUSTOMERS_DELETE))
+        ->toBeTrue();
 });
 
 test('guardguide access seeder promotes legacy admins to the platform administrator role', function () {

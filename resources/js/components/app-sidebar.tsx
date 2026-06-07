@@ -7,6 +7,7 @@ import {
     FolderGit2,
     LayoutGrid,
     Network,
+    Shield,
     ShieldCheck,
     MapPinned,
     Users,
@@ -27,6 +28,7 @@ import {
 import { dashboard } from '@/routes';
 import { index as customersIndex } from '@/routes/customers';
 import { index as organizationalUnitsIndex } from '@/routes/organizational-units';
+import { index as rolesIndex } from '@/routes/roles';
 import { index as sitesIndex } from '@/routes/sites';
 import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
 import { redirect as userRolesRedirect } from '@/routes/user-roles';
@@ -84,6 +86,15 @@ export function AppSidebar() {
                       title: i18n._('sidebar.userRoles'),
                       href: userRolesRedirect(),
                       icon: ShieldCheck,
+                  },
+              ]
+            : []),
+        ...(auth.can.roles.view
+            ? [
+                  {
+                      title: i18n._('sidebar.roles'),
+                      href: rolesIndex(),
+                      icon: Shield,
                   },
               ]
             : []),

@@ -853,6 +853,10 @@ msgstr "User assignments"
 msgid "sidebar.userRoles"
 msgstr "User roles"
 
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.roles"
+msgstr "Roles"
+
 #: resources/js/pages/sites/index.tsx
 msgid "sites.createForm.submit"
 msgstr "Create"
@@ -1026,6 +1030,98 @@ msgstr "Select role"
 msgid "userRoles.roles.title"
 msgstr "Roles"
 
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.create"
+msgstr "Create role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.delete"
+msgstr "Delete role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.deleteBlocked"
+msgstr "{count, plural, one {This role is still assigned to # user and cannot be deleted.} other {This role is still assigned to # users and cannot be deleted.}}"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.saveChanges"
+msgstr "Save changes"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.saveNew"
+msgstr "Create role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.breadcrumb"
+msgstr "Roles"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.createDescription"
+msgstr "Create a persistent GuardGuide role and choose its permissions."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.createTitle"
+msgstr "New role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.editDescription"
+msgstr "Adjust the role label, slug, and permission assignment."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.editTitle"
+msgstr "Edit role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.empty"
+msgstr "Select a role from the list or create a new one."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.label"
+msgstr "Label"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.name"
+msgstr "Technical name"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.nameHint"
+msgstr "Use lowercase letters, numbers, and hyphens."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.permissions"
+msgstr "Permissions"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.permissionsHint"
+msgstr "Permissions remain predefined and can be assigned to roles here."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.heading.description"
+msgstr "Create, edit, and maintain persistent GuardGuide roles."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.heading.title"
+msgstr "Roles"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.description"
+msgstr "Existing roles and their current assignment status."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.empty"
+msgstr "No roles available yet."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.permissionCount"
+msgstr "{count, plural, one {# permission} other {# permissions}}"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.title"
+msgstr "Role list"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.metaTitle"
+msgstr "Roles"
+
 #: resources/js/pages/welcome.tsx
 msgid "welcome.body"
 msgstr "Built for teams that need structured instructions, controlled "
@@ -1078,3 +1174,227 @@ msgstr "GuardGuide"
 #: resources/js/pages/welcome.tsx
 msgid "welcome.title"
 msgstr "GuardGuide keeps instructions clear and acknowledgements accountable."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Assigned roles cannot be deleted."
+msgstr "Assigned roles cannot be deleted."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Role created."
+msgstr "Role created."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Role deleted."
+msgstr "Role deleted."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Role updated."
+msgstr "Role updated."
+
+#: app/Http/Controllers/UserRoleController.php
+msgid "Role assigned."
+msgstr "Role assigned."
+
+#: app/Http/Controllers/UserRoleController.php
+msgid "Role removed."
+msgstr "Role removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.create.description"
+msgstr "Customers and companies can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.create.label"
+msgstr "Create customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.delete.description"
+msgstr "Customers and companies can be removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.delete.label"
+msgstr "Delete customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.update.description"
+msgstr "Customers and companies can be edited."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.update.label"
+msgstr "Edit customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.view.description"
+msgstr "Customers and companies can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.view.label"
+msgstr "View customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.create.description"
+msgstr "Organizational units can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.create.label"
+msgstr "Create organizational units"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.delete.description"
+msgstr "Organizational units can be removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.delete.label"
+msgstr "Delete organizational units"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.update.description"
+msgstr "Organizational units can be edited and moved."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.update.label"
+msgstr "Edit organizational units"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.view.description"
+msgstr "Organizational structure can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.view.label"
+msgstr "View organizational structure"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.create.description"
+msgstr "Roles can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.create.label"
+msgstr "Create roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.delete.description"
+msgstr "Roles can be deleted."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.delete.label"
+msgstr "Delete roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.update.description"
+msgstr "Roles can be edited."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.update.label"
+msgstr "Edit roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.view.description"
+msgstr "Role management can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.view.label"
+msgstr "View role management"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.create.description"
+msgstr "Sites and guarded objects can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.create.label"
+msgstr "Create sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.delete.description"
+msgstr "Sites and guarded objects can be removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.delete.label"
+msgstr "Delete sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.update.description"
+msgstr "Sites and guarded objects can be edited."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.update.label"
+msgstr "Edit sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.view.description"
+msgstr "Sites and guarded objects can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.view.label"
+msgstr "View sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.manage.description"
+msgstr "User assignments can be changed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.manage.label"
+msgstr "Manage user assignments"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.view.description"
+msgstr "User assignments can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.view.label"
+msgstr "View user assignments"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.manage.description"
+msgstr "User role assignments can be changed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.manage.label"
+msgstr "Manage user roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.view.description"
+msgstr "User role assignments can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.view.label"
+msgstr "View user roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.execute.description"
+msgstr "Future workflow tasks can be executed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.execute.label"
+msgstr "Execute workflows"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.manage.description"
+msgstr "Future workflow definitions can be managed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.manage.label"
+msgstr "Manage workflows"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.view.description"
+msgstr "Future workflow runs can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.view.label"
+msgstr "View workflows"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.customer-manager.label"
+msgstr "Customer management"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.operations-user.label"
+msgstr "Operational usage"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.platform-administrator.label"
+msgstr "Platform administration"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.site-manager.label"
+msgstr "Site management"

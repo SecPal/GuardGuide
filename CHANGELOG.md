@@ -35,6 +35,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added the new Laravel 13 Inertia React starter baseline with shadcn/ui, Fortify, passkeys, and the GuardGuide-branded localized welcome and login surfaces.
 - Added a dedicated Composer `analyse` script for PHPStan so local automation and Polyscope can invoke the current GuardGuide static-analysis entry point through the repo script surface.
 - Added the organization-context foundation with internal units, customers, sites, user assignments, management UI, and an effective user-context resolver for follow-up instruction features.
+- Added a role management surface (RBAC) so platform administrators can create, edit, and delete custom roles with fine-grained permission assignments; predefined system roles are seeded from the catalog and their labels are translated via Lingui.
 
 ### Changed
 

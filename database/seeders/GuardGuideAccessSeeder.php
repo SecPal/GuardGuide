@@ -34,12 +34,33 @@ class GuardGuideAccessSeeder extends Seeder
             $role = Role::firstOrCreate([
                 'name' => $roleName,
                 'guard_name' => $this->source->guardName(),
+            ], [
+                'label' => $roleDefinition['name'],
             ]);
 
-            $role->syncPermissions(array_map(
+            if ($role->label === null || $role->label === '') {
+                $role->forceFill([
+                    'label' => $roleDefinition['name'],
+                ])->save();
+            }
+
+            $catalogPermissions = array_map(
                 static fn (string $permissionName): Permission => $permissions[$permissionName],
                 $roleDefinition['permissions'],
-            ));
+            );
+
+            if ($role->wasRecentlyCreated) {
+                $role->syncPermissions($catalogPermissions);
+            } else {
+                // For existing roles, only add catalog permissions that are missing.
+                // Extra permissions added by administrators are intentionally preserved.
+                $role->givePermissionTo(
+                    collect($catalogPermissions)
+                        ->filter(fn (Permission $p): bool => ! $role->hasPermissionTo($p))
+                        ->values()
+                        ->all(),
+                );
+            }
         }
 
         $platformAdministrator = Role::query()

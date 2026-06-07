@@ -3,6 +3,7 @@ import CustomerController from './CustomerController'
 import SiteController from './SiteController'
 import UserAssignmentController from './UserAssignmentController'
 import UserRoleController from './UserRoleController'
+import RoleManagementController from './RoleManagementController'
 import Settings from './Settings'
 
 const Controllers = {
@@ -11,6 +12,7 @@ const Controllers = {
     SiteController: Object.assign(SiteController, SiteController),
     UserAssignmentController: Object.assign(UserAssignmentController, UserAssignmentController),
     UserRoleController: Object.assign(UserRoleController, UserRoleController),
+    RoleManagementController: Object.assign(RoleManagementController, RoleManagementController),
     Settings: Object.assign(Settings, Settings),
 }
 
