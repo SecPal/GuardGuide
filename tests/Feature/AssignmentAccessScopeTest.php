@@ -10,7 +10,7 @@ use App\Models\UserOrganizationalUnitAssignment;
 use App\Models\UserSiteAssignment;
 use App\Services\AssignmentAccessScope;
 
-test('users without global permissions can read and write only directly assigned customers and sites', function () {
+test('users without global permissions can write assigned customers but only read directly assigned sites', function () {
     $user = User::factory()->create();
     $assignedCustomer = Customer::factory()->create(['name' => 'Assigned Customer']);
     $unassignedCustomer = Customer::factory()->create(['name' => 'Unassigned Customer']);
@@ -35,13 +35,13 @@ test('users without global permissions can read and write only directly assigned
     expect($scope->readableCustomers($user)->pluck('id')->all())->toBe([$assignedCustomer->getKey()])
         ->and($scope->writableCustomers($user)->pluck('id')->all())->toBe([$assignedCustomer->getKey()])
         ->and($scope->readableSites($user)->pluck('id')->all())->toBe([$assignedSite->getKey()])
-        ->and($scope->writableSites($user)->pluck('id')->all())->toBe([$assignedSite->getKey()])
+        ->and($scope->writableSites($user)->pluck('id')->all())->toBe([])
         ->and($scope->canReadCustomer($user, $assignedCustomer))->toBeTrue()
         ->and($scope->canWriteCustomer($user, $assignedCustomer))->toBeTrue()
         ->and($scope->canReadCustomer($user, $unassignedCustomer))->toBeFalse()
         ->and($scope->canWriteCustomer($user, $unassignedCustomer))->toBeFalse()
         ->and($scope->canReadSite($user, $assignedSite))->toBeTrue()
-        ->and($scope->canWriteSite($user, $assignedSite))->toBeTrue()
+        ->and($scope->canWriteSite($user, $assignedSite))->toBeFalse()
         ->and($scope->canReadSite($user, $unassignedSite))->toBeFalse()
         ->and($scope->canWriteSite($user, $unassignedSite))->toBeFalse();
 });
@@ -94,6 +94,33 @@ test('direct organizational unit assignments provide scoped write access', funct
         ->and($scope->canWriteOrganizationalUnit($user, $assignedUnit))->toBeTrue()
         ->and($scope->canReadOrganizationalUnit($user, $unassignedUnit))->toBeFalse()
         ->and($scope->canWriteOrganizationalUnit($user, $unassignedUnit))->toBeFalse();
+});
+
+test('site update permission still requires writable customer scope', function () {
+    $siteOnlyUser = grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::SITES_UPDATE,
+    );
+    $scopedSiteUser = grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::SITES_UPDATE,
+    );
+    $customer = Customer::factory()->create();
+    $site = Site::factory()
+        ->forCustomer($customer)
+        ->create();
+
+    UserCustomerAssignment::factory()
+        ->forUser($scopedSiteUser)
+        ->forCustomer($customer)
+        ->create();
+
+    $scope = app(AssignmentAccessScope::class);
+
+    expect($scope->writableSites($siteOnlyUser)->pluck('id')->all())->toBe([])
+        ->and($scope->canWriteSite($siteOnlyUser, $site))->toBeFalse()
+        ->and($scope->writableSites($scopedSiteUser)->pluck('id')->all())->toBe([$site->getKey()])
+        ->and($scope->canWriteSite($scopedSiteUser, $site))->toBeTrue();
 });
 
 test('global permissions keep unrestricted read and write scopes separate from assignments', function () {

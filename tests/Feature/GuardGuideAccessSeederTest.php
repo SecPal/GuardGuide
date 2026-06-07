@@ -72,6 +72,19 @@ test('database seeder includes guardguide standard roles', function () {
         ->toBeTrue();
 });
 
+test('database seeder promotes legacy admins to the platform administrator role', function () {
+    $legacyAdmin = User::factory()->create([
+        'is_admin' => true,
+    ]);
+
+    $this->seed(DatabaseSeeder::class);
+
+    expect($legacyAdmin->refresh()->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
+        ->toBeTrue()
+        ->and($legacyAdmin->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE))
+        ->toBeTrue();
+});
+
 test('access seeder reads role and permission definitions from the configured source', function () {
     config()->set('guardguide_access.source', 'test');
     config()->set('guardguide_access.sources.test', TestRolePermissionSource::class);

@@ -122,11 +122,14 @@ class AssignmentAccessScope
     {
         $query = Site::query();
 
-        if ($user->can(GuardGuideAccessCatalog::SITES_UPDATE)) {
-            return $query;
+        if (! $user->can(GuardGuideAccessCatalog::SITES_UPDATE)) {
+            return $query->whereKey([]);
         }
 
-        return $query->whereHas('userAssignments', fn (Builder $query) => $query->where('user_id', $user->getKey()));
+        return $query->whereIn(
+            'customer_id',
+            $this->writableCustomers($user)->select('id'),
+        );
     }
 
     public function canReadSite(User $user, Site $site): bool

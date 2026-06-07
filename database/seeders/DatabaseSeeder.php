@@ -22,6 +22,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(GuardGuideAccessSeeder::class);
 
+        User::query()
+            ->where('is_admin', true)
+            ->cursor()
+            ->each(fn (User $user) => $user->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR));
+
         if (! app()->environment(['local', 'testing'])) {
             return;
         }
