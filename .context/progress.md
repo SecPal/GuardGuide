@@ -23,6 +23,8 @@ SPDX-License-Identifier: CC0-1.0
   authorization-sensitive features can consume one structure without losing why an item is available.
 - Package-provided route middleware for Laravel 13 should be registered in `bootstrap/app.php` via
   `$middleware->alias(...)`, keeping provider discovery and route usage decoupled.
+- Stable GuardGuide RBAC names should live in a first-party catalog class and be synchronized by an
+  idempotent seeder so later policies, middleware, and tests can reference one documented source.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -192,3 +194,23 @@ SPDX-License-Identifier: CC0-1.0
     aliases.
   - Gotchas encountered: The published Spatie v8 migration includes optional team-column handling for
     SQLite testing, so `permission.teams` must remain `false` for this standalone bootstrap slice.
+
+## US-002: Standalone Berechtigungskatalog und Standardrollen definieren
+
+- Added a documented GuardGuide RBAC catalog with web-guard permission names for organizational
+  units, customers, sites, user assignments, and future workflows.
+- Added an idempotent `GuardGuideAccessSeeder` that creates permissions and standard roles for
+  platform administration, customer management, site management, and operational usage, then syncs
+  role permissions back to the catalog on repeated runs.
+- Wired the access seeder into `DatabaseSeeder` while keeping the default test user restricted to
+  local and testing environments.
+- Added feature tests for catalog creation, idempotent reseeding, expected role permissions, and
+  `DatabaseSeeder` inclusion.
+- Files changed: `app/Auth/GuardGuideAccessCatalog.php`,
+  `database/seeders/GuardGuideAccessSeeder.php`, `database/seeders/DatabaseSeeder.php`,
+  `tests/Feature/GuardGuideAccessSeederTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Stable role and permission strings are easiest to reuse safely when the
+    catalog is separate from the seeder and tests assert against that same source.
+  - Gotchas encountered: Spatie role permissions should be re-synchronized during seeding, not only
+    attached, so repeated seed runs also correct catalog drift without creating duplicate records.

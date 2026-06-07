@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(GuardGuideAccessSeeder::class);
+
         if (! app()->environment(['local', 'testing'])) {
             return;
         }
