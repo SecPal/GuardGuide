@@ -177,6 +177,22 @@ test('seeded roles cannot be updated through the management endpoint', function 
         ->toBe($originalPermissions);
 });
 
+test('seeded roles cannot be deleted through the management endpoint', function () {
+    $this->seed(GuardGuideAccessSeeder::class);
+
+    $actingUser = roleManager();
+    $role = Role::findByName(
+        GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR,
+        GuardGuideAccessCatalog::GUARD,
+    );
+
+    $this->actingAs($actingUser)
+        ->delete(route('roles.destroy', $role))
+        ->assertForbidden();
+
+    expect(Role::query()->whereKey($role->getKey())->exists())->toBeTrue();
+});
+
 test('assigned roles cannot be deleted', function () {
     $this->seed(GuardGuideAccessSeeder::class);
 
