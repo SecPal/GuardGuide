@@ -14,7 +14,13 @@ export function useFlashToast(): void {
                 return;
             }
 
-            toast[data.type](i18n._(data.message));
+            const message =
+                {
+                    'Password updated.': i18n._('Password updated.'),
+                    'Profile updated.': i18n._('Profile updated.'),
+                }[data.message] ?? i18n._(data.message);
+
+            toast[data.type](message);
         });
     }, []);
 }

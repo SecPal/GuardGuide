@@ -12,6 +12,14 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 
+#: app/Http/Controllers/Settings/SecurityController.php
+msgid "Password updated."
+msgstr "Passwort aktualisiert."
+
+#: app/Http/Controllers/Settings/ProfileController.php
+msgid "Profile updated."
+msgstr "Profil aktualisiert."
+
 #: resources/js/components/appearance-tabs.tsx
 msgid "appearance.tabs.dark"
 msgstr "Dunkel"

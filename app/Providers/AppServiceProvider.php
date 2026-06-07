@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Auth\GuardGuideAccessCatalog;
 use App\Auth\RolePermissionSource;
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
@@ -16,9 +17,11 @@ use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use InvalidArgumentException;
+use Spatie\Permission\Models\Permission;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -62,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->configurePolicies();
+        $this->configureLegacyAdminFallback();
     }
 
     protected function configurePolicies(): void
@@ -70,6 +74,32 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(OrganizationalUnit::class, OrganizationalUnitPolicy::class);
         Gate::policy(Site::class, SitePolicy::class);
         Gate::policy(User::class, UserAssignmentPolicy::class);
+    }
+
+    protected function configureLegacyAdminFallback(): void
+    {
+        Gate::before(function (User $user, string $ability): ?bool {
+            if (! $user->is_admin || ! array_key_exists($ability, GuardGuideAccessCatalog::permissions())) {
+                return null;
+            }
+
+            static $permissionsTableExists;
+
+            $permissionsTableExists ??= Schema::hasTable(config('permission.table_names.permissions', 'permissions'));
+
+            if (! $permissionsTableExists) {
+                return true;
+            }
+
+            static $seededPermissions = [];
+
+            $permissionExists = $seededPermissions[$ability] ??= Permission::query()
+                ->where('name', $ability)
+                ->where('guard_name', GuardGuideAccessCatalog::GUARD)
+                ->exists();
+
+            return $permissionExists ? null : true;
+        });
     }
 
     /**

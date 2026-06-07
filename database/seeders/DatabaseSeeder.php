@@ -25,7 +25,10 @@ class DatabaseSeeder extends Seeder
         User::query()
             ->where('is_admin', true)
             ->cursor()
-            ->each(fn (User $user) => $user->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR));
+            ->each(function (User $user): void {
+                $user->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR);
+                $user->forceFill(['is_admin' => false])->save();
+            });
 
         if (! app()->environment(['local', 'testing'])) {
             return;

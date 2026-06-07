@@ -72,6 +72,17 @@ test('database seeder includes guardguide standard roles', function () {
         ->toBeTrue();
 });
 
+test('legacy admins retain access until the permission catalog has been seeded', function () {
+    $legacyAdmin = User::factory()->create([
+        'is_admin' => true,
+    ]);
+
+    expect($legacyAdmin->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE))
+        ->toBeTrue()
+        ->and($legacyAdmin->can(GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_UPDATE))
+        ->toBeTrue();
+});
+
 test('database seeder promotes legacy admins to the platform administrator role', function () {
     $legacyAdmin = User::factory()->create([
         'is_admin' => true,
@@ -81,8 +92,29 @@ test('database seeder promotes legacy admins to the platform administrator role'
 
     expect($legacyAdmin->refresh()->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
         ->toBeTrue()
+        ->and($legacyAdmin->is_admin)
+        ->toBeFalse()
         ->and($legacyAdmin->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE))
         ->toBeTrue();
+});
+
+test('database seeder does not re-grant the platform administrator role after backfilling the legacy flag', function () {
+    app()->instance('env', 'production');
+
+    $legacyAdmin = User::factory()->create([
+        'is_admin' => true,
+    ]);
+
+    $this->seed(DatabaseSeeder::class);
+
+    $legacyAdmin->refresh()->removeRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR);
+
+    $this->seed(DatabaseSeeder::class);
+
+    expect($legacyAdmin->refresh()->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
+        ->toBeFalse()
+        ->and($legacyAdmin->is_admin)
+        ->toBeFalse();
 });
 
 test('access seeder reads role and permission definitions from the configured source', function () {
