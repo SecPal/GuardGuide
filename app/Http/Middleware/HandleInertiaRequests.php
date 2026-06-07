@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Auth\GuardGuideAccessCatalog;
+use App\Models\Customer;
 use App\Services\UserContextResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -54,7 +55,7 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
-     * @return array{organizationalUnits: array{view: bool}, userAssignments: array{view: bool}, userRoles: array{view: bool}}
+     * @return array{organizationalUnits: array{view: bool}, customers: array{view: bool}, userAssignments: array{view: bool}, userRoles: array{view: bool}}
      */
     private function sharedPermissions(Request $request): array
     {
@@ -63,6 +64,9 @@ class HandleInertiaRequests extends Middleware
         return [
             'organizationalUnits' => [
                 'view' => $user?->can(GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_VIEW) ?? false,
+            ],
+            'customers' => [
+                'view' => $user?->can('viewAny', Customer::class) ?? false,
             ],
             'userAssignments' => [
                 'view' => $user?->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW) ?? false,

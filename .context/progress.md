@@ -32,6 +32,9 @@ SPDX-License-Identifier: CC0-1.0
 - Assignment-derived data access should be exposed through central query-returning services, with
   global RBAC permissions acting as unrestricted overrides and direct assignments constraining scoped
   read/write access for later modules.
+- Scoped GuardGuide management controllers should authorize through model policies while building
+  their visible lists from `AssignmentAccessScope`, so global permissions and assignment-derived
+  visibility stay aligned between backend routes and Inertia navigation.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -290,3 +293,27 @@ SPDX-License-Identifier: CC0-1.0
   - Gotchas encountered: Object assignments should derive read-only parent customer and responsible
     organizational-unit visibility, but write scope should stay tied to direct assignments unless a
     global update permission is present.
+
+## US-006: Firmen und Kunden nur für berechtigte Rollen anlegbar machen
+- Added a GuardGuide customer/company management flow with authenticated routes, a `CustomerPolicy`,
+  validated create/update requests, scoped customer list props, and an Inertia page for creating and
+  editing customers where allowed.
+- Wired customer navigation through shared `auth.can.customers.view`, using the customer policy so
+  assignment-scoped users can still reach their visible customers without global customer rights.
+- Added feature coverage for guest/unverified access, denied create/update access, successful
+  customer creation and editing, blank-name validation, and scoped customer visibility including
+  site-derived read-only customer visibility.
+- Files changed: `app/Http/Controllers/CustomerController.php`,
+  `app/Http/Middleware/HandleInertiaRequests.php`,
+  `app/Http/Requests/Customers/SaveCustomerRequest.php`, `app/Policies/CustomerPolicy.php`,
+  `app/Providers/AppServiceProvider.php`, `routes/web.php`,
+  `resources/js/pages/customers/index.tsx`, `resources/js/components/app-sidebar.tsx`,
+  `resources/js/types/auth.ts`, generated Wayfinder customer action/route helpers,
+  Lingui message catalogs, `tests/Feature/CustomerManagementTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: A policy-level `viewAny` can combine global RBAC with
+    assignment-scope existence checks, allowing scoped users to access a management list without
+    broad catalog permissions.
+  - Gotchas encountered: `Request::userOrFail()` is not available in this Laravel version; use the
+    authenticated route middleware guarantee and annotate `Request::user()` where static analysis
+    needs the concrete `User` type.

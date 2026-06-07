@@ -3,6 +3,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useLingui } from '@lingui/react';
 import {
     BookOpen,
+    Building2,
     FolderGit2,
     LayoutGrid,
     Network,
@@ -23,6 +24,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as customersIndex } from '@/routes/customers';
 import { index as organizationalUnitsIndex } from '@/routes/organizational-units';
 import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
 import { redirect as userRolesRedirect } from '@/routes/user-roles';
@@ -44,6 +46,15 @@ export function AppSidebar() {
                       title: i18n._('sidebar.organizationalUnits'),
                       href: organizationalUnitsIndex(),
                       icon: Network,
+                  },
+              ]
+            : []),
+        ...(auth.can.customers.view
+            ? [
+                  {
+                      title: i18n._('sidebar.customers'),
+                      href: customersIndex(),
+                      icon: Building2,
                   },
               ]
             : []),

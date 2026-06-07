@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrganizationalUnitController;
 use App\Http\Controllers\UserAssignmentController;
 use App\Http\Controllers\UserRoleController;
@@ -59,6 +60,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('organizational-units.store');
     Route::put('organizational-units/{organizationalUnit}', [OrganizationalUnitController::class, 'update'])
         ->name('organizational-units.update');
+
+    Route::get('customers', [CustomerController::class, 'index'])
+        ->name('customers.index');
+    Route::post('customers', [CustomerController::class, 'store'])
+        ->name('customers.store');
+    Route::put('customers/{customer}', [CustomerController::class, 'update'])
+        ->name('customers.update');
 
     Route::get('user-assignments', [UserAssignmentController::class, 'redirectToFirstUser'])
         ->name('user-assignments.redirect');

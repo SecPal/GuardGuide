@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Customer;
 use App\Models\OrganizationalUnit;
 use App\Models\User;
+use App\Policies\CustomerPolicy;
 use App\Policies\OrganizationalUnitPolicy;
 use App\Policies\UserAssignmentPolicy;
 use App\Services\UserContextResolver;
@@ -35,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
     protected function configurePolicies(): void
     {
+        Gate::policy(Customer::class, CustomerPolicy::class);
         Gate::policy(OrganizationalUnit::class, OrganizationalUnitPolicy::class);
         Gate::policy(User::class, UserAssignmentPolicy::class);
     }
