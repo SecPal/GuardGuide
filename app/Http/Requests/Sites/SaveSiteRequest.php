@@ -58,6 +58,13 @@ class SaveSiteRequest extends FormRequest
                 'nullable',
                 'uuid',
                 'exists:organizational_units,id',
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    if (($value === null || $value === '') || (is_string($value) && $this->organizationalUnitIsReadable($value))) {
+                        return;
+                    }
+
+                    $fail('The selected organizational unit is not available in your access scope.');
+                },
             ],
         ];
     }
@@ -85,6 +92,17 @@ class SaveSiteRequest extends FormRequest
         return app(AssignmentAccessScope::class)
             ->writableCustomers($user)
             ->whereKey($customerId)
+            ->exists();
+    }
+
+    private function organizationalUnitIsReadable(string $organizationalUnitId): bool
+    {
+        /** @var User $user */
+        $user = $this->user();
+
+        return app(AssignmentAccessScope::class)
+            ->readableOrganizationalUnits($user)
+            ->whereKey($organizationalUnitId)
             ->exists();
     }
 }

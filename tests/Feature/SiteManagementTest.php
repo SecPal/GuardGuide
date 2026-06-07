@@ -6,6 +6,7 @@ use App\Models\OrganizationalUnit;
 use App\Models\Site;
 use App\Models\User;
 use App\Models\UserCustomerAssignment;
+use App\Models\UserOrganizationalUnitAssignment;
 use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
 
@@ -75,6 +76,10 @@ test('sites can be viewed created and edited within the users customer scope', f
         ->forUser($user)
         ->forCustomer($customer)
         ->create();
+    UserOrganizationalUnitAssignment::factory()
+        ->forUser($user)
+        ->forOrganizationalUnit($organizationalUnit)
+        ->create();
 
     $this->actingAs($user)
         ->get(route('sites.index'))
@@ -129,6 +134,31 @@ test('site create permission does not allow creating outside the users customer 
             'customer_id' => $customer->getKey(),
         ])
         ->assertSessionHasErrors('customer_id')
+        ->assertRedirect(route('sites.index'));
+
+    $this->assertDatabaseMissing('sites', [
+        'name' => 'Out Of Scope Site',
+    ]);
+});
+
+test('site create permission does not allow assigning an out of scope organizational unit', function () {
+    $user = siteManager();
+    $customer = Customer::factory()->create(['name' => 'Assigned Customer']);
+    $organizationalUnit = OrganizationalUnit::factory()->create(['name' => 'Out Of Scope Unit']);
+
+    UserCustomerAssignment::factory()
+        ->forUser($user)
+        ->forCustomer($customer)
+        ->create();
+
+    $this->actingAs($user)
+        ->from(route('sites.index'))
+        ->post(route('sites.store'), [
+            'name' => 'Out Of Scope Site',
+            'customer_id' => $customer->getKey(),
+            'organizational_unit_id' => $organizationalUnit->getKey(),
+        ])
+        ->assertSessionHasErrors('organizational_unit_id')
         ->assertRedirect(route('sites.index'));
 
     $this->assertDatabaseMissing('sites', [
