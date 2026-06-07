@@ -121,6 +121,19 @@ test('customer view permission does not allow creating customers', function () {
     ]);
 });
 
+test('customer create permission without writable company scope hides customer creation', function () {
+    $user = customerManager();
+
+    $this->actingAs($user)
+        ->get(route('customers.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('customers/index')
+            ->where('canCreateCustomers', false)
+            ->where('customerOrganizationOptions', []),
+        );
+});
+
 test('customers can be edited when the user has write scope', function () {
     $customer = Customer::factory()->create(['name' => 'Old Name']);
     $user = customerManager();

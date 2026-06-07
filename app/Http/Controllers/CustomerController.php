@@ -44,7 +44,8 @@ class CustomerController extends Controller
                     'sites_count' => (int) $customer->getAttribute('sites_count'),
                     'can_update' => $user->can('update', $customer),
                 ]),
-            'canCreateCustomers' => $user->can(GuardGuideAccessCatalog::CUSTOMERS_CREATE),
+            'canCreateCustomers' => $user->can(GuardGuideAccessCatalog::CUSTOMERS_CREATE)
+                && $organizationAccess['options'] !== [],
             'customerOrganizationOptions' => $organizationAccess['options'],
             'resolvedOrganizationId' => $organizationAccess['resolvedOrganizationId'],
             'mustChooseOrganization' => $organizationAccess['mustChooseOrganization'],
