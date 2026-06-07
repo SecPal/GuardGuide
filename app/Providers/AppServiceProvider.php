@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
+use App\Models\Site;
 use App\Models\User;
 use App\Policies\CustomerPolicy;
 use App\Policies\OrganizationalUnitPolicy;
+use App\Policies\SitePolicy;
 use App\Policies\UserAssignmentPolicy;
 use App\Services\UserContextResolver;
 use Carbon\CarbonImmutable;
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Customer::class, CustomerPolicy::class);
         Gate::policy(OrganizationalUnit::class, OrganizationalUnitPolicy::class);
+        Gate::policy(Site::class, SitePolicy::class);
         Gate::policy(User::class, UserAssignmentPolicy::class);
     }
 

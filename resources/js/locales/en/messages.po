@@ -410,12 +410,6 @@ msgstr "Hierarchy"
 msgid "orgUnits.metaTitle"
 msgstr "Organisation structure"
 
-#~ msgid "Password updated."
-#~ msgstr "Password updated."
-
-#~ msgid "Profile updated."
-#~ msgstr "Profile updated."
-
 #: resources/js/pages/settings/appearance.tsx
 msgid "settings.appearance.breadcrumb"
 msgstr "Appearance settings"
@@ -824,12 +818,80 @@ msgid "sidebar.repository"
 msgstr "Repository"
 
 #: resources/js/components/app-sidebar.tsx
+msgid "sidebar.sites"
+msgstr "Sites"
+
+#: resources/js/components/app-sidebar.tsx
 msgid "sidebar.userAssignments"
 msgstr "User assignments"
 
 #: resources/js/components/app-sidebar.tsx
 msgid "sidebar.userRoles"
 msgstr "User roles"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.createForm.submit"
+msgstr "Create"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.createForm.title"
+msgstr "New site"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.placeholder"
+msgstr "Select an editable site from the list."
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.submit"
+msgstr "Save"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.title"
+msgstr "Edit site"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.customer"
+msgstr "Customer"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.customerPlaceholder"
+msgstr "Select customer"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.name"
+msgstr "Name"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.organizationalUnit"
+msgstr "Responsible unit"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.organizationalUnitNone"
+msgstr "No responsible unit"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.heading.description"
+msgstr "Create and edit guarded objects within the permitted customer scope"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.heading.title"
+msgstr "Sites and objects"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.empty"
+msgstr "No sites visible."
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.title"
+msgstr "Sites"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.unknownCustomer"
+msgstr "Unknown customer"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.metaTitle"
+msgstr "Sites and objects"
 
 #: resources/js/pages/user-assignments/index.tsx
 msgid "userAssignments.add"

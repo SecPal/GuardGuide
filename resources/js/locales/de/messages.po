@@ -410,12 +410,6 @@ msgstr "Hierarchie"
 msgid "orgUnits.metaTitle"
 msgstr "Organisationsstruktur"
 
-#~ msgid "Password updated."
-#~ msgstr "Passwort aktualisiert."
-
-#~ msgid "Profile updated."
-#~ msgstr "Profil aktualisiert."
-
 #: resources/js/pages/settings/appearance.tsx
 msgid "settings.appearance.breadcrumb"
 msgstr "Darstellung"
@@ -829,12 +823,80 @@ msgid "sidebar.repository"
 msgstr "Repository"
 
 #: resources/js/components/app-sidebar.tsx
+msgid "sidebar.sites"
+msgstr "Objekte"
+
+#: resources/js/components/app-sidebar.tsx
 msgid "sidebar.userAssignments"
 msgstr "Nutzer-Zuordnungen"
 
 #: resources/js/components/app-sidebar.tsx
 msgid "sidebar.userRoles"
 msgstr "Nutzerrollen"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.createForm.submit"
+msgstr "Anlegen"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.createForm.title"
+msgstr "Neues Objekt"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.placeholder"
+msgstr "Wählen Sie ein bearbeitbares Objekt aus der Liste."
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.submit"
+msgstr "Speichern"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.title"
+msgstr "Objekt bearbeiten"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.customer"
+msgstr "Kunde"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.customerPlaceholder"
+msgstr "Kunde auswählen"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.name"
+msgstr "Name"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.organizationalUnit"
+msgstr "Verantwortliche Einheit"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.organizationalUnitNone"
+msgstr "Keine verantwortliche Einheit"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.heading.description"
+msgstr "Objekte im zulässigen Kundenscope anlegen und bearbeiten"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.heading.title"
+msgstr "Objekte"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.empty"
+msgstr "Keine Objekte sichtbar."
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.title"
+msgstr "Objekte"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.unknownCustomer"
+msgstr "Kunde unbekannt"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.metaTitle"
+msgstr "Objekte"
 
 #: resources/js/pages/user-assignments/index.tsx
 msgid "userAssignments.add"

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrganizationalUnitController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserAssignmentController;
 use App\Http\Controllers\UserRoleController;
 use Illuminate\Http\Request;
@@ -67,6 +68,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('customers.store');
     Route::put('customers/{customer}', [CustomerController::class, 'update'])
         ->name('customers.update');
+
+    Route::get('sites', [SiteController::class, 'index'])
+        ->name('sites.index');
+    Route::post('sites', [SiteController::class, 'store'])
+        ->name('sites.store');
+    Route::put('sites/{site}', [SiteController::class, 'update'])
+        ->name('sites.update');
 
     Route::get('user-assignments', [UserAssignmentController::class, 'redirectToFirstUser'])
         ->name('user-assignments.redirect');

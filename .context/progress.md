@@ -35,6 +35,9 @@ SPDX-License-Identifier: CC0-1.0
 - Scoped GuardGuide management controllers should authorize through model policies while building
   their visible lists from `AssignmentAccessScope`, so global permissions and assignment-derived
   visibility stay aligned between backend routes and Inertia navigation.
+- Scoped mutation requests that combine route-level permissions with payload-level scope validation
+  should enforce the route permission in `FormRequest::authorize()`, because Laravel validates
+  FormRequests before the controller body runs.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -317,3 +320,25 @@ SPDX-License-Identifier: CC0-1.0
   - Gotchas encountered: `Request::userOrFail()` is not available in this Laravel version; use the
     authenticated route middleware guarantee and annotate `Request::user()` where static analysis
     needs the concrete `User` type.
+
+## US-007: Objekte nur für berechtigte Rollen und im zulässigen Kundenscope anlegbar machen
+- Added a GuardGuide site/object management flow with authenticated routes, a `SitePolicy`, scoped
+  create/update validation, writable customer option props, optional responsible-unit selection, and
+  an Inertia page for creating and editing sites.
+- Wired site navigation through shared `auth.can.sites.view`, generated Wayfinder site helpers, and
+  updated Lingui catalogs for the new object-management UI.
+- Added feature coverage for guest/unverified access, denied site permissions, successful scoped
+  create/update, customer-scope validation failures, and global customer-write override behavior.
+- Files changed: `app/Http/Controllers/SiteController.php`,
+  `app/Http/Requests/Sites/SaveSiteRequest.php`, `app/Policies/SitePolicy.php`,
+  `app/Http/Middleware/HandleInertiaRequests.php`, `app/Providers/AppServiceProvider.php`,
+  `routes/web.php`, `resources/js/pages/sites/index.tsx`,
+  `resources/js/components/app-sidebar.tsx`, `resources/js/types/auth.ts`, generated Wayfinder
+  site action/route helpers, Lingui message catalogs, `tests/Feature/SiteManagementTest.php`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Site mutation endpoints can reuse writable customer scopes for payload
+    authorization, keeping customer reassignment checks identical for create and update.
+  - Gotchas encountered: Controller-level authorization is too late for FormRequest-backed writes
+    when validation itself performs scoped existence checks; mirror the route permission in
+    `authorize()` so missing permissions return 403 instead of validation redirects.

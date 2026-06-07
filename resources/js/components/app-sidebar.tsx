@@ -8,6 +8,7 @@ import {
     LayoutGrid,
     Network,
     ShieldCheck,
+    MapPinned,
     Users,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
@@ -26,6 +27,7 @@ import {
 import { dashboard } from '@/routes';
 import { index as customersIndex } from '@/routes/customers';
 import { index as organizationalUnitsIndex } from '@/routes/organizational-units';
+import { index as sitesIndex } from '@/routes/sites';
 import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
 import { redirect as userRolesRedirect } from '@/routes/user-roles';
 import type { NavItem } from '@/types';
@@ -55,6 +57,15 @@ export function AppSidebar() {
                       title: i18n._('sidebar.customers'),
                       href: customersIndex(),
                       icon: Building2,
+                  },
+              ]
+            : []),
+        ...(auth.can.sites.view
+            ? [
+                  {
+                      title: i18n._('sidebar.sites'),
+                      href: sitesIndex(),
+                      icon: MapPinned,
                   },
               ]
             : []),

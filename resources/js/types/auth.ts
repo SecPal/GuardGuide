@@ -19,6 +19,9 @@ export type Auth = {
         customers: {
             view: boolean;
         };
+        sites: {
+            view: boolean;
+        };
         userAssignments: {
             view: boolean;
         };
