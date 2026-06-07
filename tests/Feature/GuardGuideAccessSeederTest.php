@@ -1,6 +1,7 @@
 <?php
 
 use App\Auth\GuardGuideAccessCatalog;
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Database\Seeders\GuardGuideAccessSeeder;
 use Illuminate\Support\Facades\DB;
@@ -48,7 +49,13 @@ test('predefined guardguide roles receive their expected permissions', function 
 test('database seeder includes guardguide standard roles', function () {
     $this->seed(DatabaseSeeder::class);
 
+    $testUser = User::where('email', 'test@example.com')->firstOrFail();
+
     expect(Role::findByName(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR, GuardGuideAccessCatalog::GUARD)
         ->hasPermissionTo(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE))
+        ->toBeTrue()
+        ->and($testUser->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
+        ->toBeTrue()
+        ->and($testUser->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE))
         ->toBeTrue();
 });

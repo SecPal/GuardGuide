@@ -1,5 +1,6 @@
 <?php
 
+use App\Auth\GuardGuideAccessCatalog;
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
 use App\Models\Site;
@@ -9,6 +10,15 @@ use App\Models\UserOrganizationalUnitAssignment;
 use App\Models\UserSiteAssignment;
 use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
+
+function userAssignmentManager(array $attributes = []): User
+{
+    return grantPermissions(
+        User::factory()->create($attributes),
+        GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW,
+        GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE,
+    );
+}
 
 test('guests are redirected from the user assignment page', function () {
     $user = User::factory()->create();
@@ -27,7 +37,7 @@ test('unverified users are redirected from the user assignment page', function (
         ->assertRedirect(route('verification.notice'));
 });
 
-test('non-admin users cannot view or manage assignments', function () {
+test('users without user assignment permissions cannot view or manage assignments', function () {
     $actingUser = User::factory()->create();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
@@ -61,12 +71,28 @@ test('non-admin users cannot view or manage assignments', function () {
         ->assertForbidden();
 });
 
-test('admin users can view assignments for a user', function () {
+test('assignment view permission does not allow managing a selected user', function () {
+    $actingUser = grantPermissions(
+        User::factory()->create(['name' => 'Viewer']),
+        GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW,
+    );
+    $selectedUser = User::factory()->create(['name' => 'Target']);
+
+    $this->actingAs($actingUser)
+        ->get(route('user-assignments.redirect'))
+        ->assertRedirect(route('user-assignments.index', $selectedUser));
+
+    $this->actingAs($actingUser)
+        ->get(route('user-assignments.index', $selectedUser))
+        ->assertForbidden();
+});
+
+test('users with assignment management permission can view assignments for a user', function () {
     $selectedUser = User::factory()->create([
         'name' => 'Mira Admin',
         'email' => 'mira@example.test',
     ]);
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $unit = OrganizationalUnit::factory()->create(['name' => 'Einsatzleitung']);
     $customer = Customer::factory()->create(['name' => 'Acme Security']);
     $site = Site::factory()->forCustomer($customer)->create(['name' => 'Werk Nord']);
@@ -104,7 +130,7 @@ test('admin users can view assignments for a user', function () {
 });
 
 test('assignment landing route redirects to the first user', function () {
-    $zUser = User::factory()->admin()->create(['name' => 'Zoe']);
+    $zUser = userAssignmentManager(['name' => 'Zoe']);
     $aUser = User::factory()->create(['name' => 'Ada']);
 
     $this->actingAs($zUser)
@@ -113,7 +139,7 @@ test('assignment landing route redirects to the first user', function () {
 });
 
 test('organizational unit assignments can be added and removed through the UI endpoint', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $unit = OrganizationalUnit::factory()->create();
 
@@ -141,7 +167,7 @@ test('organizational unit assignments can be added and removed through the UI en
 });
 
 test('customer assignments can be added and removed through the UI endpoint', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
 
@@ -169,7 +195,7 @@ test('customer assignments can be added and removed through the UI endpoint', fu
 });
 
 test('removing a customer assignment also removes its site assignments', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -198,7 +224,7 @@ test('removing a customer assignment also removes its site assignments', functio
 });
 
 test('removing a customer assignment also removes its trashed site assignments', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -229,7 +255,7 @@ test('removing a customer assignment also removes its trashed site assignments',
 });
 
 test('site assignments require an existing customer assignment', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -249,7 +275,7 @@ test('site assignments require an existing customer assignment', function () {
 });
 
 test('site assignments can be added and removed after customer assignment exists', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -283,7 +309,7 @@ test('site assignments can be added and removed after customer assignment exists
 });
 
 test('duplicate assignment submissions are shown as validation errors', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
 
@@ -302,7 +328,7 @@ test('duplicate assignment submissions are shown as validation errors', function
 });
 
 test('storing a site assignment is rejected when the customer assignment was removed concurrently', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create();
     $site = Site::factory()->forCustomer($customer)->create();
@@ -331,7 +357,7 @@ test('storing a site assignment is rejected when the customer assignment was rem
 });
 
 test('assigned site carries its customer name in the index payload', function () {
-    $actingUser = User::factory()->admin()->create();
+    $actingUser = userAssignmentManager();
     $selectedUser = User::factory()->create();
     $customer = Customer::factory()->create(['name' => 'Regression Customer']);
     $site = Site::factory()->forCustomer($customer)->create(['name' => 'Regression Site']);

@@ -1,6 +1,9 @@
 <?php
 
+use App\Auth\GuardGuideAccessCatalog;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 /*
@@ -47,4 +50,15 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+function grantPermissions(User $user, string ...$permissions): User
+{
+    foreach ($permissions as $permission) {
+        Permission::findOrCreate($permission, GuardGuideAccessCatalog::GUARD);
+    }
+
+    $user->givePermissionTo($permissions);
+
+    return $user->refresh();
 }

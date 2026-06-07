@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Auth\GuardGuideAccessCatalog;
 use App\Services\UserContextResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -42,12 +43,30 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'can' => $this->sharedPermissions($request),
             ],
             'effectiveContext' => fn () => $request->user() === null
                 ? null
                 : app(UserContextResolver::class)->resolve($request->user()),
             'locale' => App::getLocale(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+        ];
+    }
+
+    /**
+     * @return array{organizationalUnits: array{view: bool}, userAssignments: array{view: bool}}
+     */
+    private function sharedPermissions(Request $request): array
+    {
+        $user = $request->user();
+
+        return [
+            'organizationalUnits' => [
+                'view' => $user?->can(GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_VIEW) ?? false,
+            ],
+            'userAssignments' => [
+                'view' => $user?->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW) ?? false,
+            ],
         ];
     }
 }

@@ -1,10 +1,21 @@
 <?php
 
+use App\Auth\GuardGuideAccessCatalog;
 use App\Enums\OrganizationalUnitType;
 use App\Models\OrganizationalUnit;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
+
+function organizationalUnitManager(array $attributes = []): User
+{
+    return grantPermissions(
+        User::factory()->create($attributes),
+        GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_VIEW,
+        GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_CREATE,
+        GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_UPDATE,
+    );
+}
 
 test('guests are redirected from the organizational unit page', function () {
     $this->get(route('organizational-units.index'))
@@ -21,7 +32,7 @@ test('unverified users are redirected from the organizational unit page', functi
         ->assertRedirect(route('verification.notice'));
 });
 
-test('non-admin users cannot view or modify organizational units', function () {
+test('users without organizational unit permissions cannot view or modify organizational units', function () {
     $user = User::factory()->create();
     $unit = OrganizationalUnit::factory()->root()->create();
 
@@ -51,7 +62,37 @@ test('non-admin users cannot view or modify organizational units', function () {
     $this->assertDatabaseMissing('organizational_units', ['name' => 'Should Not Update']);
 });
 
-test('admin users can view organizational units as a hierarchy', function () {
+test('organizational unit view permission does not allow writes', function () {
+    $user = grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_VIEW,
+    );
+    $unit = OrganizationalUnit::factory()->root()->create();
+
+    $this->actingAs($user)
+        ->get(route('organizational-units.index'))
+        ->assertOk();
+
+    $this->actingAs($user)
+        ->post(route('organizational-units.store'), [
+            'type' => OrganizationalUnitType::Division->value,
+            'name' => 'View Only Division',
+            'parent_id' => null,
+            'sort_order' => 0,
+        ])
+        ->assertForbidden();
+
+    $this->actingAs($user)
+        ->put(route('organizational-units.update', $unit), [
+            'type' => $unit->type->value,
+            'name' => 'View Only Update',
+            'parent_id' => null,
+            'sort_order' => 0,
+        ])
+        ->assertForbidden();
+});
+
+test('users with organizational unit view permission can view organizational units as a hierarchy', function () {
     $root = OrganizationalUnit::factory()->root()->create([
         'type' => OrganizationalUnitType::Company,
         'name' => 'SecPal',
@@ -63,7 +104,7 @@ test('admin users can view organizational units as a hierarchy', function () {
         'sort_order' => 10,
     ]);
 
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->get(route('organizational-units.index'))
@@ -94,7 +135,7 @@ test('organizational units with soft-deleted parents remain visible in the hiera
     ]);
     $deletedParent->delete();
 
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->get(route('organizational-units.index'))
@@ -113,7 +154,7 @@ test('organizational units with soft-deleted parents remain visible in the hiera
 });
 
 test('organizational units can be created on root level', function () {
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->post(route('organizational-units.store'), [
@@ -135,7 +176,7 @@ test('organizational units can be created on root level', function () {
 
 test('organizational units can be created below an existing unit', function () {
     $parent = OrganizationalUnit::factory()->root()->create();
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->post(route('organizational-units.store'), [
@@ -158,7 +199,7 @@ test('organizational units can be created below an existing unit', function () {
 test('organizational units surface hierarchy validation errors when created through the UI endpoint', function () {
     $root = OrganizationalUnit::factory()->root()->create();
     $child = OrganizationalUnit::factory()->childOf($root)->create();
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     OrganizationalUnit::query()
         ->withoutGlobalScopes()
@@ -182,7 +223,7 @@ test('organizational units surface hierarchy validation errors when created thro
 });
 
 test('organizational units reject whitespace-only names through the UI endpoint', function () {
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->from(route('organizational-units.index'))
@@ -204,7 +245,7 @@ test('organizational units reject whitespace-only names through the UI endpoint'
 
 test('organizational units can be edited', function () {
     $unit = OrganizationalUnit::factory()->root()->create();
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->put(route('organizational-units.update', $unit), [
@@ -226,7 +267,7 @@ test('organizational units can be edited', function () {
 test('organizational units can be edited when their parent is soft deleted', function () {
     $deletedParent = OrganizationalUnit::factory()->root()->create(['name' => 'Archived Company']);
     $unit = OrganizationalUnit::factory()->childOf($deletedParent)->create(['name' => 'Visible Division']);
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $deletedParent->delete();
 
@@ -251,7 +292,7 @@ test('organizational units can be moved within the hierarchy', function () {
     $oldParent = OrganizationalUnit::factory()->root()->create(['name' => 'Old Parent']);
     $newParent = OrganizationalUnit::factory()->root()->create(['name' => 'New Parent']);
     $child = OrganizationalUnit::factory()->childOf($oldParent)->create(['name' => 'Movable Team']);
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->put(route('organizational-units.update', $child), [
@@ -272,7 +313,7 @@ test('organizational units cannot be moved below their descendants through the U
     $root = OrganizationalUnit::factory()->root()->create();
     $child = OrganizationalUnit::factory()->childOf($root)->create();
     $grandchild = OrganizationalUnit::factory()->childOf($child)->create();
-    $user = User::factory()->admin()->create();
+    $user = organizationalUnitManager();
 
     $this->actingAs($user)
         ->from(route('organizational-units.index'))

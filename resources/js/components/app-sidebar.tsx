@@ -23,7 +23,6 @@ import type { NavItem } from '@/types';
 export function AppSidebar() {
     const { i18n } = useLingui();
     const { auth } = usePage<SharedPageProps>().props;
-    const isAdmin = Boolean(auth.user?.is_admin);
 
     const mainNavItems: NavItem[] = [
         {
@@ -31,13 +30,17 @@ export function AppSidebar() {
             href: dashboard(),
             icon: LayoutGrid,
         },
-        ...(isAdmin
+        ...(auth.can.organizationalUnits.view
             ? [
                   {
                       title: i18n._('sidebar.organizationalUnits'),
                       href: organizationalUnitsIndex(),
                       icon: Network,
                   },
+              ]
+            : []),
+        ...(auth.can.userAssignments.view
+            ? [
                   {
                       title: i18n._('sidebar.userAssignments'),
                       href: userAssignmentsRedirect(),

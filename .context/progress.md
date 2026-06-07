@@ -25,6 +25,8 @@ SPDX-License-Identifier: CC0-1.0
   `$middleware->alias(...)`, keeping provider discovery and route usage decoupled.
 - Stable GuardGuide RBAC names should live in a first-party catalog class and be synchronized by an
   idempotent seeder so later policies, middleware, and tests can reference one documented source.
+- RBAC-protected Inertia navigation should consume shared `auth.can` permission booleans derived from
+  Laravel authorization, not model flags such as `users.is_admin`.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -214,3 +216,27 @@ SPDX-License-Identifier: CC0-1.0
     catalog is separate from the seeder and tests assert against that same source.
   - Gotchas encountered: Spatie role permissions should be re-synchronized during seeding, not only
     attached, so repeated seed runs also correct catalog drift without creating duplicate records.
+
+## US-003: Hart verdrahtetes Admin-Flag durch Berechtigungen ersetzen
+- Replaced `OrganizationalUnitPolicy` and `UserAssignmentPolicy` checks with named GuardGuide
+  catalog permissions and removed the model/factory convenience paths that treated `is_admin` as an
+  authorization primitive.
+- Exposed a small shared Inertia `auth.can` map for organizational-unit and user-assignment
+  navigation, and switched the sidebar to those permission booleans.
+- Updated the local/test default user seeding path to assign the platform administrator role instead
+  of relying on the legacy admin flag.
+- Reworked organizational-unit and user-assignment feature tests to grant explicit permissions,
+  including boundary coverage for view-only users.
+- Files changed: `app/Policies/OrganizationalUnitPolicy.php`,
+  `app/Policies/UserAssignmentPolicy.php`, `app/Http/Middleware/HandleInertiaRequests.php`,
+  `app/Models/User.php`, `database/factories/UserFactory.php`, `database/seeders/DatabaseSeeder.php`,
+  `resources/js/components/app-sidebar.tsx`, `resources/js/types/auth.ts`, `tests/Pest.php`,
+  `tests/Feature/OrganizationalUnitManagementTest.php`,
+  `tests/Feature/UserAssignmentManagementTest.php`, `tests/Feature/UserAssignmentTest.php`,
+  `tests/Feature/GuardGuideAccessSeederTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Server-side authorization and frontend navigation can share one small
+    permission read model, keeping UI visibility aligned with Laravel policies without leaking legacy
+    user columns.
+  - Gotchas encountered: Local seeded users need real RBAC roles once policies stop reading
+    `is_admin`; otherwise a development account can exist but no longer reach management routes.
