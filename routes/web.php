@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\OrganizationalUnitController;
 use App\Http\Controllers\UserAssignmentController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -75,6 +76,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('user-assignments.sites.store');
     Route::delete('users/{user}/assignments/sites/{site}', [UserAssignmentController::class, 'destroySite'])
         ->name('user-assignments.sites.destroy');
+
+    Route::get('user-roles', [UserRoleController::class, 'redirectToFirstUser'])
+        ->name('user-roles.redirect');
+    Route::get('users/{user}/roles', [UserRoleController::class, 'index'])
+        ->name('user-roles.index');
+    Route::post('users/{user}/roles', [UserRoleController::class, 'store'])
+        ->name('user-roles.store');
+    Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'destroy'])
+        ->name('user-roles.destroy');
 });
 
 require __DIR__.'/settings.php';

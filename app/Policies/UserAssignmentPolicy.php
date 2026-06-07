@@ -16,4 +16,14 @@ class UserAssignmentPolicy
     {
         return $user->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE);
     }
+
+    public function viewRoles(User $user, User $target): bool
+    {
+        return $user->can(GuardGuideAccessCatalog::USER_ROLES_VIEW);
+    }
+
+    public function manageRoles(User $user, User $target): bool
+    {
+        return $user->can(GuardGuideAccessCatalog::USER_ROLES_MANAGE);
+    }
 }

@@ -27,6 +27,8 @@ SPDX-License-Identifier: CC0-1.0
   idempotent seeder so later policies, middleware, and tests can reference one documented source.
 - RBAC-protected Inertia navigation should consume shared `auth.can` permission booleans derived from
   Laravel authorization, not model flags such as `users.is_admin`.
+- User role-management pages should use Spatie role IDs for mutation endpoints while displaying
+  stable labels from the first-party GuardGuide RBAC catalog.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -240,3 +242,29 @@ SPDX-License-Identifier: CC0-1.0
     user columns.
   - Gotchas encountered: Local seeded users need real RBAC roles once policies stop reading
     `is_admin`; otherwise a development account can exist but no longer reach management routes.
+
+## US-004: Rollen an Benutzer im GuardGuide zuweisen können
+- Added dedicated `user_roles.view` and `user_roles.manage` catalog permissions, policy abilities,
+  authenticated routes, and a `UserRoleController` for viewing, assigning, and removing Spatie roles
+  on users.
+- Added a GuardGuide Inertia/React user-role management page with user selection, current role
+  display, role assignment, removal controls, sidebar navigation, translations, and generated
+  Wayfinder helpers.
+- Added feature tests for guest/unverified access, forbidden role-management access, view-only
+  visibility, successful assignment, successful removal, and landing-route redirection.
+- Files changed: `app/Auth/GuardGuideAccessCatalog.php`,
+  `app/Http/Controllers/UserRoleController.php`,
+  `app/Http/Middleware/HandleInertiaRequests.php`, `app/Policies/UserAssignmentPolicy.php`,
+  `routes/web.php`, `resources/js/components/app-sidebar.tsx`,
+  `resources/js/pages/user-roles/index.tsx`,
+  `resources/js/actions/App/Http/Controllers/UserRoleController.ts`,
+  `resources/js/actions/App/Http/Controllers/index.ts`, `resources/js/routes/index.ts`,
+  `resources/js/routes/user-roles/index.ts`, `resources/js/types/auth.ts`,
+  `resources/js/locales/de/messages.po`, `resources/js/locales/en/messages.po`,
+  `tests/Feature/UserRoleManagementTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Role assignment mutations should bind roles by numeric Spatie IDs while
+    resolving display names from `GuardGuideAccessCatalog::roles()` so UI labels can remain
+    first-party and stable.
+  - Gotchas encountered: `php artisan wayfinder:generate` needs `--with-form` in this project;
+    otherwise it drops existing generated `.form()` helpers used by the Inertia form components.

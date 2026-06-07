@@ -1,7 +1,14 @@
 import type { SharedPageProps } from '@inertiajs/core';
 import { Link, usePage } from '@inertiajs/react';
 import { useLingui } from '@lingui/react';
-import { BookOpen, FolderGit2, LayoutGrid, Network, Users } from 'lucide-react';
+import {
+    BookOpen,
+    FolderGit2,
+    LayoutGrid,
+    Network,
+    ShieldCheck,
+    Users,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -18,6 +25,7 @@ import {
 import { dashboard } from '@/routes';
 import { index as organizationalUnitsIndex } from '@/routes/organizational-units';
 import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
+import { redirect as userRolesRedirect } from '@/routes/user-roles';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
@@ -45,6 +53,15 @@ export function AppSidebar() {
                       title: i18n._('sidebar.userAssignments'),
                       href: userAssignmentsRedirect(),
                       icon: Users,
+                  },
+              ]
+            : []),
+        ...(auth.can.userRoles.view
+            ? [
+                  {
+                      title: i18n._('sidebar.userRoles'),
+                      href: userRolesRedirect(),
+                      icon: ShieldCheck,
                   },
               ]
             : []),

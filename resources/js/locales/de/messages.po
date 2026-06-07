@@ -129,6 +129,10 @@ msgid "sidebar.userAssignments"
 msgstr "Nutzer-Zuordnungen"
 
 #: resources/js/components/app-sidebar.tsx
+msgid "sidebar.userRoles"
+msgstr "Nutzerrollen"
+
+#: resources/js/components/app-sidebar.tsx
 msgid "sidebar.repository"
 msgstr "Repository"
 
@@ -887,3 +891,39 @@ msgstr "Abmelden"
 #: resources/js/components/user-menu-content.tsx
 msgid "userMenu.settings"
 msgstr "Einstellungen"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.breadcrumb"
+msgstr "Nutzerrollen"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.heading.description"
+msgstr "GuardGuide-Rollen für Nutzer zuweisen und entfernen."
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.heading.title"
+msgstr "Nutzerrollen"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.metaTitle"
+msgstr "Nutzerrollen"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.add"
+msgstr "Rolle zuweisen"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.empty"
+msgstr "Keine Rollen zugewiesen."
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.removeAriaLabel"
+msgstr "Rolle {role} entfernen"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.selectPlaceholder"
+msgstr "Rolle auswählen"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.title"
+msgstr "Rollen"

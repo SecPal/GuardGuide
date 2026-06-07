@@ -19,6 +19,9 @@ export type Auth = {
         userAssignments: {
             view: boolean;
         };
+        userRoles: {
+            view: boolean;
+        };
     };
 };
 

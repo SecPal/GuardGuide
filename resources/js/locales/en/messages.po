@@ -128,6 +128,10 @@ msgid "sidebar.userAssignments"
 msgstr "User assignments"
 
 #: resources/js/components/app-sidebar.tsx
+msgid "sidebar.userRoles"
+msgstr "User roles"
+
+#: resources/js/components/app-sidebar.tsx
 msgid "sidebar.repository"
 msgstr "Repository"
 
@@ -885,3 +889,39 @@ msgstr "Log out"
 #: resources/js/components/user-menu-content.tsx
 msgid "userMenu.settings"
 msgstr "Settings"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.breadcrumb"
+msgstr "User roles"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.heading.description"
+msgstr "Assign and remove GuardGuide roles for users."
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.heading.title"
+msgstr "User roles"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.metaTitle"
+msgstr "User roles"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.add"
+msgstr "Assign role"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.empty"
+msgstr "No roles assigned."
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.removeAriaLabel"
+msgstr "Remove role {role}"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.selectPlaceholder"
+msgstr "Select role"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.title"
+msgstr "Roles"

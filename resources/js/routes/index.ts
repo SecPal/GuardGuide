@@ -218,7 +218,7 @@ homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 home.form = homeForm
 
 /**
-* @see routes/web.php:10
+* @see routes/web.php:11
 * @route '/manifest.webmanifest'
 */
 export const manifest = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -232,7 +232,7 @@ manifest.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:10
+* @see routes/web.php:11
 * @route '/manifest.webmanifest'
 */
 manifest.url = (options?: RouteQueryOptions) => {
@@ -240,7 +240,7 @@ manifest.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:10
+* @see routes/web.php:11
 * @route '/manifest.webmanifest'
 */
 manifest.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -249,7 +249,7 @@ manifest.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:10
+* @see routes/web.php:11
 * @route '/manifest.webmanifest'
 */
 manifest.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -258,7 +258,7 @@ manifest.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:10
+* @see routes/web.php:11
 * @route '/manifest.webmanifest'
 */
 const manifestForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -267,7 +267,7 @@ const manifestForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 })
 
 /**
-* @see routes/web.php:10
+* @see routes/web.php:11
 * @route '/manifest.webmanifest'
 */
 manifestForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -276,7 +276,7 @@ manifestForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:10
+* @see routes/web.php:11
 * @route '/manifest.webmanifest'
 */
 manifestForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
