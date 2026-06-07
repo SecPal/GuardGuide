@@ -57,6 +57,14 @@ class OrganizationalUnit extends Model
     }
 
     /**
+     * @return HasMany<Site, $this>
+     */
+    public function sites(): HasMany
+    {
+        return $this->hasMany(Site::class);
+    }
+
+    /**
      * @return HasMany<UserOrganizationalUnitAssignment, $this>
      */
     public function userAssignments(): HasMany

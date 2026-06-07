@@ -29,6 +29,9 @@ SPDX-License-Identifier: CC0-1.0
   Laravel authorization, not model flags such as `users.is_admin`.
 - User role-management pages should use Spatie role IDs for mutation endpoints while displaying
   stable labels from the first-party GuardGuide RBAC catalog.
+- Assignment-derived data access should be exposed through central query-returning services, with
+  global RBAC permissions acting as unrestricted overrides and direct assignments constraining scoped
+  read/write access for later modules.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -268,3 +271,22 @@ SPDX-License-Identifier: CC0-1.0
     first-party and stable.
   - Gotchas encountered: `php artisan wayfinder:generate` needs `--with-form` in this project;
     otherwise it drops existing generated `.form()` helpers used by the Inertia form components.
+
+## US-005: Zugriffsscope aus Zuweisungen als eigene Autorisierungsschicht nutzbar machen
+- Added a central `AssignmentAccessScope` service that returns reusable readable and writable
+  Eloquent scopes for organizational units, customers, and sites, plus target-level `canRead*` and
+  `canWrite*` helpers.
+- Kept assignment scopes independent from SecPal by using only GuardGuide models, assignment
+  relationships, and the first-party RBAC catalog; global permissions provide unrestricted access,
+  while users without global permissions are constrained to assigned targets.
+- Added scoped access tests proving direct customer, site, and organizational-unit assignments allow
+  only assigned targets, site assignments derive read-only parent customer/responsible-unit visibility,
+  and global read/write permissions remain separate.
+- Files changed: `app/Services/AssignmentAccessScope.php`, `app/Models/OrganizationalUnit.php`,
+  `tests/Feature/AssignmentAccessScopeTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Query-returning scope services let controllers, policies, and future domain
+    modules reuse the same assignment authorization rules without copying `whereHas` constraints.
+  - Gotchas encountered: Object assignments should derive read-only parent customer and responsible
+    organizational-unit visibility, but write scope should stay tied to direct assignments unless a
+    global update permission is present.
