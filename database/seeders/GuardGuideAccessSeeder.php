@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use App\Auth\GuardGuideAccessCatalog;
 use App\Auth\RolePermissionSource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 class GuardGuideAccessSeeder extends Seeder

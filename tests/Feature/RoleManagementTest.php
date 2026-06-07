@@ -222,10 +222,15 @@ test('assigned roles cannot be deleted', function () {
 
     $actingUser = roleManager();
     $assignedUser = User::factory()->create();
-    $role = Role::findByName(
-        GuardGuideAccessCatalog::ROLE_OPERATIONS_USER,
-        GuardGuideAccessCatalog::GUARD,
-    );
+
+    // Use a custom (non-seeded) role: seeded roles are independently blocked
+    // by RoleManagementPolicy::delete and would short-circuit to 403, hiding
+    // the "users are still assigned" branch we want to exercise here.
+    $role = Role::create([
+        'name' => 'dispatch-coordinator',
+        'label' => 'Dispatch coordinator',
+        'guard_name' => GuardGuideAccessCatalog::GUARD,
+    ]);
 
     $assignedUser->assignRole($role);
 

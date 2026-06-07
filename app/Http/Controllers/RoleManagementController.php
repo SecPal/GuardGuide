@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Auth\GuardGuideAccessCatalog;
 use App\Http\Requests\Roles\SaveRoleRequest;
+use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class RoleManagementController extends Controller
 {
