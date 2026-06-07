@@ -106,17 +106,21 @@ class RoleManagementController extends Controller
     }
 
     /**
-     * @return array{id: int|string, name: string, label: string, permissions: list<string>, usersCount: int, canDelete: bool}
+     * @return array{id: int|string, name: string, label: string, permissions: list<string>, usersCount: int, canUpdate: bool, canDelete: bool}
      */
     private function serializeRole(Role $role): array
     {
+        $usersCount = $role->users_count ?? 0;
+
         return [
             'id' => $role->getKey(),
             'name' => $role->name,
             'label' => $role->label ?? $role->name,
             'permissions' => $role->permissions->pluck('name')->sort()->values()->all(),
-            'usersCount' => $role->users_count ?? 0,
-            'canDelete' => ($role->users_count ?? 0) === 0,
+            'usersCount' => $usersCount,
+            'canUpdate' => request()->user()?->can('update', $role) ?? false,
+            'canDelete' => $usersCount === 0
+                && (request()->user()?->can('delete', $role) ?? false),
         ];
     }
 }

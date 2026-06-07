@@ -104,6 +104,30 @@ test('capabilities flags reflect the policy correctly for a full role manager', 
         );
 });
 
+test('role overview reflects per-role update and delete abilities', function () {
+    $this->seed(GuardGuideAccessSeeder::class);
+
+    $actingUser = roleManager();
+
+    Role::create([
+        'name' => 'temporary-role',
+        'label' => 'Temporary role',
+        'guard_name' => GuardGuideAccessCatalog::GUARD,
+    ]);
+
+    $this->actingAs($actingUser)
+        ->get(route('roles.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('roles.1.name', GuardGuideAccessCatalog::ROLE_OPERATIONS_USER)
+            ->where('roles.1.canUpdate', false)
+            ->where('roles.1.canDelete', false)
+            ->where('roles.4.name', 'temporary-role')
+            ->where('roles.4.canUpdate', true)
+            ->where('roles.4.canDelete', true),
+        );
+});
+
 test('roles can be created and updated through the management endpoints', function () {
     $this->seed(GuardGuideAccessSeeder::class);
 

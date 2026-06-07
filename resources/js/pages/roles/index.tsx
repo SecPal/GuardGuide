@@ -15,7 +15,12 @@ import {
     translatePermissionLabel,
     translateRoleLabel,
 } from '@/lib/access-i18n';
-import { destroy as destroyRole, index as rolesIndex, store as storeRole, update as updateRole } from '@/routes/roles';
+import {
+    destroy as destroyRole,
+    index as rolesIndex,
+    store as storeRole,
+    update as updateRole,
+} from '@/routes/roles';
 
 type RoleRecord = {
     id: number;
@@ -23,6 +28,7 @@ type RoleRecord = {
     label: string;
     permissions: string[];
     usersCount: number;
+    canUpdate: boolean;
     canDelete: boolean;
 };
 
@@ -128,7 +134,9 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
             'permissions',
             checked
                 ? [...form.data.permissions, permissionName].sort()
-                : form.data.permissions.filter((name) => name !== permissionName),
+                : form.data.permissions.filter(
+                      (name) => name !== permissionName,
+                  ),
         );
     }
 
@@ -160,7 +168,7 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
 
     const canEditCurrent = isCreating
         ? capabilities.create
-        : capabilities.update;
+        : (selectedRole?.canUpdate ?? false);
 
     return (
         <>
@@ -229,9 +237,13 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                                 </span>
                                             </div>
                                             <p className="text-xs text-muted-foreground">
-                                                {i18n._('roles.list.permissionCount', {
-                                                    count: role.permissions.length,
-                                                })}
+                                                {i18n._(
+                                                    'roles.list.permissionCount',
+                                                    {
+                                                        count: role.permissions
+                                                            .length,
+                                                    },
+                                                )}
                                             </p>
                                         </button>
                                     );
@@ -280,7 +292,9 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                             }
                                             disabled={!canEditCurrent}
                                         />
-                                        <InputError message={form.errors.label} />
+                                        <InputError
+                                            message={form.errors.label}
+                                        />
                                     </div>
 
                                     <div className="space-y-2">
@@ -301,7 +315,9 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                         <p className="text-xs text-muted-foreground">
                                             {i18n._('roles.fields.nameHint')}
                                         </p>
-                                        <InputError message={form.errors.name} />
+                                        <InputError
+                                            message={form.errors.name}
+                                        />
                                     </div>
                                 </div>
 
@@ -311,7 +327,9 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                             {i18n._('roles.fields.permissions')}
                                         </Label>
                                         <p className="mt-1 text-sm text-muted-foreground">
-                                            {i18n._('roles.fields.permissionsHint')}
+                                            {i18n._(
+                                                'roles.fields.permissionsHint',
+                                            )}
                                         </p>
                                     </div>
 
@@ -338,20 +356,27 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                                         checked={form.data.permissions.includes(
                                                             permission.name,
                                                         )}
-                                                        onCheckedChange={(checked) =>
+                                                        onCheckedChange={(
+                                                            checked,
+                                                        ) =>
                                                             togglePermission(
                                                                 permission.name,
-                                                                checked === true,
+                                                                checked ===
+                                                                    true,
                                                             )
                                                         }
-                                                        disabled={!canEditCurrent}
+                                                        disabled={
+                                                            !canEditCurrent
+                                                        }
                                                     />
                                                     <div className="min-w-0">
                                                         <p className="text-sm font-medium">
                                                             {permissionLabel}
                                                         </p>
                                                         <p className="text-xs text-muted-foreground">
-                                                            {permissionDescription}
+                                                            {
+                                                                permissionDescription
+                                                            }
                                                         </p>
                                                         <p className="mt-1 truncate font-mono text-[11px] text-muted-foreground/70">
                                                             {permission.name}
@@ -362,12 +387,17 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                         })}
                                     </div>
 
-                                    <InputError message={form.errors.permissions} />
+                                    <InputError
+                                        message={form.errors.permissions}
+                                    />
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-3">
                                     {canEditCurrent && (
-                                        <Button type="submit" disabled={form.processing}>
+                                        <Button
+                                            type="submit"
+                                            disabled={form.processing}
+                                        >
                                             <Save />
                                             {i18n._(
                                                 isCreating
@@ -401,7 +431,7 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                                                             role.id !==
                                                                             selectedRole.id,
                                                                     )?.id ??
-                                                                            null,
+                                                                        null,
                                                                 );
                                                             },
                                                         },
@@ -411,7 +441,7 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                                 <Trash2 />
                                                 {i18n._('roles.actions.delete')}
                                             </Button>
-                                        ) : (
+                                        ) : selectedRole.usersCount > 0 ? (
                                             <p className="text-sm text-muted-foreground">
                                                 {i18n._(
                                                     'roles.actions.deleteBlocked',
@@ -420,7 +450,7 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
                                                     },
                                                 )}
                                             </p>
-                                        ))}
+                                        ) : null)}
                                 </div>
 
                                 <InputError message={roleError} />
