@@ -21,6 +21,8 @@ SPDX-License-Identifier: CC0-1.0
   filtered in React for clarity and enforced again in Laravel validation for crafted requests.
 - Context read models should keep direct and derived visibility explicit with source metadata so later
   authorization-sensitive features can consume one structure without losing why an item is available.
+- Package-provided route middleware for Laravel 13 should be registered in `bootstrap/app.php` via
+  `$middleware->alias(...)`, keeping provider discovery and route usage decoupled.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -172,3 +174,21 @@ SPDX-License-Identifier: CC0-1.0
     structure while still distinguishing direct assignment from object-derived context.
   - Gotchas encountered: Laravel collections inferred with integer keys are a poor fit for UUID-keyed
     de-duplication under PHPStan; plain associative arrays make the intent and static type clearer.
+
+## US-001: Spatie RBAC im Standalone-Modus bootstrappen
+
+- Installed `spatie/laravel-permission` and published its standalone configuration and permission
+  table migration for local roles and permissions.
+- Registered Spatie's route middleware aliases in the Laravel app bootstrap and configured `User` to
+  use the Spatie `HasRoles` trait with the existing `web` guard.
+- Added feature coverage proving a `web`-guard role can grant a permission to a user and be evaluated
+  successfully through Laravel's `can()` authorization path.
+- Files changed: `composer.json`, `composer.lock`, `config/permission.php`,
+  `database/migrations/2026_06_07_093257_create_permission_tables.php`, `bootstrap/app.php`,
+  `app/Models/User.php`, `tests/Feature/UserRolePermissionTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Spatie can stay fully local to GuardGuide by using the package's default
+    role and permission models, explicit `web` guard records, and Laravel bootstrap middleware
+    aliases.
+  - Gotchas encountered: The published Spatie v8 migration includes optional team-column handling for
+    SQLite testing, so `permission.teams` must remain `false` for this standalone bootstrap slice.
