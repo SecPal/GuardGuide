@@ -76,6 +76,9 @@ test('assignment view permission shows assignments without allowing changes', fu
         User::factory()->create(['name' => 'Viewer']),
         GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW,
     );
+    OrganizationalUnit::factory()->create(['name' => 'Hidden Unit']);
+    $customer = Customer::factory()->create(['name' => 'Hidden Customer']);
+    Site::factory()->forCustomer($customer)->create(['name' => 'Hidden Site']);
     $selectedUser = User::factory()->create([
         'name' => 'Target',
         'email' => 'target@example.test',
@@ -92,7 +95,10 @@ test('assignment view permission shows assignments without allowing changes', fu
             ->component('user-assignments/index')
             ->where('selectedUser.id', $selectedUser->getKey())
             ->where('selectedUser.email', 'target@example.test')
-            ->where('canManageAssignments', false),
+            ->where('canManageAssignments', false)
+            ->has('options.organizationalUnits', 0)
+            ->has('options.customers', 0)
+            ->has('options.sites', 0),
         );
 });
 

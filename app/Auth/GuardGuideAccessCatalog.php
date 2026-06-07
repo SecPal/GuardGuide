@@ -95,6 +95,11 @@ final class GuardGuideAccessCatalog
         ];
     }
 
+    public static function isSeededRole(string $roleName): bool
+    {
+        return array_key_exists($roleName, self::roles());
+    }
+
     /**
      * @return array<string, array{name: string, permissions: list<string>}>
      */

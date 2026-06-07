@@ -26,6 +26,7 @@ class RoleManagementPolicy
     public function update(User $user, Role $role): bool
     {
         return $role->guard_name === GuardGuideAccessCatalog::GUARD
+            && ! GuardGuideAccessCatalog::isSeededRole($role->name)
             && $user->can(GuardGuideAccessCatalog::ROLES_UPDATE);
     }
 

@@ -36,6 +36,7 @@ class UserAssignmentController extends Controller
     public function index(User $user): Response
     {
         $this->authorize('viewAny', User::class);
+        $canManageAssignments = Gate::allows('manage', $user);
 
         $user->load([
             'organizationalUnits' => fn ($query) => $query->select(['organizational_units.id', 'type', 'name'])->orderBy('name'),
@@ -43,6 +44,45 @@ class UserAssignmentController extends Controller
             'sites' => fn ($query) => $query->select(['sites.id', 'customer_id', 'name'])->orderBy('name'),
             'sites.customer' => fn ($query) => $query->select(['customers.id', 'name']),
         ]);
+
+        $options = [
+            'organizationalUnits' => [],
+            'customers' => [],
+            'sites' => [],
+        ];
+
+        if ($canManageAssignments) {
+            $options = [
+                'organizationalUnits' => OrganizationalUnit::query()
+                    ->select(['id', 'type', 'name'])
+                    ->orderBy('name')
+                    ->get()
+                    ->map(fn (OrganizationalUnit $unit): array => [
+                        'id' => $unit->getKey(),
+                        'type' => $this->organizationalUnitTypeLabel($unit->type),
+                        'name' => $unit->name,
+                    ]),
+                'customers' => Customer::query()
+                    ->select(['id', 'name'])
+                    ->orderBy('name')
+                    ->get()
+                    ->map(fn (Customer $customer): array => [
+                        'id' => $customer->getKey(),
+                        'name' => $customer->name,
+                    ]),
+                'sites' => Site::query()
+                    ->with('customer:id,name')
+                    ->select(['id', 'customer_id', 'name'])
+                    ->orderBy('name')
+                    ->get()
+                    ->map(fn (Site $site): array => [
+                        'id' => $site->getKey(),
+                        'customer_id' => $site->customer_id,
+                        'customer_name' => $site->customer?->name,
+                        'name' => $site->name,
+                    ]),
+            ];
+        }
 
         return Inertia::render('user-assignments/index', [
             'selectedUser' => [
@@ -77,37 +117,8 @@ class UserAssignmentController extends Controller
                     'name' => $site->name,
                 ])->values(),
             ],
-            'options' => [
-                'organizationalUnits' => OrganizationalUnit::query()
-                    ->select(['id', 'type', 'name'])
-                    ->orderBy('name')
-                    ->get()
-                    ->map(fn (OrganizationalUnit $unit): array => [
-                        'id' => $unit->getKey(),
-                        'type' => $this->organizationalUnitTypeLabel($unit->type),
-                        'name' => $unit->name,
-                    ]),
-                'customers' => Customer::query()
-                    ->select(['id', 'name'])
-                    ->orderBy('name')
-                    ->get()
-                    ->map(fn (Customer $customer): array => [
-                        'id' => $customer->getKey(),
-                        'name' => $customer->name,
-                    ]),
-                'sites' => Site::query()
-                    ->with('customer:id,name')
-                    ->select(['id', 'customer_id', 'name'])
-                    ->orderBy('name')
-                    ->get()
-                    ->map(fn (Site $site): array => [
-                        'id' => $site->getKey(),
-                        'customer_id' => $site->customer_id,
-                        'customer_name' => $site->customer?->name,
-                        'name' => $site->name,
-                    ]),
-            ],
-            'canManageAssignments' => Gate::allows('manage', $user),
+            'options' => $options,
+            'canManageAssignments' => $canManageAssignments,
         ]);
     }
 

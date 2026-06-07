@@ -153,6 +153,30 @@ test('roles can be created and updated through the management endpoints', functi
         ]);
 });
 
+test('seeded roles cannot be updated through the management endpoint', function () {
+    $this->seed(GuardGuideAccessSeeder::class);
+
+    $actingUser = roleManager();
+    $role = Role::findByName(
+        GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR,
+        GuardGuideAccessCatalog::GUARD,
+    );
+    $originalPermissions = $role->permissions->pluck('name')->sort()->values()->all();
+
+    $this->actingAs($actingUser)
+        ->put(route('roles.update', $role), [
+            'name' => 'renamed-platform-admin',
+            'label' => 'Renamed platform admin',
+            'permissions' => [GuardGuideAccessCatalog::ROLES_VIEW],
+        ])
+        ->assertForbidden();
+
+    expect($role->refresh()->name)->toBe(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR)
+        ->and($role->label)->toBe('Platform administration')
+        ->and($role->permissions->pluck('name')->sort()->values()->all())
+        ->toBe($originalPermissions);
+});
+
 test('assigned roles cannot be deleted', function () {
     $this->seed(GuardGuideAccessSeeder::class);
 
