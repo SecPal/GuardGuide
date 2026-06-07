@@ -21,6 +21,25 @@ SPDX-License-Identifier: CC0-1.0
   filtered in React for clarity and enforced again in Laravel validation for crafted requests.
 - Context read models should keep direct and derived visibility explicit with source metadata so later
   authorization-sensitive features can consume one structure without losing why an item is available.
+- Package-provided route middleware for Laravel 13 should be registered in `bootstrap/app.php` via
+  `$middleware->alias(...)`, keeping provider discovery and route usage decoupled.
+- Stable GuardGuide RBAC names should live in a first-party catalog class and be synchronized by an
+  idempotent seeder so later policies, middleware, and tests can reference one documented source.
+- RBAC-protected Inertia navigation should consume shared `auth.can` permission booleans derived from
+  Laravel authorization, not model flags such as `users.is_admin`.
+- User role-management pages should use Spatie role IDs for mutation endpoints while displaying
+  stable labels from the first-party GuardGuide RBAC catalog.
+- Assignment-derived data access should be exposed through central query-returning services, with
+  global RBAC permissions acting as unrestricted overrides and direct assignments constraining scoped
+  read/write access for later modules.
+- Scoped GuardGuide management controllers should authorize through model policies while building
+  their visible lists from `AssignmentAccessScope`, so global permissions and assignment-derived
+  visibility stay aligned between backend routes and Inertia navigation.
+- Scoped mutation requests that combine route-level permissions with payload-level scope validation
+  should enforce the route permission in `FormRequest::authorize()`, because Laravel validates
+  FormRequests before the controller body runs.
+- RBAC definition ownership should be selected through a config-backed source contract, while
+  policies continue to reference stable GuardGuide permission names.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -172,3 +191,180 @@ SPDX-License-Identifier: CC0-1.0
     structure while still distinguishing direct assignment from object-derived context.
   - Gotchas encountered: Laravel collections inferred with integer keys are a poor fit for UUID-keyed
     de-duplication under PHPStan; plain associative arrays make the intent and static type clearer.
+
+## US-001: Spatie RBAC im Standalone-Modus bootstrappen
+
+- Installed `spatie/laravel-permission` and published its standalone configuration and permission
+  table migration for local roles and permissions.
+- Registered Spatie's route middleware aliases in the Laravel app bootstrap and configured `User` to
+  use the Spatie `HasRoles` trait with the existing `web` guard.
+- Added feature coverage proving a `web`-guard role can grant a permission to a user and be evaluated
+  successfully through Laravel's `can()` authorization path.
+- Files changed: `composer.json`, `composer.lock`, `config/permission.php`,
+  `database/migrations/2026_06_07_093257_create_permission_tables.php`, `bootstrap/app.php`,
+  `app/Models/User.php`, `tests/Feature/UserRolePermissionTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Spatie can stay fully local to GuardGuide by using the package's default
+    role and permission models, explicit `web` guard records, and Laravel bootstrap middleware
+    aliases.
+  - Gotchas encountered: The published Spatie v8 migration includes optional team-column handling for
+    SQLite testing, so `permission.teams` must remain `false` for this standalone bootstrap slice.
+
+## US-002: Standalone Berechtigungskatalog und Standardrollen definieren
+
+- Added a documented GuardGuide RBAC catalog with web-guard permission names for organizational
+  units, customers, sites, user assignments, and future workflows.
+- Added an idempotent `GuardGuideAccessSeeder` that creates permissions and standard roles for
+  platform administration, customer management, site management, and operational usage, then syncs
+  role permissions back to the catalog on repeated runs.
+- Wired the access seeder into `DatabaseSeeder` while keeping the default test user restricted to
+  local and testing environments.
+- Added feature tests for catalog creation, idempotent reseeding, expected role permissions, and
+  `DatabaseSeeder` inclusion.
+- Files changed: `app/Auth/GuardGuideAccessCatalog.php`,
+  `database/seeders/GuardGuideAccessSeeder.php`, `database/seeders/DatabaseSeeder.php`,
+  `tests/Feature/GuardGuideAccessSeederTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Stable role and permission strings are easiest to reuse safely when the
+    catalog is separate from the seeder and tests assert against that same source.
+  - Gotchas encountered: Spatie role permissions should be re-synchronized during seeding, not only
+    attached, so repeated seed runs also correct catalog drift without creating duplicate records.
+
+## US-003: Hart verdrahtetes Admin-Flag durch Berechtigungen ersetzen
+
+- Replaced `OrganizationalUnitPolicy` and `UserAssignmentPolicy` checks with named GuardGuide
+  catalog permissions and removed the model/factory convenience paths that treated `is_admin` as an
+  authorization primitive.
+- Exposed a small shared Inertia `auth.can` map for organizational-unit and user-assignment
+  navigation, and switched the sidebar to those permission booleans.
+- Updated the local/test default user seeding path to assign the platform administrator role instead
+  of relying on the legacy admin flag.
+- Reworked organizational-unit and user-assignment feature tests to grant explicit permissions,
+  including boundary coverage for view-only users.
+- Files changed: `app/Policies/OrganizationalUnitPolicy.php`,
+  `app/Policies/UserAssignmentPolicy.php`, `app/Http/Middleware/HandleInertiaRequests.php`,
+  `app/Models/User.php`, `database/factories/UserFactory.php`, `database/seeders/DatabaseSeeder.php`,
+  `resources/js/components/app-sidebar.tsx`, `resources/js/types/auth.ts`, `tests/Pest.php`,
+  `tests/Feature/OrganizationalUnitManagementTest.php`,
+  `tests/Feature/UserAssignmentManagementTest.php`, `tests/Feature/UserAssignmentTest.php`,
+  `tests/Feature/GuardGuideAccessSeederTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Server-side authorization and frontend navigation can share one small
+    permission read model, keeping UI visibility aligned with Laravel policies without leaking legacy
+    user columns.
+  - Gotchas encountered: Local seeded users need real RBAC roles once policies stop reading
+    `is_admin`; otherwise a development account can exist but no longer reach management routes.
+
+## US-004: Rollen an Benutzer im GuardGuide zuweisen können
+
+- Added dedicated `user_roles.view` and `user_roles.manage` catalog permissions, policy abilities,
+  authenticated routes, and a `UserRoleController` for viewing, assigning, and removing Spatie roles
+  on users.
+- Added a GuardGuide Inertia/React user-role management page with user selection, current role
+  display, role assignment, removal controls, sidebar navigation, translations, and generated
+  Wayfinder helpers.
+- Added feature tests for guest/unverified access, forbidden role-management access, view-only
+  visibility, successful assignment, successful removal, and landing-route redirection.
+- Files changed: `app/Auth/GuardGuideAccessCatalog.php`,
+  `app/Http/Controllers/UserRoleController.php`,
+  `app/Http/Middleware/HandleInertiaRequests.php`, `app/Policies/UserAssignmentPolicy.php`,
+  `routes/web.php`, `resources/js/components/app-sidebar.tsx`,
+  `resources/js/pages/user-roles/index.tsx`,
+  `resources/js/actions/App/Http/Controllers/UserRoleController.ts`,
+  `resources/js/actions/App/Http/Controllers/index.ts`, `resources/js/routes/index.ts`,
+  `resources/js/routes/user-roles/index.ts`, `resources/js/types/auth.ts`,
+  `resources/js/locales/de/messages.po`, `resources/js/locales/en/messages.po`,
+  `tests/Feature/UserRoleManagementTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Role assignment mutations should bind roles by numeric Spatie IDs while
+    resolving display names from `GuardGuideAccessCatalog::roles()` so UI labels can remain
+    first-party and stable.
+  - Gotchas encountered: `php artisan wayfinder:generate` needs `--with-form` in this project;
+    otherwise it drops existing generated `.form()` helpers used by the Inertia form components.
+
+## US-005: Zugriffsscope aus Zuweisungen als eigene Autorisierungsschicht nutzbar machen
+
+- Added a central `AssignmentAccessScope` service that returns reusable readable and writable
+  Eloquent scopes for organizational units, customers, and sites, plus target-level `canRead*` and
+  `canWrite*` helpers.
+- Kept assignment scopes independent from SecPal by using only GuardGuide models, assignment
+  relationships, and the first-party RBAC catalog; global permissions provide unrestricted access,
+  while users without global permissions are constrained to assigned targets.
+- Added scoped access tests proving direct customer, site, and organizational-unit assignments allow
+  only assigned targets, site assignments derive read-only parent customer/responsible-unit visibility,
+  and global read/write permissions remain separate.
+- Files changed: `app/Services/AssignmentAccessScope.php`, `app/Models/OrganizationalUnit.php`,
+  `tests/Feature/AssignmentAccessScopeTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Query-returning scope services let controllers, policies, and future domain
+    modules reuse the same assignment authorization rules without copying `whereHas` constraints.
+  - Gotchas encountered: Object assignments should derive read-only parent customer and responsible
+    organizational-unit visibility, but write scope should stay tied to direct assignments unless a
+    global update permission is present.
+
+## US-006: Firmen und Kunden nur für berechtigte Rollen anlegbar machen
+
+- Added a GuardGuide customer/company management flow with authenticated routes, a `CustomerPolicy`,
+  validated create/update requests, scoped customer list props, and an Inertia page for creating and
+  editing customers where allowed.
+- Wired customer navigation through shared `auth.can.customers.view`, using the customer policy so
+  assignment-scoped users can still reach their visible customers without global customer rights.
+- Added feature coverage for guest/unverified access, denied create/update access, successful
+  customer creation and editing, blank-name validation, and scoped customer visibility including
+  site-derived read-only customer visibility.
+- Files changed: `app/Http/Controllers/CustomerController.php`,
+  `app/Http/Middleware/HandleInertiaRequests.php`,
+  `app/Http/Requests/Customers/SaveCustomerRequest.php`, `app/Policies/CustomerPolicy.php`,
+  `app/Providers/AppServiceProvider.php`, `routes/web.php`,
+  `resources/js/pages/customers/index.tsx`, `resources/js/components/app-sidebar.tsx`,
+  `resources/js/types/auth.ts`, generated Wayfinder customer action/route helpers,
+  Lingui message catalogs, `tests/Feature/CustomerManagementTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: A policy-level `viewAny` can combine global RBAC with
+    assignment-scope existence checks, allowing scoped users to access a management list without
+    broad catalog permissions.
+  - Gotchas encountered: `Request::userOrFail()` is not available in this Laravel version; use the
+    authenticated route middleware guarantee and annotate `Request::user()` where static analysis
+    needs the concrete `User` type.
+
+## US-007: Objekte nur für berechtigte Rollen und im zulässigen Kundenscope anlegbar machen
+
+- Added a GuardGuide site/object management flow with authenticated routes, a `SitePolicy`, scoped
+  create/update validation, writable customer option props, optional responsible-unit selection, and
+  an Inertia page for creating and editing sites.
+- Wired site navigation through shared `auth.can.sites.view`, generated Wayfinder site helpers, and
+  updated Lingui catalogs for the new object-management UI.
+- Added feature coverage for guest/unverified access, denied site permissions, successful scoped
+  create/update, customer-scope validation failures, and global customer-write override behavior.
+- Files changed: `app/Http/Controllers/SiteController.php`,
+  `app/Http/Requests/Sites/SaveSiteRequest.php`, `app/Policies/SitePolicy.php`,
+  `app/Http/Middleware/HandleInertiaRequests.php`, `app/Providers/AppServiceProvider.php`,
+  `routes/web.php`, `resources/js/pages/sites/index.tsx`,
+  `resources/js/components/app-sidebar.tsx`, `resources/js/types/auth.ts`, generated Wayfinder
+  site action/route helpers, Lingui message catalogs, `tests/Feature/SiteManagementTest.php`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Site mutation endpoints can reuse writable customer scopes for payload
+    authorization, keeping customer reassignment checks identical for create and update.
+  - Gotchas encountered: Controller-level authorization is too late for FormRequest-backed writes
+    when validation itself performs scoped existence checks; mirror the route permission in
+    `authorize()` so missing permissions return 403 instead of validation redirects.
+
+## US-008: RBAC-Quelle abstrahieren für spätere SecPal-Übernahme
+
+- Added a `RolePermissionSource` contract, local GuardGuide source implementation, and
+  `config/guardguide_access.php` with `GUARDGUIDE_ACCESS_SOURCE=local` as the standalone default.
+- Updated `GuardGuideAccessSeeder` to synchronize Spatie roles and permissions from the configured
+  source instead of directly assuming the catalog as the source of ownership.
+- Documented the future SecPal insertion point in ADR 0003 and covered both standalone source
+  resolution and configured-source seeding with automated tests.
+- Files changed: `.env.example`, `app/Auth/RolePermissionSource.php`,
+  `app/Auth/Sources/LocalGuardGuideRolePermissionSource.php`, `app/Providers/AppServiceProvider.php`,
+  `config/guardguide_access.php`, `database/seeders/GuardGuideAccessSeeder.php`,
+  `docs/decisions/0003-rbac-source-abstraction.md`,
+  `tests/Feature/GuardGuideAccessSeederTest.php`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: RBAC definition ownership should be selected through a config-backed source
+    contract, while policies continue to reference stable GuardGuide permission names.
+  - Gotchas encountered: Composer's `test` script does not forward `--filter` to Pest because it
+    starts with `artisan config:clear`; use `php artisan test --filter=...` for focused test runs.

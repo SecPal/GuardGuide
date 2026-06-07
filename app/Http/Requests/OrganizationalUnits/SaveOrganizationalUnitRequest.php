@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\OrganizationalUnits;
 
+use App\Auth\GuardGuideAccessCatalog;
 use App\Enums\OrganizationalUnitType;
 use App\Models\OrganizationalUnit;
+use App\Models\User;
 use Closure;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,7 +15,22 @@ class SaveOrganizationalUnitRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        /** @var User|null $user */
+        $user = $this->user();
+
+        if ($user === null) {
+            return false;
+        }
+
+        if ($this->isMethod('post')) {
+            return $user->can(GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_CREATE);
+        }
+
+        /** @var OrganizationalUnit|null $unit */
+        $unit = $this->route('organizationalUnit');
+
+        return $unit instanceof OrganizationalUnit
+            && $user->can(GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_UPDATE);
     }
 
     /**

@@ -1,7 +1,17 @@
 import type { SharedPageProps } from '@inertiajs/core';
 import { Link, usePage } from '@inertiajs/react';
 import { useLingui } from '@lingui/react';
-import { BookOpen, FolderGit2, LayoutGrid, Network, Users } from 'lucide-react';
+import {
+    BookOpen,
+    Building2,
+    FolderGit2,
+    LayoutGrid,
+    Network,
+    Shield,
+    ShieldCheck,
+    MapPinned,
+    Users,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -16,14 +26,17 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as customersIndex } from '@/routes/customers';
 import { index as organizationalUnitsIndex } from '@/routes/organizational-units';
+import { index as rolesIndex } from '@/routes/roles';
+import { index as sitesIndex } from '@/routes/sites';
 import { redirect as userAssignmentsRedirect } from '@/routes/user-assignments';
+import { redirect as userRolesRedirect } from '@/routes/user-roles';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
     const { i18n } = useLingui();
     const { auth } = usePage<SharedPageProps>().props;
-    const isAdmin = Boolean(auth.user?.is_admin);
 
     const mainNavItems: NavItem[] = [
         {
@@ -31,17 +44,57 @@ export function AppSidebar() {
             href: dashboard(),
             icon: LayoutGrid,
         },
-        ...(isAdmin
+        ...(auth.can.organizationalUnits.view
             ? [
                   {
                       title: i18n._('sidebar.organizationalUnits'),
                       href: organizationalUnitsIndex(),
                       icon: Network,
                   },
+              ]
+            : []),
+        ...(auth.can.customers.view
+            ? [
+                  {
+                      title: i18n._('sidebar.customers'),
+                      href: customersIndex(),
+                      icon: Building2,
+                  },
+              ]
+            : []),
+        ...(auth.can.sites.view
+            ? [
+                  {
+                      title: i18n._('sidebar.sites'),
+                      href: sitesIndex(),
+                      icon: MapPinned,
+                  },
+              ]
+            : []),
+        ...(auth.can.userAssignments.view
+            ? [
                   {
                       title: i18n._('sidebar.userAssignments'),
                       href: userAssignmentsRedirect(),
                       icon: Users,
+                  },
+              ]
+            : []),
+        ...(auth.can.userRoles.view
+            ? [
+                  {
+                      title: i18n._('sidebar.userRoles'),
+                      href: userRolesRedirect(),
+                      icon: ShieldCheck,
+                  },
+              ]
+            : []),
+        ...(auth.can.roles.view
+            ? [
+                  {
+                      title: i18n._('sidebar.roles'),
+                      href: rolesIndex(),
+                      icon: Shield,
                   },
               ]
             : []),

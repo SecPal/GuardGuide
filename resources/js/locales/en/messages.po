@@ -12,6 +12,47 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 
+#: resources/js/components/appearance-tabs.tsx
+msgid "appearance.tabs.dark"
+msgstr "Dark"
+
+#: resources/js/components/appearance-tabs.tsx
+msgid "appearance.tabs.light"
+msgstr "Light"
+
+#: resources/js/components/appearance-tabs.tsx
+msgid "appearance.tabs.system"
+msgstr "System"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.layoutDescription"
+msgstr "This is a secure area of the application. Please confirm your password "
+"before continuing."
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.layoutTitle"
+msgstr "Confirm password"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.metaTitle"
+msgstr "Confirm password"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.passkeyLabel"
+msgstr "Confirm with passkey"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.passkeyLoading"
+msgstr "Confirming…"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.passkeySeparator"
+msgstr "Or confirm with password"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.submit"
+msgstr "Confirm password"
+
 #: resources/js/pages/auth/forgot-password.tsx
 msgid "auth.forgotPassword.emailLabel"
 msgstr "Email address"
@@ -68,10 +109,12 @@ msgstr "Sign in to GuardGuide"
 msgid "auth.login.metaTitle"
 msgstr "Log in"
 
+#: resources/js/pages/auth/confirm-password.tsx
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.password"
 msgstr "Password"
 
+#: resources/js/pages/auth/confirm-password.tsx
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.passwordPlaceholder"
 msgstr "Password"
@@ -83,369 +126,6 @@ msgstr "Remember me"
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.submit"
 msgstr "Log in"
-
-#: resources/js/pages/auth/verify-email.tsx
-msgid "auth.verifyEmail.layoutDescription"
-msgstr "Please verify your email address by clicking on the link we just "
-"emailed to you."
-
-#: resources/js/pages/auth/verify-email.tsx
-msgid "auth.verifyEmail.layoutTitle"
-msgstr "Email verification"
-
-#: resources/js/pages/auth/verify-email.tsx
-msgid "auth.verifyEmail.linkSent"
-msgstr "A new verification link has been sent to the email address you provided "
-"during registration."
-
-#: resources/js/pages/auth/verify-email.tsx
-msgid "auth.verifyEmail.logout"
-msgstr "Log out"
-
-#: resources/js/pages/auth/verify-email.tsx
-msgid "auth.verifyEmail.metaTitle"
-msgstr "Email verification"
-
-#: resources/js/pages/auth/verify-email.tsx
-msgid "auth.verifyEmail.resend"
-msgstr "Resend verification email"
-
-#: resources/js/components/app-logo.tsx
-#: resources/js/pages/welcome.tsx
-msgid "common.appName"
-msgstr "GuardGuide"
-
-#: resources/js/components/app-sidebar.tsx
-msgid "sidebar.dashboard"
-msgstr "Dashboard"
-
-#: resources/js/components/app-sidebar.tsx
-msgid "sidebar.organizationalUnits"
-msgstr "Organizational structure"
-
-#: resources/js/components/app-sidebar.tsx
-msgid "sidebar.userAssignments"
-msgstr "User assignments"
-
-#: resources/js/components/app-sidebar.tsx
-msgid "sidebar.repository"
-msgstr "Repository"
-
-#: resources/js/components/app-sidebar.tsx
-msgid "sidebar.documentation"
-msgstr "Documentation"
-
-#: resources/js/pages/dashboard.tsx
-msgid "dashboard.breadcrumb"
-msgstr "Dashboard"
-
-#: resources/js/pages/dashboard.tsx
-msgid "dashboard.metaTitle"
-msgstr "Dashboard"
-
-#~ msgid "Password updated."
-#~ msgstr "Password updated."
-
-#~ msgid "Profile updated."
-#~ msgstr "Profile updated."
-
-#: resources/js/pages/settings/appearance.tsx
-msgid "settings.appearance.breadcrumb"
-msgstr "Appearance settings"
-
-#: resources/js/pages/settings/appearance.tsx
-msgid "settings.appearance.headingDescription"
-msgstr "Update the appearance settings for your account"
-
-#: resources/js/pages/settings/appearance.tsx
-msgid "settings.appearance.headingTitle"
-msgstr "Appearance settings"
-
-#: resources/js/pages/settings/appearance.tsx
-msgid "settings.appearance.metaTitle"
-msgstr "Appearance settings"
-
-#: resources/js/layouts/settings/layout.tsx
-msgid "settings.heading.description"
-msgstr "Manage your profile and account settings"
-
-#: resources/js/layouts/settings/layout.tsx
-msgid "settings.heading.title"
-msgstr "Settings"
-
-#: resources/js/components/language-tabs.tsx
-msgid "settings.language.error"
-msgstr "Could not change language. Please try again."
-
-#: resources/js/pages/settings/language.tsx
-msgid "settings.language.breadcrumb"
-msgstr "Language"
-
-#: resources/js/pages/settings/language.tsx
-msgid "settings.language.headingDescription"
-msgstr "Choose the language used across the GuardGuide interface."
-
-#: resources/js/pages/settings/language.tsx
-#: resources/js/components/language-tabs.tsx
-msgid "settings.language.headingTitle"
-msgstr "Language"
-
-#: resources/js/pages/settings/language.tsx
-msgid "settings.language.metaTitle"
-msgstr "Language settings"
-
-#: resources/js/layouts/settings/layout.tsx
-msgid "settings.nav.appearance"
-msgstr "Appearance"
-
-#: resources/js/layouts/settings/layout.tsx
-msgid "settings.nav.ariaLabel"
-msgstr "Settings"
-
-#: resources/js/layouts/settings/layout.tsx
-msgid "settings.nav.language"
-msgstr "Language"
-
-#: resources/js/layouts/settings/layout.tsx
-msgid "settings.nav.profile"
-msgstr "Profile"
-
-#: resources/js/layouts/settings/layout.tsx
-msgid "settings.nav.security"
-msgstr "Security"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.body"
-msgstr "Built for teams that need structured instructions, controlled "
-"publication, and documented acknowledgements without the full SecPal "
-"product surface."
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.cta.dashboard"
-msgstr "Open dashboard"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.cta.login"
-msgstr "Log in"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.eyebrow"
-msgstr "Standalone instruction management"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.feature.acknowledgement.body"
-msgstr "Keep confirmation flows version-bound and auditable from the first "
-"domain slice."
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.feature.acknowledgement.title"
-msgstr "Traceable acknowledgements"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.feature.foundation.body"
-msgstr "Inertia, shadcn/ui, Fortify, passkeys, two-factor authentication, and "
-"Lingui start GuardGuide on a maintainable baseline."
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.feature.foundation.title"
-msgstr "SecPal-aligned foundation"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.feature.publication.body"
-msgstr "Draft, publish, and iterate instruction content in one clean Laravel "
-"monolith baseline."
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.feature.publication.title"
-msgstr "Structured publication"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.metaTitle"
-msgstr "GuardGuide"
-
-#: resources/js/pages/welcome.tsx
-msgid "welcome.title"
-msgstr "GuardGuide keeps instructions clear and acknowledgements accountable."
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.breadcrumb"
-msgstr "Organisation structure"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.metaTitle"
-msgstr "Organisation structure"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.heading.title"
-msgstr "Organisation structure"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.heading.description"
-msgstr "Manage root and child units in the GuardGuide backend"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.hierarchy.title"
-msgstr "Hierarchy"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.hierarchy.empty"
-msgstr "No organisational units yet."
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.hierarchy.sortOrder"
-msgstr "Order"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.createForm.title"
-msgstr "New unit"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.createForm.description"
-msgstr "Create at root level or below an existing unit"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.createForm.submit"
-msgstr "Create"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.editForm.title"
-msgstr "Edit unit"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.editForm.description"
-msgstr "Update name, type, position and parent unit"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.editForm.submit"
-msgstr "Save"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.editForm.placeholder"
-msgstr "Select a unit from the hierarchy."
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.fields.name"
-msgstr "Name"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.fields.type"
-msgstr "Type"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.fields.parent"
-msgstr "Parent unit"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.fields.parentRoot"
-msgstr "Root level"
-
-#: resources/js/pages/organizational-units/index.tsx
-msgid "orgUnits.fields.sortOrder"
-msgstr "Sort order"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.breadcrumb"
-msgstr "User assignments"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.metaTitle"
-msgstr "User assignments"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.heading.title"
-msgstr "User assignments"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.heading.description"
-msgstr "Manage organisation, customer and site assignments in the GuardGuide backend"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.add"
-msgstr "Add"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.removeAriaLabel"
-msgstr "Remove {title}"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.orgUnits.title"
-msgstr "Organisations"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.orgUnits.empty"
-msgstr "No organisation assignments."
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.orgUnits.selectPlaceholder"
-msgstr "Select organisation"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.customers.title"
-msgstr "Customers"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.customers.empty"
-msgstr "No customer assignments."
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.customers.selectPlaceholder"
-msgstr "Select customer"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.sites.title"
-msgstr "Sites"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.sites.empty"
-msgstr "No site assignments."
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.sites.selectPlaceholder"
-msgstr "Select site"
-
-#: resources/js/pages/user-assignments/index.tsx
-msgid "userAssignments.sites.unknownCustomer"
-msgstr "Unknown customer"
-
-#: resources/js/components/appearance-tabs.tsx
-msgid "appearance.tabs.dark"
-msgstr "Dark"
-
-#: resources/js/components/appearance-tabs.tsx
-msgid "appearance.tabs.light"
-msgstr "Light"
-
-#: resources/js/components/appearance-tabs.tsx
-msgid "appearance.tabs.system"
-msgstr "System"
-
-#: resources/js/pages/auth/confirm-password.tsx
-msgid "auth.confirmPassword.layoutDescription"
-msgstr "This is a secure area of the application. Please confirm your password before continuing."
-
-#: resources/js/pages/auth/confirm-password.tsx
-msgid "auth.confirmPassword.layoutTitle"
-msgstr "Confirm password"
-
-#: resources/js/pages/auth/confirm-password.tsx
-msgid "auth.confirmPassword.metaTitle"
-msgstr "Confirm password"
-
-#: resources/js/pages/auth/confirm-password.tsx
-msgid "auth.confirmPassword.passkeyLabel"
-msgstr "Confirm with passkey"
-
-#: resources/js/pages/auth/confirm-password.tsx
-msgid "auth.confirmPassword.passkeyLoading"
-msgstr "Confirming…"
-
-#: resources/js/pages/auth/confirm-password.tsx
-msgid "auth.confirmPassword.passkeySeparator"
-msgstr "Or confirm with password"
-
-#: resources/js/pages/auth/confirm-password.tsx
-msgid "auth.confirmPassword.submit"
-msgstr "Confirm password"
 
 #: resources/js/components/passkey-verify.tsx
 msgid "auth.passkey.defaultLabel"
@@ -509,7 +189,8 @@ msgstr "Two-factor authentication"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.description"
-msgstr "Enter the authentication code provided by your authenticator application."
+msgstr "Enter the authentication code provided by your authenticator "
+"application."
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.title"
@@ -521,7 +202,8 @@ msgstr "login using a recovery code"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.description"
-msgstr "Please confirm access to your account by entering one of your emergency recovery codes."
+msgstr "Please confirm access to your account by entering one of your emergency "
+"recovery codes."
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.placeholder"
@@ -535,7 +217,37 @@ msgstr "Recovery code"
 msgid "auth.twoFactorChallenge.recovery.toggle"
 msgstr "login using an authentication code"
 
-#: resources/js/components/delete-user.tsx
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.layoutDescription"
+msgstr "Please verify your email address by clicking on the link we just "
+"emailed to you."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.layoutTitle"
+msgstr "Email verification"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.linkSent"
+msgstr "A new verification link has been sent to the email address you provided "
+"during registration."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.logout"
+msgstr "Log out"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.metaTitle"
+msgstr "Email verification"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.resend"
+msgstr "Resend verification email"
+
+#: resources/js/components/app-logo.tsx
+#: resources/js/pages/welcome.tsx
+msgid "common.appName"
+msgstr "GuardGuide"
+
 #: resources/js/components/passkey-item.tsx
 #: resources/js/components/passkey-register.tsx
 msgid "common.cancel"
@@ -545,6 +257,86 @@ msgstr "Cancel"
 #: resources/js/pages/settings/security.tsx
 msgid "common.save"
 msgstr "Save"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.createForm.noOrganizations"
+msgstr "No writable company is available for customer creation."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.createForm.submit"
+msgstr "Create"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.createForm.title"
+msgstr "New customer"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.editForm.placeholder"
+msgstr "Select an editable customer from the list."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.editForm.organizationLocked"
+msgstr "The assigned company is fixed after the customer is created."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.editForm.submit"
+msgstr "Save"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.editForm.title"
+msgstr "Edit customer"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.name"
+msgstr "Name"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnit"
+msgstr "Company"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnitHelp"
+msgstr "Choose the company that owns this customer."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnitLocked"
+msgstr "Your company scope resolves to exactly one option."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.fields.organizationalUnitPlaceholder"
+msgstr "Select a company"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.heading.description"
+msgstr "Create and edit customers and companies in the GuardGuide backend"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.heading.title"
+msgstr "Customers and companies"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.list.empty"
+msgstr "No customers visible."
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.list.siteCount"
+msgstr "{count, plural, one {# site} other {# sites}}"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.list.title"
+msgstr "Customers"
+
+#: resources/js/pages/customers/index.tsx
+msgid "customers.metaTitle"
+msgstr "Customers and companies"
+
+#: resources/js/pages/dashboard.tsx
+msgid "dashboard.breadcrumb"
+msgstr "Dashboard"
+
+#: resources/js/pages/dashboard.tsx
+msgid "dashboard.metaTitle"
+msgstr "Dashboard"
 
 #: resources/js/components/app-header.tsx
 msgid "header.documentation"
@@ -566,6 +358,98 @@ msgstr "Repository"
 msgid "header.search"
 msgstr "Search"
 
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.breadcrumb"
+msgstr "Organisation structure"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.createForm.description"
+msgstr "Create at root level or below an existing unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.createForm.submit"
+msgstr "Create"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.createForm.title"
+msgstr "New unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.description"
+msgstr "Update name, type, position and parent unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.placeholder"
+msgstr "Select a unit from the hierarchy."
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.submit"
+msgstr "Save"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.editForm.title"
+msgstr "Edit unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.name"
+msgstr "Name"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.parent"
+msgstr "Parent unit"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.parentRoot"
+msgstr "Root level"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.sortOrder"
+msgstr "Sort order"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.fields.type"
+msgstr "Type"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.heading.description"
+msgstr "Manage root and child units in the GuardGuide backend"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.heading.title"
+msgstr "Organisation structure"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.hierarchy.empty"
+msgstr "No organisational units yet."
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.hierarchy.sortOrder"
+msgstr "Order"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.hierarchy.title"
+msgstr "Hierarchy"
+
+#: resources/js/pages/organizational-units/index.tsx
+msgid "orgUnits.metaTitle"
+msgstr "Organisation structure"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.breadcrumb"
+msgstr "Appearance settings"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.headingDescription"
+msgstr "Update the appearance settings for your account"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.headingTitle"
+msgstr "Appearance settings"
+
+#: resources/js/pages/settings/appearance.tsx
+msgid "settings.appearance.metaTitle"
+msgstr "Appearance settings"
+
 #: resources/js/components/delete-user.tsx
 msgid "settings.deleteAccount.confirmDialog.cancel"
 msgstr "Cancel"
@@ -576,7 +460,9 @@ msgstr "Delete account"
 
 #: resources/js/components/delete-user.tsx
 msgid "settings.deleteAccount.confirmDialog.description"
-msgstr "Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account."
+msgstr "Once your account is deleted, all of its resources and data will also "
+"be permanently deleted. Please enter your password to confirm you would "
+"like to permanently delete your account."
 
 #: resources/js/components/delete-user.tsx
 msgid "settings.deleteAccount.confirmDialog.passwordLabel"
@@ -610,6 +496,55 @@ msgstr "Warning"
 msgid "settings.deleteAccount.warningDescription"
 msgstr "Please proceed with caution, this cannot be undone."
 
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.heading.description"
+msgstr "Manage your profile and account settings"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.heading.title"
+msgstr "Settings"
+
+#: resources/js/pages/settings/language.tsx
+msgid "settings.language.breadcrumb"
+msgstr "Language"
+
+#: resources/js/components/language-tabs.tsx
+msgid "settings.language.error"
+msgstr "Could not change language. Please try again."
+
+#: resources/js/pages/settings/language.tsx
+msgid "settings.language.headingDescription"
+msgstr "Choose the language used across the GuardGuide interface."
+
+#: resources/js/components/language-tabs.tsx
+#: resources/js/pages/settings/language.tsx
+msgid "settings.language.headingTitle"
+msgstr "Language"
+
+#: resources/js/pages/settings/language.tsx
+msgid "settings.language.metaTitle"
+msgstr "Language settings"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.appearance"
+msgstr "Appearance"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.ariaLabel"
+msgstr "Settings"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.language"
+msgstr "Language"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.profile"
+msgstr "Profile"
+
+#: resources/js/layouts/settings/layout.tsx
+msgid "settings.nav.security"
+msgstr "Security"
+
 #: resources/js/components/manage-passkeys.tsx
 msgid "settings.passkeys.description"
 msgstr "Manage your passkeys for passwordless sign-in"
@@ -640,7 +575,8 @@ msgstr "Remove passkey"
 
 #: resources/js/components/passkey-item.tsx
 msgid "settings.passkeys.item.removeDialogDescription"
-msgstr "Are you sure you want to remove the \"{name}\" passkey? You will no longer be able to use it to sign in."
+msgstr "Are you sure you want to remove the \"{name}\" passkey? You will no "
+"longer be able to use it to sign in."
 
 #: resources/js/components/passkey-item.tsx
 msgid "settings.passkeys.item.removeDialogTitle"
@@ -728,7 +664,8 @@ msgstr "Full name"
 
 #: resources/js/components/two-factor-recovery-codes.tsx
 msgid "settings.recoveryCodes.description"
-msgstr "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager."
+msgstr "Recovery codes let you regain access if you lose your 2FA device. Store "
+"them in a secure password manager."
 
 #: resources/js/components/two-factor-recovery-codes.tsx
 msgid "settings.recoveryCodes.hide"
@@ -752,7 +689,8 @@ msgstr "Regenerate codes"
 
 #: resources/js/components/two-factor-recovery-codes.tsx
 msgid "settings.recoveryCodes.regenerateWarning1"
-msgstr "Each recovery code can be used once to access your account and will be removed after use. If you need more, click"
+msgstr "Each recovery code can be used once to access your account and will be "
+"removed after use. If you need more, click"
 
 #: resources/js/components/two-factor-recovery-codes.tsx
 msgid "settings.recoveryCodes.regenerateWarning2"
@@ -820,7 +758,9 @@ msgstr "Disable 2FA"
 
 #: resources/js/components/manage-two-factor.tsx
 msgid "settings.twoFactor.disabledDescription"
-msgstr "When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone."
+msgstr "When you enable two-factor authentication, you will be prompted for a "
+"secure pin during login. This pin can be retrieved from a "
+"TOTP-supported application on your phone."
 
 #: resources/js/components/manage-two-factor.tsx
 msgid "settings.twoFactor.enableButton"
@@ -828,7 +768,8 @@ msgstr "Enable 2FA"
 
 #: resources/js/components/manage-two-factor.tsx
 msgid "settings.twoFactor.enabledDescription"
-msgstr "You will be prompted for a secure, random pin during login, which you can retrieve from the TOTP-supported application on your phone."
+msgstr "You will be prompted for a secure, random pin during login, which you "
+"can retrieve from the TOTP-supported application on your phone."
 
 #: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.backButton"
@@ -847,20 +788,22 @@ msgid "settings.twoFactor.modal.continueButton"
 msgstr "Continue"
 
 #: resources/js/components/two-factor-setup-modal.tsx
-msgid "settings.twoFactor.modal.enableDescription"
-msgstr "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app"
-
-#: resources/js/components/two-factor-setup-modal.tsx
-msgid "settings.twoFactor.modal.enableTitle"
-msgstr "Enable two-factor authentication"
-
-#: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.enabledDescription"
-msgstr "Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app."
+msgstr "Two-factor authentication is now enabled. Scan the QR code or enter the "
+"setup key in your authenticator app."
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.enableDescription"
+msgstr "To finish enabling two-factor authentication, scan the QR code or enter "
+"the setup key in your authenticator app"
 
 #: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.enabledTitle"
 msgstr "Two-factor authentication enabled"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.enableTitle"
+msgstr "Enable two-factor authentication"
 
 #: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.manualEntry"
@@ -878,6 +821,171 @@ msgstr "Verify authentication code"
 msgid "settings.twoFactor.title"
 msgstr "Two-factor authentication"
 
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.customers"
+msgstr "Customers"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.dashboard"
+msgstr "Dashboard"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.documentation"
+msgstr "Documentation"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.organizationalUnits"
+msgstr "Organizational structure"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.repository"
+msgstr "Repository"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.sites"
+msgstr "Sites"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.userAssignments"
+msgstr "User assignments"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.userRoles"
+msgstr "User roles"
+
+#: resources/js/components/app-sidebar.tsx
+msgid "sidebar.roles"
+msgstr "Roles"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.createForm.submit"
+msgstr "Create"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.createForm.title"
+msgstr "New site"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.placeholder"
+msgstr "Select an editable site from the list."
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.submit"
+msgstr "Save"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.editForm.title"
+msgstr "Edit site"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.customer"
+msgstr "Customer"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.customerPlaceholder"
+msgstr "Select customer"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.name"
+msgstr "Name"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.organizationalUnit"
+msgstr "Responsible unit"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.fields.organizationalUnitNone"
+msgstr "No responsible unit"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.heading.description"
+msgstr "Create and edit guarded objects within the permitted customer scope"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.heading.title"
+msgstr "Sites and objects"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.empty"
+msgstr "No sites visible."
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.title"
+msgstr "Sites"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.list.unknownCustomer"
+msgstr "Unknown customer"
+
+#: resources/js/pages/sites/index.tsx
+msgid "sites.metaTitle"
+msgstr "Sites and objects"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.add"
+msgstr "Add"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.breadcrumb"
+msgstr "User assignments"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.customers.empty"
+msgstr "No customer assignments."
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.customers.selectPlaceholder"
+msgstr "Select customer"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.customers.title"
+msgstr "Customers"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.heading.description"
+msgstr "Manage organisation, customer and site assignments in the GuardGuide "
+"backend"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.heading.title"
+msgstr "User assignments"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.metaTitle"
+msgstr "User assignments"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.orgUnits.empty"
+msgstr "No organisation assignments."
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.orgUnits.selectPlaceholder"
+msgstr "Select organisation"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.orgUnits.title"
+msgstr "Organisations"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.removeAriaLabel"
+msgstr "Remove {title}"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.empty"
+msgstr "No site assignments."
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.selectPlaceholder"
+msgstr "Select site"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.title"
+msgstr "Sites"
+
+#: resources/js/pages/user-assignments/index.tsx
+msgid "userAssignments.sites.unknownCustomer"
+msgstr "Unknown customer"
+
 #: resources/js/components/user-menu-content.tsx
 msgid "userMenu.logout"
 msgstr "Log out"
@@ -885,3 +993,408 @@ msgstr "Log out"
 #: resources/js/components/user-menu-content.tsx
 msgid "userMenu.settings"
 msgstr "Settings"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.breadcrumb"
+msgstr "User roles"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.heading.description"
+msgstr "Assign and remove GuardGuide roles for users."
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.heading.title"
+msgstr "User roles"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.metaTitle"
+msgstr "User roles"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.add"
+msgstr "Assign role"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.empty"
+msgstr "No roles assigned."
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.removeAriaLabel"
+msgstr "Remove role {role}"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.selectPlaceholder"
+msgstr "Select role"
+
+#: resources/js/pages/user-roles/index.tsx
+msgid "userRoles.roles.title"
+msgstr "Roles"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.create"
+msgstr "Create role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.delete"
+msgstr "Delete role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.deleteBlocked"
+msgstr "{count, plural, one {This role is still assigned to # user and cannot be deleted.} other {This role is still assigned to # users and cannot be deleted.}}"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.saveChanges"
+msgstr "Save changes"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.actions.saveNew"
+msgstr "Create role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.breadcrumb"
+msgstr "Roles"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.createDescription"
+msgstr "Create a persistent GuardGuide role and choose its permissions."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.createTitle"
+msgstr "New role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.editDescription"
+msgstr "Adjust the role label, slug, and permission assignment."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.editTitle"
+msgstr "Edit role"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.editor.empty"
+msgstr "Select a role from the list or create a new one."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.label"
+msgstr "Label"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.name"
+msgstr "Technical name"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.nameHint"
+msgstr "Use lowercase letters, numbers, and hyphens."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.permissions"
+msgstr "Permissions"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.fields.permissionsHint"
+msgstr "Permissions remain predefined and can be assigned to roles here."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.heading.description"
+msgstr "Create, edit, and maintain persistent GuardGuide roles."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.heading.title"
+msgstr "Roles"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.description"
+msgstr "Existing roles and their current assignment status."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.empty"
+msgstr "No roles available yet."
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.permissionCount"
+msgstr "{count, plural, one {# permission} other {# permissions}}"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.list.title"
+msgstr "Role list"
+
+#: resources/js/pages/roles/index.tsx
+msgid "roles.metaTitle"
+msgstr "Roles"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.body"
+msgstr "Built for teams that need structured instructions, controlled "
+"publication, and documented acknowledgements without the full SecPal "
+"product surface."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.cta.dashboard"
+msgstr "Open dashboard"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.cta.login"
+msgstr "Log in"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.eyebrow"
+msgstr "Standalone instruction management"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.acknowledgement.body"
+msgstr "Keep confirmation flows version-bound and auditable from the first "
+"domain slice."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.acknowledgement.title"
+msgstr "Traceable acknowledgements"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.foundation.body"
+msgstr "Inertia, shadcn/ui, Fortify, passkeys, two-factor authentication, and "
+"Lingui start GuardGuide on a maintainable baseline."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.foundation.title"
+msgstr "SecPal-aligned foundation"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.publication.body"
+msgstr "Draft, publish, and iterate instruction content in one clean Laravel "
+"monolith baseline."
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.feature.publication.title"
+msgstr "Structured publication"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.metaTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/welcome.tsx
+msgid "welcome.title"
+msgstr "GuardGuide keeps instructions clear and acknowledgements accountable."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Assigned roles cannot be deleted."
+msgstr "Assigned roles cannot be deleted."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Role created."
+msgstr "Role created."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Role deleted."
+msgstr "Role deleted."
+
+#: app/Http/Controllers/RoleManagementController.php
+msgid "Role updated."
+msgstr "Role updated."
+
+#: app/Http/Controllers/UserRoleController.php
+msgid "Role assigned."
+msgstr "Role assigned."
+
+#: app/Http/Controllers/UserRoleController.php
+msgid "Role removed."
+msgstr "Role removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.create.description"
+msgstr "Customers and companies can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.create.label"
+msgstr "Create customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.delete.description"
+msgstr "Customers and companies can be removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.delete.label"
+msgstr "Delete customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.update.description"
+msgstr "Customers and companies can be edited."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.update.label"
+msgstr "Edit customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.view.description"
+msgstr "Customers and companies can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.customers.view.label"
+msgstr "View customers"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.create.description"
+msgstr "Organizational units can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.create.label"
+msgstr "Create organizational units"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.delete.description"
+msgstr "Organizational units can be removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.delete.label"
+msgstr "Delete organizational units"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.update.description"
+msgstr "Organizational units can be edited and moved."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.update.label"
+msgstr "Edit organizational units"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.view.description"
+msgstr "Organizational structure can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.organizational_units.view.label"
+msgstr "View organizational structure"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.create.description"
+msgstr "Roles can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.create.label"
+msgstr "Create roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.delete.description"
+msgstr "Roles can be deleted."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.delete.label"
+msgstr "Delete roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.update.description"
+msgstr "Roles can be edited."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.update.label"
+msgstr "Edit roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.view.description"
+msgstr "Role management can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.roles.view.label"
+msgstr "View role management"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.create.description"
+msgstr "Sites and guarded objects can be created."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.create.label"
+msgstr "Create sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.delete.description"
+msgstr "Sites and guarded objects can be removed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.delete.label"
+msgstr "Delete sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.update.description"
+msgstr "Sites and guarded objects can be edited."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.update.label"
+msgstr "Edit sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.view.description"
+msgstr "Sites and guarded objects can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.sites.view.label"
+msgstr "View sites"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.manage.description"
+msgstr "User assignments can be changed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.manage.label"
+msgstr "Manage user assignments"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.view.description"
+msgstr "User assignments can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_assignments.view.label"
+msgstr "View user assignments"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.manage.description"
+msgstr "User role assignments can be changed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.manage.label"
+msgstr "Manage user roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.view.description"
+msgstr "User role assignments can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.user_roles.view.label"
+msgstr "View user roles"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.execute.description"
+msgstr "Future workflow tasks can be executed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.execute.label"
+msgstr "Execute workflows"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.manage.description"
+msgstr "Future workflow definitions can be managed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.manage.label"
+msgstr "Manage workflows"
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.view.description"
+msgstr "Future workflow runs can be viewed."
+
+#: resources/js/lib/access-i18n.ts
+msgid "permissions.workflows.view.label"
+msgstr "View workflows"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.customer-manager.label"
+msgstr "Customer management"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.operations-user.label"
+msgstr "Operational usage"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.platform-administrator.label"
+msgstr "Platform administration"
+
+#: resources/js/lib/access-i18n.ts
+msgid "roles.system.site-manager.label"
+msgstr "Site management"

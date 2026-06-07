@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('organizational_unit_id')
+                ->nullable()
+                ->constrained('organizational_units')
+                ->restrictOnDelete();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();
 
+            $table->index(['organizational_unit_id', 'name']);
             $table->index('name');
         });
     }

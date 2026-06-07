@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Auth\GuardGuideAccessCatalog;
+use App\Models\User;
+use Spatie\Permission\Models\Permission;
+use Tests\RefreshDatabaseWithForcedCommands;
 use Tests\TestCase;
 
 /*
@@ -15,7 +18,7 @@ use Tests\TestCase;
 */
 
 pest()->extend(TestCase::class)
-    ->use(RefreshDatabase::class)
+    ->use(RefreshDatabaseWithForcedCommands::class)
     ->in('Feature');
 
 /*
@@ -47,4 +50,15 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+function grantPermissions(User $user, string ...$permissions): User
+{
+    foreach ($permissions as $permission) {
+        Permission::findOrCreate($permission, GuardGuideAccessCatalog::GUARD);
+    }
+
+    $user->givePermissionTo($permissions);
+
+    return $user->refresh();
 }

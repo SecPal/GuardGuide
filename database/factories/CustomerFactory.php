@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Customer;
+use App\Models\OrganizationalUnit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
+            'organizational_unit_id' => OrganizationalUnit::factory()->company(),
             'name' => fake()->company(),
         ];
     }

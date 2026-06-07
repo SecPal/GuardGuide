@@ -60,6 +60,7 @@ type PageProps = {
         customers: CustomerOption[];
         sites: SiteOption[];
     };
+    canManageAssignments: boolean;
 };
 
 export default function UserAssignments({
@@ -67,6 +68,7 @@ export default function UserAssignments({
     users,
     assignments,
     options,
+    canManageAssignments,
 }: PageProps) {
     const { i18n } = useLingui();
     const assignedUnitIds = new Set(
@@ -148,10 +150,12 @@ export default function UserAssignments({
                         title={i18n._('userAssignments.orgUnits.title')}
                         emptyText={i18n._('userAssignments.orgUnits.empty')}
                         form={
-                            <AddOrganizationalUnitForm
-                                userId={selectedUser.id}
-                                options={availableUnits}
-                            />
+                            canManageAssignments ? (
+                                <AddOrganizationalUnitForm
+                                    userId={selectedUser.id}
+                                    options={availableUnits}
+                                />
+                            ) : null
                         }
                     >
                         {assignments.organizationalUnits.map((unit) => (
@@ -163,6 +167,7 @@ export default function UserAssignments({
                                     user: selectedUser.id,
                                     organizationalUnit: unit.id,
                                 })}
+                                canManageAssignments={canManageAssignments}
                             />
                         ))}
                     </AssignmentSection>
@@ -172,10 +177,12 @@ export default function UserAssignments({
                         title={i18n._('userAssignments.customers.title')}
                         emptyText={i18n._('userAssignments.customers.empty')}
                         form={
-                            <AddCustomerForm
-                                userId={selectedUser.id}
-                                options={availableCustomers}
-                            />
+                            canManageAssignments ? (
+                                <AddCustomerForm
+                                    userId={selectedUser.id}
+                                    options={availableCustomers}
+                                />
+                            ) : null
                         }
                     >
                         {assignments.customers.map((customer) => (
@@ -186,6 +193,7 @@ export default function UserAssignments({
                                     user: selectedUser.id,
                                     customer: customer.id,
                                 })}
+                                canManageAssignments={canManageAssignments}
                             />
                         ))}
                     </AssignmentSection>
@@ -195,13 +203,15 @@ export default function UserAssignments({
                         title={i18n._('userAssignments.sites.title')}
                         emptyText={i18n._('userAssignments.sites.empty')}
                         form={
-                            <AddSiteForm
-                                userId={selectedUser.id}
-                                options={availableSites}
-                                hasCustomerAssignment={
-                                    assignments.customers.length > 0
-                                }
-                            />
+                            canManageAssignments ? (
+                                <AddSiteForm
+                                    userId={selectedUser.id}
+                                    options={availableSites}
+                                    hasCustomerAssignment={
+                                        assignments.customers.length > 0
+                                    }
+                                />
+                            ) : null
                         }
                     >
                         {assignments.sites.map((site) => (
@@ -218,6 +228,7 @@ export default function UserAssignments({
                                     user: selectedUser.id,
                                     site: site.id,
                                 })}
+                                canManageAssignments={canManageAssignments}
                             />
                         ))}
                     </AssignmentSection>
@@ -432,7 +443,7 @@ function AssignmentSection({
     icon: ReactNode;
     title: string;
     emptyText: string;
-    form: ReactNode;
+    form?: ReactNode;
     children: ReactNode;
 }) {
     const hasChildren = Array.isArray(children)
@@ -446,7 +457,7 @@ function AssignmentSection({
                 <Heading variant="small" title={title} />
             </div>
 
-            <div className="mb-5">{form}</div>
+            {form && <div className="mb-5">{form}</div>}
 
             <div className="space-y-2">
                 {hasChildren ? (
@@ -465,10 +476,12 @@ function AssignmentRow({
     title,
     subtitle,
     deleteUrl,
+    canManageAssignments,
 }: {
     title: string;
     subtitle?: string;
     deleteUrl: string;
+    canManageAssignments: boolean;
 }) {
     const { i18n } = useLingui();
     const form = useForm({});
@@ -483,18 +496,22 @@ function AssignmentRow({
                     </p>
                 )}
             </div>
-            <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                disabled={form.processing}
-                onClick={() => form.delete(deleteUrl, { preserveScroll: true })}
-                aria-label={i18n._('userAssignments.removeAriaLabel', {
-                    title,
-                })}
-            >
-                <Trash2 />
-            </Button>
+            {canManageAssignments && (
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    disabled={form.processing}
+                    onClick={() =>
+                        form.delete(deleteUrl, { preserveScroll: true })
+                    }
+                    aria-label={i18n._('userAssignments.removeAriaLabel', {
+                        title,
+                    })}
+                >
+                    <Trash2 />
+                </Button>
+            )}
         </div>
     );
 }

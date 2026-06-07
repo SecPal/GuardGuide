@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ValueError;
 
+/**
+ * @property OrganizationalUnitType $type
+ */
 #[Fillable(['type', 'name', 'parent_id', 'sort_order'])]
 class OrganizationalUnit extends Model
 {
@@ -54,6 +57,14 @@ class OrganizationalUnit extends Model
         return $this->hasMany(self::class, 'parent_id')
             ->orderBy('sort_order')
             ->orderBy('name');
+    }
+
+    /**
+     * @return HasMany<Site, $this>
+     */
+    public function sites(): HasMany
+    {
+        return $this->hasMany(Site::class);
     }
 
     /**

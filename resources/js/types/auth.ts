@@ -11,7 +11,33 @@ export type User = {
 };
 
 export type Auth = {
-    user: User;
+    /**
+     * The authenticated user, or `null` for guest requests. Inertia shares
+     * `$request->user()` here, which is `null` whenever there is no
+     * authenticated session (e.g. the welcome page or auth screens), so
+     * consumers must guard before dereferencing.
+     */
+    user: User | null;
+    can: {
+        organizationalUnits: {
+            view: boolean;
+        };
+        customers: {
+            view: boolean;
+        };
+        sites: {
+            view: boolean;
+        };
+        userAssignments: {
+            view: boolean;
+        };
+        userRoles: {
+            view: boolean;
+        };
+        roles: {
+            view: boolean;
+        };
+    };
 };
 
 /* @chisel-passkeys */

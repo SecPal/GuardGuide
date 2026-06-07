@@ -21,7 +21,13 @@ export default defineConfig({
                 }),
             ],
         }),
-        inertia(),
+        inertia({
+            // GuardGuide does not ship an SSR entry or a built SSR bundle, so
+            // we disable the @inertiajs/vite SSR endpoint and module-graph
+            // warmup. Re-enable (and add resources/js/ssr.tsx) only when a
+            // real Node SSR server is part of the deployment.
+            ssr: false,
+        }),
         react({
             babel: {
                 plugins: ['babel-plugin-react-compiler'],

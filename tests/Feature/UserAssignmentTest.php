@@ -1,5 +1,6 @@
 <?php
 
+use App\Auth\GuardGuideAccessCatalog;
 use App\Models\Customer;
 use App\Models\OrganizationalUnit;
 use App\Models\Site;
@@ -10,6 +11,15 @@ use App\Models\UserSiteAssignment;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
+function assignmentPersistenceManager(): User
+{
+    return grantPermissions(
+        User::factory()->create(),
+        GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW,
+        GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE,
+    );
+}
 
 test('users can be assigned to multiple internal organizational units', function () {
     $user = User::factory()->create();
@@ -60,7 +70,7 @@ test('users can be assigned to multiple customers', function () {
 });
 
 test('soft-deleting a customer clears its user assignment pivots', function () {
-    $user = User::factory()->admin()->create();
+    $user = assignmentPersistenceManager();
     $customer = Customer::factory()->create();
     $site = Site::factory()->create([
         'customer_id' => $customer->getKey(),
@@ -102,7 +112,7 @@ test('soft-deleting a customer clears its user assignment pivots', function () {
 });
 
 test('soft-deleting an organizational unit clears its user assignment pivots', function () {
-    $user = User::factory()->admin()->create();
+    $user = assignmentPersistenceManager();
     $unit = OrganizationalUnit::factory()->create();
 
     UserOrganizationalUnitAssignment::factory()
@@ -133,7 +143,7 @@ test('soft-deleting an organizational unit clears its user assignment pivots', f
 });
 
 test('soft-deleting a site clears its user assignment pivots', function () {
-    $user = User::factory()->admin()->create();
+    $user = assignmentPersistenceManager();
     $customer = Customer::factory()->create();
     $site = Site::factory()->create([
         'customer_id' => $customer->getKey(),

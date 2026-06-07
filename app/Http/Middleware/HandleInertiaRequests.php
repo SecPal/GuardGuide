@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Auth\GuardGuideAccessCatalog;
+use App\Models\Customer;
+use App\Models\Site;
 use App\Services\UserContextResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -42,12 +45,42 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'can' => fn () => $this->sharedPermissions($request),
             ],
             'effectiveContext' => fn () => $request->user() === null
                 ? null
                 : app(UserContextResolver::class)->resolve($request->user()),
             'locale' => App::getLocale(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+        ];
+    }
+
+    /**
+     * @return array{organizationalUnits: array{view: bool}, customers: array{view: bool}, sites: array{view: bool}, userAssignments: array{view: bool}, userRoles: array{view: bool}, roles: array{view: bool}}
+     */
+    private function sharedPermissions(Request $request): array
+    {
+        $user = $request->user();
+
+        return [
+            'organizationalUnits' => [
+                'view' => $user?->can(GuardGuideAccessCatalog::ORGANIZATIONAL_UNITS_VIEW) ?? false,
+            ],
+            'customers' => [
+                'view' => $user?->can('viewAny', Customer::class) ?? false,
+            ],
+            'sites' => [
+                'view' => $user?->can('viewAny', Site::class) ?? false,
+            ],
+            'userAssignments' => [
+                'view' => $user?->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_VIEW) ?? false,
+            ],
+            'userRoles' => [
+                'view' => $user?->can(GuardGuideAccessCatalog::USER_ROLES_VIEW) ?? false,
+            ],
+            'roles' => [
+                'view' => $user?->can(GuardGuideAccessCatalog::ROLES_VIEW) ?? false,
+            ],
         ];
     }
 }

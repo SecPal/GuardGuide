@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrganizationalUnitController;
+use App\Http\Controllers\RoleManagementController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserAssignmentController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +63,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('organizational-units/{organizationalUnit}', [OrganizationalUnitController::class, 'update'])
         ->name('organizational-units.update');
 
+    Route::get('customers', [CustomerController::class, 'index'])
+        ->name('customers.index');
+    Route::post('customers', [CustomerController::class, 'store'])
+        ->name('customers.store');
+    Route::put('customers/{customer}', [CustomerController::class, 'update'])
+        ->name('customers.update');
+
+    Route::get('sites', [SiteController::class, 'index'])
+        ->name('sites.index');
+    Route::post('sites', [SiteController::class, 'store'])
+        ->name('sites.store');
+    Route::put('sites/{site}', [SiteController::class, 'update'])
+        ->name('sites.update');
+
     Route::get('user-assignments', [UserAssignmentController::class, 'redirectToFirstUser'])
         ->name('user-assignments.redirect');
     Route::get('users/{user}/assignments', [UserAssignmentController::class, 'index'])
@@ -75,6 +93,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('user-assignments.sites.store');
     Route::delete('users/{user}/assignments/sites/{site}', [UserAssignmentController::class, 'destroySite'])
         ->name('user-assignments.sites.destroy');
+
+    Route::get('user-roles', [UserRoleController::class, 'redirectToFirstUser'])
+        ->name('user-roles.redirect');
+    Route::get('users/{user}/roles', [UserRoleController::class, 'index'])
+        ->name('user-roles.index');
+    Route::post('users/{user}/roles', [UserRoleController::class, 'store'])
+        ->name('user-roles.store');
+    Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'destroy'])
+        ->name('user-roles.destroy');
+
+    Route::get('roles', [RoleManagementController::class, 'index'])
+        ->name('roles.index');
+    Route::post('roles', [RoleManagementController::class, 'store'])
+        ->name('roles.store');
+    Route::put('roles/{role}', [RoleManagementController::class, 'update'])
+        ->name('roles.update');
+    Route::delete('roles/{role}', [RoleManagementController::class, 'destroy'])
+        ->name('roles.destroy');
 });
 
 require __DIR__.'/settings.php';
