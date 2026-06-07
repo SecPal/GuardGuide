@@ -51,7 +51,10 @@ class GuardGuideAccessSeeder extends Seeder
             User::query()
                 ->where('is_admin', true)
                 ->cursor()
-                ->each(fn (User $user) => $user->assignRole($platformAdministrator));
+                ->each(function (User $user) use ($platformAdministrator): void {
+                    $user->assignRole($platformAdministrator);
+                    $user->forceFill(['is_admin' => false])->save();
+                });
         }
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();

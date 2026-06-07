@@ -67,6 +67,8 @@ test('guardguide access seeder promotes legacy admins to the platform administra
 
     expect($legacyAdmin->refresh()->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
         ->toBeTrue()
+        ->and($legacyAdmin->is_admin)
+        ->toBeFalse()
         ->and($legacyAdmin->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE))
         ->toBeTrue();
 });
