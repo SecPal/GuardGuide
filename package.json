@@ -61,7 +61,7 @@
     "dependencies": {
         "@inertiajs/react": "^3.3.1",
         "@inertiajs/vite": "^3.0.0",
-        "@lingui/core": "^6.1.0",
+        "@lingui/core": "^6.3.0",
         "@lingui/react": "^6.1.0",
         "@laravel/passkeys": "^0.2.0",
         "@radix-ui/react-avatar": "^1.1.12",
