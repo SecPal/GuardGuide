@@ -43,6 +43,9 @@ SPDX-License-Identifier: CC0-1.0
 - GuardGuide auth UI primitives should live under `resources/js/components/auth`, wrapping local
   shadcn/radix primitives and Lucide icons so auth pages stay first-party and testable without
   importing SecPal UI code.
+- Settings-hosted security flows can reuse the local auth primitives for status panels, OTP inputs,
+  and icon-led actions while keeping the normal settings page layout and GuardGuide-specific route
+  ownership.
 - Inertia page component tests should live outside `resources/js/pages`, because the production page
   glob imports every `pages/**/*.tsx` file; route-specific pages can opt out of the default layout
   with `Page.layout = () => []` when the page owns its full shell.
@@ -465,3 +468,29 @@ SPDX-License-Identifier: CC0-1.0
   - Gotchas encountered: Radix `ToggleGroup` single-selection items expose as `radio` controls in
     Testing Library, so page tests should assert that semantic role instead of treating them as
     plain buttons.
+
+## US-005: 2FA-Verwaltung in den Sicherheitseinstellungen anpassen
+
+- Reworked `ManageTwoFactor` into compact status/action panels that use the local auth status
+  primitive, Lucide shield icons, and consistent shadcn button hierarchy for enable, continue, and
+  disable states.
+- Updated `TwoFactorSetupModal` with a Radix/shadcn segmented QR-code versus manual-key setup view,
+  local auth error/status surfaces, copy-key affordance, and the shared `AuthOtpInput` for
+  confirmation.
+- Restyled `TwoFactorRecoveryCodes` as a GuardGuide security card with icon-led header, recovery-code
+  display, warning panel, and consistent view/regenerate actions.
+- Added Vitest/Testing Library coverage for starting setup, confirming with OTP after reviewing the
+  manual key, showing recovery codes, and regenerating recovery codes.
+- Ran `npm run test` and `composer ci:check`; both passed.
+- Files changed: `resources/js/components/manage-two-factor.tsx`,
+  `resources/js/components/two-factor-setup-modal.tsx`,
+  `resources/js/components/two-factor-recovery-codes.tsx`,
+  `resources/js/test/manage-two-factor.test.tsx`, `resources/js/locales/en/messages.po`,
+  `resources/js/locales/en/messages.mjs`, `resources/js/locales/de/messages.po`,
+  `resources/js/locales/de/messages.mjs`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Settings-hosted security flows can reuse local auth primitives for the
+    visual language without moving the route into the full auth shell.
+  - Gotchas encountered: `input-otp` labels can collide with dialog titles in Testing Library, so
+    OTP assertions should narrow label queries to the input selector when text is intentionally
+    shared.

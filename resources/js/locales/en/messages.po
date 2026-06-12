@@ -824,6 +824,10 @@ msgid "settings.twoFactor.modal.continueButton"
 msgstr "Continue"
 
 #: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.copySetupKey"
+msgstr "Copy setup key"
+
+#: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.enabledDescription"
 msgstr "Two-factor authentication is now enabled. Scan the QR code or enter the "
 "setup key in your authenticator app."
@@ -844,6 +848,18 @@ msgstr "Enable two-factor authentication"
 #: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.manualEntry"
 msgstr "or, enter the code manually"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.manualKeyTab"
+msgstr "Setup key"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.qrCodeTab"
+msgstr "QR code"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.setupMethodLabel"
+msgstr "Setup method"
 
 #: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.verifyDescription"
