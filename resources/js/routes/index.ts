@@ -137,8 +137,7 @@ logoutForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 logout.form = logoutForm
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see routes/web.php:13
 * @route '/'
 */
 export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -152,8 +151,7 @@ home.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see routes/web.php:13
 * @route '/'
 */
 home.url = (options?: RouteQueryOptions) => {
@@ -161,8 +159,7 @@ home.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see routes/web.php:13
 * @route '/'
 */
 home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -171,8 +168,7 @@ home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see routes/web.php:13
 * @route '/'
 */
 home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -181,8 +177,7 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see routes/web.php:13
 * @route '/'
 */
 const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -191,8 +186,7 @@ const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see routes/web.php:13
 * @route '/'
 */
 homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -201,8 +195,7 @@ homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see routes/web.php:13
 * @route '/'
 */
 homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -218,7 +211,7 @@ homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 home.form = homeForm
 
 /**
-* @see routes/web.php:14
+* @see routes/web.php:18
 * @route '/manifest.webmanifest'
 */
 export const manifest = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -232,7 +225,7 @@ manifest.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:14
+* @see routes/web.php:18
 * @route '/manifest.webmanifest'
 */
 manifest.url = (options?: RouteQueryOptions) => {
@@ -240,7 +233,7 @@ manifest.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:14
+* @see routes/web.php:18
 * @route '/manifest.webmanifest'
 */
 manifest.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -249,7 +242,7 @@ manifest.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:14
+* @see routes/web.php:18
 * @route '/manifest.webmanifest'
 */
 manifest.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -258,7 +251,7 @@ manifest.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:14
+* @see routes/web.php:18
 * @route '/manifest.webmanifest'
 */
 const manifestForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -267,7 +260,7 @@ const manifestForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 })
 
 /**
-* @see routes/web.php:14
+* @see routes/web.php:18
 * @route '/manifest.webmanifest'
 */
 manifestForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -276,7 +269,7 @@ manifestForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:14
+* @see routes/web.php:18
 * @route '/manifest.webmanifest'
 */
 manifestForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

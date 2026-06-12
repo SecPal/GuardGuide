@@ -46,6 +46,9 @@ SPDX-License-Identifier: CC0-1.0
 - Inertia page component tests should live outside `resources/js/pages`, because the production page
   glob imports every `pages/**/*.tsx` file; route-specific pages can opt out of the default layout
   with `Page.layout = () => []` when the page owns its full shell.
+- The named `home` route can remain the shared app-entry target while acting as an auth-aware
+  redirect; tests that need rendered browser metadata should target a concrete Inertia page such as
+  `login`.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -417,3 +420,23 @@ SPDX-License-Identifier: CC0-1.0
     `Page.layout = () => []` while still reusing local auth primitives.
   - Gotchas encountered: Tests placed below `resources/js/pages` are bundled as production Inertia
     pages by the Vite page glob; keep page tests under `resources/js/test` instead.
+
+## US-003: Gast-Einstieg direkt auf den Login führen
+
+- Changed the named `home` route at `/` from the old welcome Inertia page to an auth-aware redirect:
+  guests enter the login flow and authenticated users enter the dashboard.
+- Removed the unused welcome Inertia page and its special layout branch so the former description
+  page is no longer part of the guest application bundle.
+- Expanded feature coverage for guest and authenticated routing through home, login, and logout, and
+  moved locale/appearance rendering assertions to the concrete login page.
+- Ran `npm run build` and `composer ci:check`; both passed.
+- Files changed: `routes/web.php`, `resources/js/app.tsx`, `resources/js/types/auth.ts`,
+  `resources/js/pages/welcome.tsx`, generated Wayfinder route/action files,
+  `tests/Feature/Auth/AuthenticationTest.php`, `tests/Feature/ExampleTest.php`,
+  `tests/Feature/LocaleCookieTest.php`, `tests/Feature/AppearanceCookieTest.php`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: A named app-entry route can stay stable for logo and logout targets while
+    its implementation changes from a rendered page to auth-aware redirects.
+  - Gotchas encountered: Browser metadata and locale tests cannot assert HTML on a redirecting
+    entry route; point them at the first concrete guest Inertia page instead.

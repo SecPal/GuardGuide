@@ -14,7 +14,7 @@ export type Auth = {
     /**
      * The authenticated user, or `null` for guest requests. Inertia shares
      * `$request->user()` here, which is `null` whenever there is no
-     * authenticated session (e.g. the welcome page or auth screens), so
+     * authenticated session (e.g. the login page or other auth screens), so
      * consumers must guard before dereferencing.
      */
     user: User | null;
