@@ -25,6 +25,18 @@ msgid "appearance.tabs.system"
 msgstr "System"
 
 #: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.brandDescription"
+msgstr "Confirm your identity before GuardGuide continues."
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.errorTitle"
+msgstr "Please confirm your password."
+
+#: resources/js/pages/auth/confirm-password.tsx
 msgid "auth.confirmPassword.layoutDescription"
 msgstr "This is a secure area of the application. Please confirm your password "
 "before continuing."
@@ -50,8 +62,20 @@ msgid "auth.confirmPassword.passkeySeparator"
 msgstr "Or confirm with password"
 
 #: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.securityNotice"
+msgstr "This secure area needs a fresh confirmation."
+
+#: resources/js/pages/auth/confirm-password.tsx
 msgid "auth.confirmPassword.submit"
 msgstr "Confirm password"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.brandDescription"
+msgstr "Request a secure link to get back into GuardGuide."
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.brandTitle"
+msgstr "GuardGuide"
 
 #: resources/js/pages/auth/forgot-password.tsx
 msgid "auth.forgotPassword.emailLabel"
@@ -60,6 +84,10 @@ msgstr "Email address"
 #: resources/js/pages/auth/forgot-password.tsx
 msgid "auth.forgotPassword.emailPlaceholder"
 msgstr "email@example.com"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.errorTitle"
+msgstr "Please check the email address."
 
 #: resources/js/pages/auth/forgot-password.tsx
 msgid "auth.forgotPassword.layoutDescription"
@@ -152,6 +180,14 @@ msgid "auth.passkey.defaultSeparator"
 msgstr "Or continue with email"
 
 #: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.brandDescription"
+msgstr "Set a new password for your GuardGuide account."
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.confirmLabel"
 msgstr "Confirm password"
 
@@ -162,6 +198,10 @@ msgstr "Confirm password"
 #: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.emailLabel"
 msgstr "Email"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.errorTitle"
+msgstr "Please check the new password."
 
 #: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.layoutDescription"
@@ -254,6 +294,14 @@ msgid "auth.twoFactorChallenge.recovery.toggle"
 msgstr "login using an authentication code"
 
 #: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.brandDescription"
+msgstr "Verify your email address to finish securing GuardGuide."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/verify-email.tsx
 msgid "auth.verifyEmail.layoutDescription"
 msgstr "Please verify your email address by clicking on the link we just "
 "emailed to you."
@@ -274,6 +322,10 @@ msgstr "Log out"
 #: resources/js/pages/auth/verify-email.tsx
 msgid "auth.verifyEmail.metaTitle"
 msgstr "Email verification"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.pendingNotice"
+msgstr "Check your inbox and follow the verification link to continue."
 
 #: resources/js/pages/auth/verify-email.tsx
 msgid "auth.verifyEmail.resend"

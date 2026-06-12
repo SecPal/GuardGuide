@@ -54,6 +54,8 @@ SPDX-License-Identifier: CC0-1.0
   `login`.
 - Package-backed Fortify auth pages can keep their generated Wayfinder form targets while owning a
   first-party full auth shell with `Page.layout = () => []` and local auth primitives.
+- Full-shell auth pages should surface aggregate form errors through `AuthStatusPanel` while keeping
+  field-level `InputError` and `aria-invalid` / `aria-describedby` wiring on the affected controls.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -494,3 +496,25 @@ SPDX-License-Identifier: CC0-1.0
   - Gotchas encountered: `input-otp` labels can collide with dialog titles in Testing Library, so
     OTP assertions should narrow label queries to the input selector when text is intentionally
     shared.
+
+## US-006: Übrige Auth-Seiten auf denselben Stil bringen
+
+- Migrated Forgot-Password, Reset-Password, Confirm-Password, and Verify-Email to the full local
+  GuardGuide auth shell/card treatment used by login and the 2FA challenge.
+- Added consistent brand copy, Lucide-led submit actions, processing states, aggregate
+  `AuthStatusPanel` feedback, field-level validation wiring, passkey confirmation placement, and
+  verify-email pending/success status panels.
+- Added Vitest/Testing Library coverage for the four supporting auth pages, including form targets,
+  validation display, passkey confirmation, success status, and loading/disabled states.
+- Updated English and German Lingui catalogs and compiled message modules.
+- Files changed: `resources/js/pages/auth/forgot-password.tsx`,
+  `resources/js/pages/auth/reset-password.tsx`,
+  `resources/js/pages/auth/confirm-password.tsx`, `resources/js/pages/auth/verify-email.tsx`,
+  `resources/js/test/auth-support-pages.test.tsx`, `resources/js/locales/en/messages.po`,
+  `resources/js/locales/en/messages.mjs`, `resources/js/locales/de/messages.po`,
+  `resources/js/locales/de/messages.mjs`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Supporting Fortify pages can share the same full auth shell as login while
+    keeping package Wayfinder form helpers and page-local render tests under `resources/js/test`.
+  - Gotchas encountered: `composer ci:check` runs Prettier after ESLint, so JSX page/test formatting
+    must be normalized before the full PHP/JS CI script will pass.
