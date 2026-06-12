@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { useLingui } from '@lingui/react';
+import { AuthStatusPanel } from '@/components/auth';
 import InputError from '@/components/input-error';
 import PasskeyVerify from '@/components/passkey-verify';
 import PasswordInput from '@/components/password-input';
@@ -110,11 +111,7 @@ export default function Login({ status, canResetPassword }: Props) {
                 )}
             </Form>
 
-            {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
+            {status && <AuthStatusPanel variant="success" message={status} />}
         </>
     );
 }

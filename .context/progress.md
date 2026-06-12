@@ -40,6 +40,9 @@ SPDX-License-Identifier: CC0-1.0
   FormRequests before the controller body runs.
 - RBAC definition ownership should be selected through a config-backed source contract, while
   policies continue to reference stable GuardGuide permission names.
+- GuardGuide auth UI primitives should live under `resources/js/components/auth`, wrapping local
+  shadcn/radix primitives and Lucide icons so auth pages stay first-party and testable without
+  importing SecPal UI code.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -368,3 +371,24 @@ SPDX-License-Identifier: CC0-1.0
     contract, while policies continue to reference stable GuardGuide permission names.
   - Gotchas encountered: Composer's `test` script does not forward `--filter` to Pest because it
     starts with `artisan config:clear`; use `php artisan test --filter=...` for focused test runs.
+
+## US-001: Lokale Auth-UI-Primitives anlegen
+
+- Added a local GuardGuide auth primitive layer for shell/card framing, brand presentation, form
+  sections, live status/error panels, and OTP input composition.
+- Wired existing auth layouts to the new shell, brand block, and card frame, and switched the login
+  status message to the shared auth status panel.
+- Added Vitest and Testing Library coverage for shell/card rendering, status/error live regions, form
+  section actions, and OTP input/error state.
+- Ran `npm run test` and `composer ci:check`; both passed.
+- Files changed: `package.json`, `package-lock.json`, `vitest.config.ts`,
+  `resources/js/test/setup.ts`, `resources/js/components/auth/*`,
+  `resources/js/layouts/auth/auth-card-layout.tsx`,
+  `resources/js/layouts/auth/auth-simple-layout.tsx`, `resources/js/pages/auth/login.tsx`,
+  generated Wayfinder route/action files, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Auth-near React components can be covered with Vitest/Testing Library while
+    keeping the production Vite/Laravel build path unchanged.
+  - Gotchas encountered: `input-otp` expects browser APIs that jsdom does not provide by default, so
+    the frontend test setup needs minimal `ResizeObserver` and `document.elementFromPoint`
+    polyfills.
