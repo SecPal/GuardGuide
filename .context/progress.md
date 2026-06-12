@@ -43,6 +43,9 @@ SPDX-License-Identifier: CC0-1.0
 - GuardGuide auth UI primitives should live under `resources/js/components/auth`, wrapping local
   shadcn/radix primitives and Lucide icons so auth pages stay first-party and testable without
   importing SecPal UI code.
+- Inertia page component tests should live outside `resources/js/pages`, because the production page
+  glob imports every `pages/**/*.tsx` file; route-specific pages can opt out of the default layout
+  with `Page.layout = () => []` when the page owns its full shell.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -392,3 +395,25 @@ SPDX-License-Identifier: CC0-1.0
   - Gotchas encountered: `input-otp` expects browser APIs that jsdom does not provide by default, so
     the frontend test setup needs minimal `ResizeObserver` and `document.elementFromPoint`
     polyfills.
+
+## US-002: Login-Seite optisch an SecPal anlehnen
+
+- Reworked `/login` into a single centered GuardGuide auth card that owns its shell, brand block,
+  passkey CTA, email/password form, remember-me control, forgot-password secondary action, language
+  tabs, and status/error surfaces.
+- Added processing-state disabling for email, password, remember-me, submit, and passkey actions,
+  plus explicit `aria-invalid` / described-by wiring for login validation errors.
+- Added Vitest/Testing Library regression coverage for the login card control surface, passkey CTA
+  invocation, validation error hierarchy, and loading/disabled states.
+- Ran `npm run test:frontend`, `npm run build`, `npm run lingui:compile`, and `composer ci:check`;
+  all passed.
+- Files changed: `resources/js/pages/auth/login.tsx`,
+  `resources/js/components/auth/auth-card-frame.tsx`, `resources/js/test/auth-login-page.test.tsx`,
+  `resources/js/locales/en/messages.po`, `resources/js/locales/en/messages.mjs`,
+  `resources/js/locales/de/messages.po`, `resources/js/locales/de/messages.mjs`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Full-shell auth routes can bypass the default Inertia auth layout with
+    `Page.layout = () => []` while still reusing local auth primitives.
+  - Gotchas encountered: Tests placed below `resources/js/pages` are bundled as production Inertia
+    pages by the Vite page glob; keep page tests under `resources/js/test` instead.

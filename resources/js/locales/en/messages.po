@@ -86,12 +86,24 @@ msgid "auth.forgotPassword.submit"
 msgstr "Email password reset link"
 
 #: resources/js/pages/auth/login.tsx
+msgid "auth.login.brandDescription"
+msgstr "SecPal-style access for your GuardGuide workspace."
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.email"
 msgstr "Email address"
 
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.emailPlaceholder"
 msgstr "email@example.com"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.errorTitle"
+msgstr "Please check the highlighted fields."
 
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.forgotPassword"

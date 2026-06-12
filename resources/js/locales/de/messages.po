@@ -95,12 +95,24 @@ msgid "auth.forgotPassword.submit"
 msgstr "Link zum Zurücksetzen senden"
 
 #: resources/js/pages/auth/login.tsx
+msgid "auth.login.brandDescription"
+msgstr "SecPal-nahe Anmeldung für Deinen GuardGuide-Arbeitsbereich."
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.email"
 msgstr "E-Mail-Adresse"
 
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.emailPlaceholder"
 msgstr "email@example.com"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.errorTitle"
+msgstr "Bitte prüfe die markierten Felder."
 
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.forgotPassword"

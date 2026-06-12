@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import {
     Card,
     CardContent,
@@ -9,9 +9,8 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-type AuthCardFrameProps = {
+type AuthCardFrameProps = Omit<ComponentProps<typeof Card>, 'title'> & {
     children: ReactNode;
-    className?: string;
     contentClassName?: string;
     description?: ReactNode;
     footer?: ReactNode;
@@ -27,9 +26,13 @@ export function AuthCardFrame({
     footer,
     headerClassName,
     title,
+    ...props
 }: AuthCardFrameProps) {
     return (
-        <Card className={cn('gap-6 rounded-lg py-0 shadow-sm', className)}>
+        <Card
+            className={cn('gap-6 rounded-lg py-0 shadow-sm', className)}
+            {...props}
+        >
             {(title || description) && (
                 <CardHeader
                     className={cn('px-8 pt-8 text-center', headerClassName)}
