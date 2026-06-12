@@ -49,6 +49,8 @@ SPDX-License-Identifier: CC0-1.0
 - The named `home` route can remain the shared app-entry target while acting as an auth-aware
   redirect; tests that need rendered browser metadata should target a concrete Inertia page such as
   `login`.
+- Package-backed Fortify auth pages can keep their generated Wayfinder form targets while owning a
+  first-party full auth shell with `Page.layout = () => []` and local auth primitives.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -440,3 +442,26 @@ SPDX-License-Identifier: CC0-1.0
     its implementation changes from a rendered page to auth-aware redirects.
   - Gotchas encountered: Browser metadata and locale tests cannot assert HTML on a redirecting
     entry route; point them at the first concrete guest Inertia page instead.
+
+## US-004: 2FA-Login-Challenge optisch angleichen
+
+- Reworked `auth/two-factor-challenge` into the local GuardGuide auth shell/card treatment while
+  keeping Fortify's independent two-factor challenge route and generated form action intact.
+- Replaced the page-local OTP composition with `AuthOtpInput`, added a shadcn/radix segmented switch
+  between authenticator and recovery-code entry, and surfaced info/error status panels plus
+  processing and field error states.
+- Added Vitest/Testing Library coverage for rendering the challenge, switching between authenticator
+  and recovery-code modes, and displaying Fortify validation feedback on the active input.
+- Ran `npm run test:frontend`, `npm run build`, and `composer ci:check`; all passed.
+- Files changed: `resources/js/pages/auth/two-factor-challenge.tsx`,
+  `resources/js/test/auth-two-factor-challenge-page.test.tsx`,
+  `resources/js/locales/en/messages.po`, `resources/js/locales/en/messages.mjs`,
+  `resources/js/locales/de/messages.po`, `resources/js/locales/de/messages.mjs`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Package-backed Fortify auth pages can keep their generated Wayfinder form
+    targets while owning a first-party full auth shell with `Page.layout = () => []` and local auth
+    primitives.
+  - Gotchas encountered: Radix `ToggleGroup` single-selection items expose as `radio` controls in
+    Testing Library, so page tests should assert that semantic role instead of treating them as
+    plain buttons.

@@ -192,17 +192,37 @@ msgid "auth.twoFactorChallenge.alternativeLead"
 msgstr "or you can"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.brandDescription"
+msgstr "Finish the protected sign-in step for your GuardGuide workspace."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.continue"
 msgstr "Continue"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.errorTitle"
+msgstr "Please check the verification code."
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.metaTitle"
 msgstr "Two-factor authentication"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.modeLabel"
+msgstr "Verification method"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.description"
 msgstr "Enter the authentication code provided by your authenticator "
 "application."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.otp.switchLabel"
+msgstr "Authenticator"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.title"
@@ -220,6 +240,10 @@ msgstr "Please confirm access to your account by entering one of your emergency 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.placeholder"
 msgstr "Enter recovery code"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.recovery.switchLabel"
+msgstr "Recovery"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.title"

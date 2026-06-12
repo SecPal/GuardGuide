@@ -201,16 +201,36 @@ msgid "auth.twoFactorChallenge.alternativeLead"
 msgstr "oder Du kannst"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.brandDescription"
+msgstr "Schließe den geschützten Anmeldeschritt für Deinen GuardGuide-Arbeitsbereich ab."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.continue"
 msgstr "Weiter"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.errorTitle"
+msgstr "Bitte prüfe den Verifizierungscode."
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.metaTitle"
 msgstr "Zwei-Faktor-Authentifizierung"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.modeLabel"
+msgstr "Verifizierungsmethode"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.description"
 msgstr "Gib den Authentifizierungs-Code aus Deiner Authenticator-App ein."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.otp.switchLabel"
+msgstr "Authenticator"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.title"
@@ -228,6 +248,10 @@ msgstr "Bitte bestätige den Zugang zu Deinem Konto, indem Du einen Deiner "
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.placeholder"
 msgstr "Wiederherstellungscode eingeben"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.recovery.switchLabel"
+msgstr "Wiederherstellung"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.title"
