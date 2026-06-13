@@ -71,6 +71,7 @@ export default function TwoFactorChallenge() {
                 <Form
                     {...store.form()}
                     className="flex flex-col gap-6"
+                    onError={() => setCode('')}
                     resetOnError
                     resetOnSuccess={!isRecoveryMode}
                 >
