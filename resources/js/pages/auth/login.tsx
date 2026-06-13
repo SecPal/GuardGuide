@@ -1,3 +1,5 @@
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
 import { Form, Head } from '@inertiajs/react';
 import { useLingui } from '@lingui/react';
 import { Code2, LogIn, Scale } from 'lucide-react';
