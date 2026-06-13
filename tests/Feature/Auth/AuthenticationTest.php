@@ -3,12 +3,31 @@
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
 
 test('login screen can be rendered', function () {
     $response = $this->get(route('login'));
 
-    $response->assertOk();
+    $response->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('auth/login'));
+});
+
+test('authenticated users are redirected from the login screen to the app entry', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get(route('login'));
+
+    $response->assertRedirect(route('dashboard', absolute: false));
+});
+
+test('home redirects authenticated users to the app entry', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get(route('home'));
+
+    $response->assertRedirect(route('dashboard'));
 });
 
 test('users can authenticate using the login screen', function () {
@@ -60,6 +79,29 @@ test('users can logout', function () {
     $response = $this->actingAs($user)->post(route('logout'));
 
     $response->assertRedirect(route('home'));
+
+    $this->assertGuest();
+});
+
+test('logout returns users through home to the login flow', function () {
+    $user = User::factory()->create();
+
+    $this->followingRedirects()
+        ->actingAs($user)
+        ->post(route('logout'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('auth/login'));
+
+    $this->assertGuest();
+});
+
+test('guest logout returns through home to the login flow', function () {
+    $this->followingRedirects()
+        ->post(route('logout'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('auth/login'));
 
     $this->assertGuest();
 });

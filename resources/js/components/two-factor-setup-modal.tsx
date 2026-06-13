@@ -1,10 +1,15 @@
 import { Form } from '@inertiajs/react';
 import { useLingui } from '@lingui/react';
-import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import { Check, Copy, ScanLine } from 'lucide-react';
+import {
+    ArrowLeft,
+    Check,
+    Copy,
+    Keyboard,
+    ScanLine,
+    ShieldCheck,
+} from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import AlertError from '@/components/alert-error';
-import InputError from '@/components/input-error';
+import { AuthOtpInput, AuthStatusPanel } from '@/components/auth';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -13,12 +18,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSlot,
-} from '@/components/ui/input-otp';
+import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useAppearance } from '@/hooks/use-appearance';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
@@ -66,77 +68,120 @@ function TwoFactorSetupStep({
     const { i18n } = useLingui();
     const { resolvedAppearance } = useAppearance();
     const [copiedText, copy] = useClipboard();
+    const [setupMode, setSetupMode] = useState<'qr' | 'manual'>('qr');
     const IconComponent = copiedText === manualSetupKey ? Check : Copy;
 
     return (
-        <>
+        <div className="grid w-full gap-5">
             {errors?.length ? (
-                <AlertError errors={errors} />
+                <AuthStatusPanel variant="error">
+                    <ul className="list-disc space-y-1 pl-4">
+                        {Array.from(new Set(errors)).map((error) => (
+                            <li key={error}>{error}</li>
+                        ))}
+                    </ul>
+                </AuthStatusPanel>
             ) : (
                 <>
-                    <div className="mx-auto flex max-w-md overflow-hidden">
-                        <div className="mx-auto aspect-square w-64 rounded-lg border border-border">
-                            <div className="z-10 flex h-full w-full items-center justify-center p-5">
-                                {qrCodeSvg ? (
-                                    <div
-                                        className="aspect-square w-full rounded-lg bg-white p-2 [&_svg]:size-full"
-                                        dangerouslySetInnerHTML={{
-                                            __html: qrCodeSvg,
-                                        }}
-                                        style={{
-                                            filter:
-                                                resolvedAppearance === 'dark'
-                                                    ? 'invert(1) brightness(1.5)'
-                                                    : undefined,
-                                        }}
-                                    />
+                    <ToggleGroup
+                        type="single"
+                        variant="outline"
+                        value={setupMode}
+                        onValueChange={(value) => {
+                            if (value === 'qr' || value === 'manual') {
+                                setSetupMode(value);
+                            }
+                        }}
+                        className="grid w-full grid-cols-2"
+                        aria-label={i18n._(
+                            'settings.twoFactor.modal.setupMethodLabel',
+                        )}
+                    >
+                        <ToggleGroupItem
+                            value="qr"
+                            className="h-10 w-full text-sm"
+                        >
+                            <ScanLine className="size-4" />
+                            {i18n._('settings.twoFactor.modal.qrCodeTab')}
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            value="manual"
+                            className="h-10 w-full text-sm"
+                        >
+                            <Keyboard className="size-4" />
+                            {i18n._('settings.twoFactor.modal.manualKeyTab')}
+                        </ToggleGroupItem>
+                    </ToggleGroup>
+
+                    {setupMode === 'qr' ? (
+                        <div className="mx-auto flex max-w-md overflow-hidden">
+                            <div className="mx-auto aspect-square w-64 rounded-lg border border-zinc-200/80 bg-zinc-50 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/50">
+                                <div className="z-10 flex h-full w-full items-center justify-center p-5">
+                                    {qrCodeSvg ? (
+                                        <div
+                                            className="aspect-square w-full rounded-lg bg-white p-2 [&_svg]:size-full"
+                                            dangerouslySetInnerHTML={{
+                                                __html: qrCodeSvg,
+                                            }}
+                                            style={{
+                                                filter:
+                                                    resolvedAppearance ===
+                                                    'dark'
+                                                        ? 'invert(1) brightness(1.5)'
+                                                        : undefined,
+                                            }}
+                                        />
+                                    ) : (
+                                        <Spinner />
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="grid gap-3 rounded-lg border border-zinc-200/80 bg-zinc-50/70 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/50">
+                            <p className="text-sm text-muted-foreground">
+                                {i18n._('settings.twoFactor.modal.manualEntry')}
+                            </p>
+                            <div className="flex w-full items-stretch overflow-hidden rounded-md border border-input bg-background">
+                                {manualSetupKey ? (
+                                    <>
+                                        <Input
+                                            type="text"
+                                            readOnly
+                                            value={manualSetupKey}
+                                            className="h-10 rounded-none border-0 font-mono text-sm shadow-none focus-visible:ring-0"
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => copy(manualSetupKey)}
+                                            aria-label={i18n._(
+                                                'settings.twoFactor.modal.copySetupKey',
+                                            )}
+                                            className="h-10 rounded-none border-l"
+                                        >
+                                            <IconComponent className="size-4" />
+                                        </Button>
+                                    </>
                                 ) : (
-                                    <Spinner />
+                                    <div className="flex h-10 w-full items-center justify-center">
+                                        <Spinner />
+                                    </div>
                                 )}
                             </div>
                         </div>
-                    </div>
+                    )}
 
-                    <div className="flex w-full space-x-5">
+                    <div className="flex w-full">
                         <Button className="w-full" onClick={onNextStep}>
+                            <ShieldCheck />
                             {buttonText}
                         </Button>
                     </div>
-
-                    <div className="relative flex w-full items-center justify-center">
-                        <div className="absolute inset-0 top-1/2 h-px w-full bg-border" />
-                        <span className="relative bg-card px-2 py-1">
-                            {i18n._('settings.twoFactor.modal.manualEntry')}
-                        </span>
-                    </div>
-
-                    <div className="flex w-full space-x-2">
-                        <div className="flex w-full items-stretch overflow-hidden rounded-xl border border-border">
-                            {!manualSetupKey ? (
-                                <div className="flex h-full w-full items-center justify-center bg-muted p-3">
-                                    <Spinner />
-                                </div>
-                            ) : (
-                                <>
-                                    <input
-                                        type="text"
-                                        readOnly
-                                        value={manualSetupKey}
-                                        className="h-full w-full bg-background p-3 text-foreground outline-none"
-                                    />
-                                    <button
-                                        onClick={() => copy(manualSetupKey)}
-                                        className="border-l border-border px-3 hover:bg-muted"
-                                    >
-                                        <IconComponent className="w-4" />
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </div>
                 </>
             )}
-        </>
+        </div>
     );
 }
 
@@ -160,6 +205,8 @@ function TwoFactorVerificationStep({
     return (
         <Form
             {...confirm.form()}
+            errorBag="confirmTwoFactorAuthentication"
+            onError={() => setCode('')}
             onSuccess={() => onClose()}
             resetOnError
             resetOnSuccess
@@ -169,43 +216,31 @@ function TwoFactorVerificationStep({
                 errors,
             }: {
                 processing: boolean;
-                errors?: { confirmTwoFactorAuthentication?: { code?: string } };
+                errors?: { code?: string };
             }) => (
                 <>
                     <div
                         ref={pinInputContainerRef}
                         className="relative w-full space-y-3"
                     >
-                        <div className="flex w-full flex-col items-center space-y-3 py-2">
-                            <InputOTP
-                                id="otp"
-                                name="code"
-                                maxLength={OTP_MAX_LENGTH}
-                                onChange={setCode}
-                                disabled={processing}
-                                pattern={REGEXP_ONLY_DIGITS}
-                                autoFocus
-                            >
-                                <InputOTPGroup>
-                                    {Array.from(
-                                        { length: OTP_MAX_LENGTH },
-                                        (_, index) => (
-                                            <InputOTPSlot
-                                                key={index}
-                                                index={index}
-                                            />
-                                        ),
-                                    )}
-                                </InputOTPGroup>
-                            </InputOTP>
-                            <InputError
-                                message={
-                                    errors?.confirmTwoFactorAuthentication?.code
-                                }
-                            />
-                        </div>
+                        <AuthOtpInput
+                            autoFocus
+                            className="rounded-lg border border-zinc-200 bg-zinc-50/70 px-4 py-5 dark:border-zinc-800 dark:bg-zinc-900/50"
+                            disabled={processing}
+                            error={errors?.code}
+                            label={i18n._(
+                                'settings.twoFactor.modal.verifyTitle',
+                            )}
+                            length={OTP_MAX_LENGTH}
+                            name="code"
+                            onChange={setCode}
+                            value={code}
+                            description={i18n._(
+                                'settings.twoFactor.modal.verifyDescription',
+                            )}
+                        />
 
-                        <div className="flex w-full space-x-5">
+                        <div className="flex w-full gap-3">
                             <Button
                                 type="button"
                                 variant="outline"
@@ -213,6 +248,7 @@ function TwoFactorVerificationStep({
                                 onClick={onBack}
                                 disabled={processing}
                             >
+                                <ArrowLeft />
                                 {i18n._('settings.twoFactor.modal.backButton')}
                             </Button>
                             <Button
@@ -222,6 +258,7 @@ function TwoFactorVerificationStep({
                                     processing || code.length < OTP_MAX_LENGTH
                                 }
                             >
+                                <ShieldCheck />
                                 {i18n._(
                                     'settings.twoFactor.modal.confirmButton',
                                 )}

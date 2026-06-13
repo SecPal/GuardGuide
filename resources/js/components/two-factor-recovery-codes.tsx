@@ -2,7 +2,7 @@ import { Form } from '@inertiajs/react';
 import { useLingui } from '@lingui/react';
 import { Eye, EyeOff, LockKeyhole, RefreshCw } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
-import AlertError from '@/components/alert-error';
+import { AuthStatusPanel } from '@/components/auth';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -49,21 +49,31 @@ export default function TwoFactorRecoveryCodes({
     const RecoveryCodeIconComponent = codesAreVisible ? EyeOff : Eye;
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex gap-3">
-                    <LockKeyhole className="size-4" aria-hidden="true" />
-                    {i18n._('settings.recoveryCodes.title')}
-                </CardTitle>
-                <CardDescription>
-                    {i18n._('settings.recoveryCodes.description')}
-                </CardDescription>
+        <Card className="rounded-lg border-zinc-200/80 shadow-sm dark:border-zinc-800">
+            <CardHeader className="gap-3">
+                <div className="flex items-start gap-3">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-md border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
+                        <LockKeyhole
+                            className="size-4 text-muted-foreground"
+                            aria-hidden="true"
+                        />
+                    </div>
+                    <div className="grid gap-1">
+                        <CardTitle className="leading-6">
+                            {i18n._('settings.recoveryCodes.title')}
+                        </CardTitle>
+                        <CardDescription>
+                            {i18n._('settings.recoveryCodes.description')}
+                        </CardDescription>
+                    </div>
+                </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="grid gap-4">
                 <div className="flex flex-col gap-3 select-none sm:flex-row sm:items-center sm:justify-between">
                     <Button
                         onClick={toggleCodesVisibility}
-                        className="w-fit"
+                        variant={codesAreVisible ? 'secondary' : 'default'}
+                        className="w-full sm:w-fit"
                         aria-expanded={codesAreVisible}
                         aria-controls="recovery-codes-section"
                     >
@@ -84,9 +94,10 @@ export default function TwoFactorRecoveryCodes({
                         >
                             {({ processing }) => (
                                 <Button
-                                    variant="secondary"
+                                    variant="outline"
                                     type="submit"
                                     disabled={processing}
+                                    className="w-full sm:w-fit"
                                     aria-describedby="regenerate-warning"
                                 >
                                     <RefreshCw />{' '}
@@ -98,19 +109,28 @@ export default function TwoFactorRecoveryCodes({
                         </Form>
                     )}
                 </div>
+
                 <div
                     id="recovery-codes-section"
                     className={`relative overflow-hidden transition-all duration-300 ${codesAreVisible ? 'h-auto opacity-100' : 'h-0 opacity-0'}`}
                     aria-hidden={!codesAreVisible}
                 >
-                    <div className="mt-3 space-y-3">
+                    <div className="space-y-3">
                         {errors?.length ? (
-                            <AlertError errors={errors} />
+                            <AuthStatusPanel variant="error">
+                                <ul className="list-disc space-y-1 pl-4">
+                                    {Array.from(new Set(errors)).map(
+                                        (error) => (
+                                            <li key={error}>{error}</li>
+                                        ),
+                                    )}
+                                </ul>
+                            </AuthStatusPanel>
                         ) : (
                             <>
                                 <div
                                     ref={codesSectionRef}
-                                    className="grid gap-1 rounded-lg bg-muted p-4 font-mono text-sm"
+                                    className="grid gap-2 rounded-lg border border-zinc-200/80 bg-zinc-50 p-4 font-mono text-sm dark:border-zinc-800 dark:bg-zinc-900/50"
                                     role="list"
                                     aria-label={i18n._(
                                         'settings.recoveryCodes.listAriaLabel',
@@ -121,7 +141,7 @@ export default function TwoFactorRecoveryCodes({
                                             <div
                                                 key={index}
                                                 role="listitem"
-                                                className="select-text"
+                                                className="rounded border border-transparent px-2 py-1 text-foreground select-text"
                                             >
                                                 {code}
                                             </div>
@@ -147,7 +167,10 @@ export default function TwoFactorRecoveryCodes({
                                     )}
                                 </div>
 
-                                <div className="text-xs text-muted-foreground select-none">
+                                <AuthStatusPanel
+                                    variant="warning"
+                                    className="text-xs"
+                                >
                                     <p id="regenerate-warning">
                                         {(() => {
                                             const tail = i18n._(
@@ -175,7 +198,7 @@ export default function TwoFactorRecoveryCodes({
                                             );
                                         })()}
                                     </p>
-                                </div>
+                                </AuthStatusPanel>
                             </>
                         )}
                     </div>

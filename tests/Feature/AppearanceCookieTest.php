@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\View;
 
 test('appearance cookie is propagated when it matches an allowed mode', function () {
     $response = $this->withUnencryptedCookie('appearance', 'dark')
-        ->get(route('home'))
+        ->get(route('login'))
         ->assertOk();
 
     $response->assertSee(
@@ -27,7 +27,7 @@ test('appearance cookie is propagated when it matches an allowed mode', function
 
 test('appearance cookie falls back to system when the value is unknown', function () {
     $this->withUnencryptedCookie('appearance', 'midnight')
-        ->get(route('home'))
+        ->get(route('login'))
         ->assertOk();
 
     expect(View::shared('appearance'))->toBe('system');
@@ -35,14 +35,14 @@ test('appearance cookie falls back to system when the value is unknown', functio
 
 test('appearance cookie falls back to system when the value tries to break out of the JS string', function () {
     $this->withUnencryptedCookie('appearance', "system'; alert(1); //")
-        ->get(route('home'))
+        ->get(route('login'))
         ->assertOk();
 
     expect(View::shared('appearance'))->toBe('system');
 });
 
 test('appearance defaults to system when no cookie is present', function () {
-    $response = $this->get(route('home'))->assertOk();
+    $response = $this->get(route('login'))->assertOk();
 
     $response->assertSee(
         '<link rel="icon" type="image/png" sizes="32x32" href="/brand/guardguide/symbol-light-32.png" media="(prefers-color-scheme: light)">',
@@ -68,7 +68,7 @@ test('appearance defaults to system when no cookie is present', function () {
 
 test('light appearance uses light browser metadata', function () {
     $response = $this->withUnencryptedCookie('appearance', 'light')
-        ->get(route('home'))
+        ->get(route('login'))
         ->assertOk();
 
     $response->assertSee(

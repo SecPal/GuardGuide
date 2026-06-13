@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\UserAssignmentController::store
-* @see app/Http/Controllers/UserAssignmentController.php:179
+* @see app/Http/Controllers/UserAssignmentController.php:192
 * @route '/users/{user}/assignments/sites'
 */
 export const store = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -16,7 +16,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::store
-* @see app/Http/Controllers/UserAssignmentController.php:179
+* @see app/Http/Controllers/UserAssignmentController.php:192
 * @route '/users/{user}/assignments/sites'
 */
 store.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -49,7 +49,7 @@ store.url = (args: { user: number | { id: number } } | [user: number | { id: num
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::store
-* @see app/Http/Controllers/UserAssignmentController.php:179
+* @see app/Http/Controllers/UserAssignmentController.php:192
 * @route '/users/{user}/assignments/sites'
 */
 store.post = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -59,7 +59,7 @@ store.post = (args: { user: number | { id: number } } | [user: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::store
-* @see app/Http/Controllers/UserAssignmentController.php:179
+* @see app/Http/Controllers/UserAssignmentController.php:192
 * @route '/users/{user}/assignments/sites'
 */
 const storeForm = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -69,7 +69,7 @@ const storeForm = (args: { user: number | { id: number } } | [user: number | { i
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::store
-* @see app/Http/Controllers/UserAssignmentController.php:179
+* @see app/Http/Controllers/UserAssignmentController.php:192
 * @route '/users/{user}/assignments/sites'
 */
 storeForm.post = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -81,7 +81,7 @@ store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::destroy
-* @see app/Http/Controllers/UserAssignmentController.php:208
+* @see app/Http/Controllers/UserAssignmentController.php:221
 * @route '/users/{user}/assignments/sites/{site}'
 */
 export const destroy = (args: { user: number | { id: number }, site: string | { id: string } } | [user: number | { id: number }, site: string | { id: string } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -96,7 +96,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::destroy
-* @see app/Http/Controllers/UserAssignmentController.php:208
+* @see app/Http/Controllers/UserAssignmentController.php:221
 * @route '/users/{user}/assignments/sites/{site}'
 */
 destroy.url = (args: { user: number | { id: number }, site: string | { id: string } } | [user: number | { id: number }, site: string | { id: string } ], options?: RouteQueryOptions) => {
@@ -126,7 +126,7 @@ destroy.url = (args: { user: number | { id: number }, site: string | { id: strin
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::destroy
-* @see app/Http/Controllers/UserAssignmentController.php:208
+* @see app/Http/Controllers/UserAssignmentController.php:221
 * @route '/users/{user}/assignments/sites/{site}'
 */
 destroy.delete = (args: { user: number | { id: number }, site: string | { id: string } } | [user: number | { id: number }, site: string | { id: string } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -136,7 +136,7 @@ destroy.delete = (args: { user: number | { id: number }, site: string | { id: st
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::destroy
-* @see app/Http/Controllers/UserAssignmentController.php:208
+* @see app/Http/Controllers/UserAssignmentController.php:221
 * @route '/users/{user}/assignments/sites/{site}'
 */
 const destroyForm = (args: { user: number | { id: number }, site: string | { id: string } } | [user: number | { id: number }, site: string | { id: string } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -151,7 +151,7 @@ const destroyForm = (args: { user: number | { id: number }, site: string | { id:
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::destroy
-* @see app/Http/Controllers/UserAssignmentController.php:208
+* @see app/Http/Controllers/UserAssignmentController.php:221
 * @route '/users/{user}/assignments/sites/{site}'
 */
 destroyForm.delete = (args: { user: number | { id: number }, site: string | { id: string } } | [user: number | { id: number }, site: string | { id: string } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

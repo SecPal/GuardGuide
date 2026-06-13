@@ -4,7 +4,7 @@ import customers from './customers'
 import sites from './sites'
 /**
 * @see \App\Http\Controllers\UserAssignmentController::redirect
-* @see app/Http/Controllers/UserAssignmentController.php:22
+* @see app/Http/Controllers/UserAssignmentController.php:23
 * @route '/user-assignments'
 */
 export const redirect = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -19,7 +19,7 @@ redirect.definition = {
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::redirect
-* @see app/Http/Controllers/UserAssignmentController.php:22
+* @see app/Http/Controllers/UserAssignmentController.php:23
 * @route '/user-assignments'
 */
 redirect.url = (options?: RouteQueryOptions) => {
@@ -28,7 +28,7 @@ redirect.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::redirect
-* @see app/Http/Controllers/UserAssignmentController.php:22
+* @see app/Http/Controllers/UserAssignmentController.php:23
 * @route '/user-assignments'
 */
 redirect.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -38,7 +38,7 @@ redirect.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::redirect
-* @see app/Http/Controllers/UserAssignmentController.php:22
+* @see app/Http/Controllers/UserAssignmentController.php:23
 * @route '/user-assignments'
 */
 redirect.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -48,7 +48,7 @@ redirect.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::redirect
-* @see app/Http/Controllers/UserAssignmentController.php:22
+* @see app/Http/Controllers/UserAssignmentController.php:23
 * @route '/user-assignments'
 */
 const redirectForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -58,7 +58,7 @@ const redirectForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::redirect
-* @see app/Http/Controllers/UserAssignmentController.php:22
+* @see app/Http/Controllers/UserAssignmentController.php:23
 * @route '/user-assignments'
 */
 redirectForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -68,7 +68,7 @@ redirectForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::redirect
-* @see app/Http/Controllers/UserAssignmentController.php:22
+* @see app/Http/Controllers/UserAssignmentController.php:23
 * @route '/user-assignments'
 */
 redirectForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -85,7 +85,7 @@ redirect.form = redirectForm
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:35
+* @see app/Http/Controllers/UserAssignmentController.php:36
 * @route '/users/{user}/assignments'
 */
 export const index = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -100,7 +100,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:35
+* @see app/Http/Controllers/UserAssignmentController.php:36
 * @route '/users/{user}/assignments'
 */
 index.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -133,7 +133,7 @@ index.url = (args: { user: number | { id: number } } | [user: number | { id: num
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:35
+* @see app/Http/Controllers/UserAssignmentController.php:36
 * @route '/users/{user}/assignments'
 */
 index.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -143,7 +143,7 @@ index.get = (args: { user: number | { id: number } } | [user: number | { id: num
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:35
+* @see app/Http/Controllers/UserAssignmentController.php:36
 * @route '/users/{user}/assignments'
 */
 index.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -153,7 +153,7 @@ index.head = (args: { user: number | { id: number } } | [user: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:35
+* @see app/Http/Controllers/UserAssignmentController.php:36
 * @route '/users/{user}/assignments'
 */
 const indexForm = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -163,7 +163,7 @@ const indexForm = (args: { user: number | { id: number } } | [user: number | { i
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:35
+* @see app/Http/Controllers/UserAssignmentController.php:36
 * @route '/users/{user}/assignments'
 */
 indexForm.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -173,7 +173,7 @@ indexForm.get = (args: { user: number | { id: number } } | [user: number | { id:
 
 /**
 * @see \App\Http\Controllers\UserAssignmentController::index
-* @see app/Http/Controllers/UserAssignmentController.php:35
+* @see app/Http/Controllers/UserAssignmentController.php:36
 * @route '/users/{user}/assignments'
 */
 indexForm.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

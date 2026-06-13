@@ -14,6 +14,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Fixed the auth page error summary dropping validation messages when two fields produced the same string (e.g. `password` and `password_confirmation` returning the matching-confirmation error) because the React `<li>` key was the message itself; deduplicated `errorMessages` before mapping so every distinct error is rendered exactly once across login, forgot-password, reset-password, confirm-password, and two-factor-challenge.
+- Fixed `AuthStatusPanel` exposing the `warning` variant as `role="status"` (polite live region), which let screen readers miss the disabled-2FA security prompt; warnings now use `role="alert"` so the assistive announcement matches the actionable security context.
+- Fixed `AuthOtpInput` providing no programmatic label association — the visible `<Label>` had no `htmlFor` and the underlying OTP input had no `id`, so the accessible name fell back to an optional `aria-label` that was only set for string labels; the component now generates a stable input id (via `useId`) and binds the label via `htmlFor`, keeping the association even when a `ReactNode` label is provided.
+- Fixed the Blade app shell still rendering `@fonts` during Laravel feature tests even though `Tests\TestCase` disables Vite; test requests now skip font injection so the suite no longer fails on stale or absent build font manifests.
 - Fixed `UserRoleController::redirectToFirstUser` evaluating the authorization gate after the `firstOrFail()` query, which caused an unauthenticated 404 instead of a 403 when no users existed; gate is now checked before the query.
 - Fixed `StoreCustomerAssignmentRequest`, `StoreOrganizationalUnitAssignmentRequest`, and `StoreSiteAssignmentRequest` returning `true` from `authorize()` for any authenticated user instead of requiring `USER_ASSIGNMENTS_MANAGE`; Form Request gate now aligns with the controller gate.
 - Fixed `SaveOrganizationalUnitRequest::authorize()` returning `true` for any authenticated user instead of checking `ORGANIZATIONAL_UNITS_CREATE` or `ORGANIZATIONAL_UNITS_UPDATE` depending on the HTTP method.
@@ -39,6 +43,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Changed
 
+- Refined the login page to more closely match the current SecPal auth presentation, including the simplified `login-05`-style field order, footer placement, and a local `Inter` treatment for the login flow.
 - Rebuilt GuardGuide from the standalone React/Vite shell onto a Laravel monolith baseline so frontend, authentication, and future domain slices now share one Inertia application surface.
 - Reintroduced Lingui on the new starter stack with English and German catalogs compiled into runtime locale modules under `resources/js/locales`.
 - Renamed the GuardGuide frontend Copilot instruction file to `react-shadcn.instructions.md` so repo automation and generated Polyscope prompts match the current shadcn/ui-based frontend stack.

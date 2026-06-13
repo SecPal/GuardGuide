@@ -40,6 +40,22 @@ SPDX-License-Identifier: CC0-1.0
   FormRequests before the controller body runs.
 - RBAC definition ownership should be selected through a config-backed source contract, while
   policies continue to reference stable GuardGuide permission names.
+- GuardGuide auth UI primitives should live under `resources/js/components/auth`, wrapping local
+  shadcn/radix primitives and Lucide icons so auth pages stay first-party and testable without
+  importing SecPal UI code.
+- Settings-hosted security flows can reuse the local auth primitives for status panels, OTP inputs,
+  and icon-led actions while keeping the normal settings page layout and GuardGuide-specific route
+  ownership.
+- Inertia page component tests should live outside `resources/js/pages`, because the production page
+  glob imports every `pages/**/*.tsx` file; route-specific pages can opt out of the default layout
+  with `Page.layout = () => []` when the page owns its full shell.
+- The named `home` route can remain the shared app-entry target while acting as an auth-aware
+  redirect; tests that need rendered browser metadata should target a concrete Inertia page such as
+  `login`.
+- Package-backed Fortify auth pages can keep their generated Wayfinder form targets while owning a
+  first-party full auth shell with `Page.layout = () => []` and local auth primitives.
+- Full-shell auth pages should surface aggregate form errors through `AuthStatusPanel` while keeping
+  field-level `InputError` and `aria-invalid` / `aria-describedby` wiring on the affected controls.
 
 ## US-001: Domänenmodell für Organisationskontext festlegen
 
@@ -368,3 +384,137 @@ SPDX-License-Identifier: CC0-1.0
     contract, while policies continue to reference stable GuardGuide permission names.
   - Gotchas encountered: Composer's `test` script does not forward `--filter` to Pest because it
     starts with `artisan config:clear`; use `php artisan test --filter=...` for focused test runs.
+
+## US-001: Lokale Auth-UI-Primitives anlegen
+
+- Added a local GuardGuide auth primitive layer for shell/card framing, brand presentation, form
+  sections, live status/error panels, and OTP input composition.
+- Wired existing auth layouts to the new shell, brand block, and card frame, and switched the login
+  status message to the shared auth status panel.
+- Added Vitest and Testing Library coverage for shell/card rendering, status/error live regions, form
+  section actions, and OTP input/error state.
+- Ran `npm run test` and `composer ci:check`; both passed.
+- Files changed: `package.json`, `package-lock.json`, `vitest.config.ts`,
+  `resources/js/test/setup.ts`, `resources/js/components/auth/*`,
+  `resources/js/layouts/auth/auth-card-layout.tsx`,
+  `resources/js/layouts/auth/auth-simple-layout.tsx`, `resources/js/pages/auth/login.tsx`,
+  generated Wayfinder route/action files, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Auth-near React components can be covered with Vitest/Testing Library while
+    keeping the production Vite/Laravel build path unchanged.
+  - Gotchas encountered: `input-otp` expects browser APIs that jsdom does not provide by default, so
+    the frontend test setup needs minimal `ResizeObserver` and `document.elementFromPoint`
+    polyfills.
+
+## US-002: Login-Seite optisch an SecPal anlehnen
+
+- Reworked `/login` into a single centered GuardGuide auth card that owns its shell, brand block,
+  passkey CTA, email/password form, remember-me control, forgot-password secondary action, language
+  tabs, and status/error surfaces.
+- Added processing-state disabling for email, password, remember-me, submit, and passkey actions,
+  plus explicit `aria-invalid` / described-by wiring for login validation errors.
+- Added Vitest/Testing Library regression coverage for the login card control surface, passkey CTA
+  invocation, validation error hierarchy, and loading/disabled states.
+- Ran `npm run test:frontend`, `npm run build`, `npm run lingui:compile`, and `composer ci:check`;
+  all passed.
+- Files changed: `resources/js/pages/auth/login.tsx`,
+  `resources/js/components/auth/auth-card-frame.tsx`, `resources/js/test/auth-login-page.test.tsx`,
+  `resources/js/locales/en/messages.po`, `resources/js/locales/en/messages.mjs`,
+  `resources/js/locales/de/messages.po`, `resources/js/locales/de/messages.mjs`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Full-shell auth routes can bypass the default Inertia auth layout with
+    `Page.layout = () => []` while still reusing local auth primitives.
+  - Gotchas encountered: Tests placed below `resources/js/pages` are bundled as production Inertia
+    pages by the Vite page glob; keep page tests under `resources/js/test` instead.
+
+## US-003: Gast-Einstieg direkt auf den Login führen
+
+- Changed the named `home` route at `/` from the old welcome Inertia page to an auth-aware redirect:
+  guests enter the login flow and authenticated users enter the dashboard.
+- Removed the unused welcome Inertia page and its special layout branch so the former description
+  page is no longer part of the guest application bundle.
+- Expanded feature coverage for guest and authenticated routing through home, login, and logout, and
+  moved locale/appearance rendering assertions to the concrete login page.
+- Ran `npm run build` and `composer ci:check`; both passed.
+- Files changed: `routes/web.php`, `resources/js/app.tsx`, `resources/js/types/auth.ts`,
+  `resources/js/pages/welcome.tsx`, generated Wayfinder route/action files,
+  `tests/Feature/Auth/AuthenticationTest.php`, `tests/Feature/ExampleTest.php`,
+  `tests/Feature/LocaleCookieTest.php`, `tests/Feature/AppearanceCookieTest.php`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: A named app-entry route can stay stable for logo and logout targets while
+    its implementation changes from a rendered page to auth-aware redirects.
+  - Gotchas encountered: Browser metadata and locale tests cannot assert HTML on a redirecting
+    entry route; point them at the first concrete guest Inertia page instead.
+
+## US-004: 2FA-Login-Challenge optisch angleichen
+
+- Reworked `auth/two-factor-challenge` into the local GuardGuide auth shell/card treatment while
+  keeping Fortify's independent two-factor challenge route and generated form action intact.
+- Replaced the page-local OTP composition with `AuthOtpInput`, added a shadcn/radix segmented switch
+  between authenticator and recovery-code entry, and surfaced info/error status panels plus
+  processing and field error states.
+- Added Vitest/Testing Library coverage for rendering the challenge, switching between authenticator
+  and recovery-code modes, and displaying Fortify validation feedback on the active input.
+- Ran `npm run test:frontend`, `npm run build`, and `composer ci:check`; all passed.
+- Files changed: `resources/js/pages/auth/two-factor-challenge.tsx`,
+  `resources/js/test/auth-two-factor-challenge-page.test.tsx`,
+  `resources/js/locales/en/messages.po`, `resources/js/locales/en/messages.mjs`,
+  `resources/js/locales/de/messages.po`, `resources/js/locales/de/messages.mjs`,
+  `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Package-backed Fortify auth pages can keep their generated Wayfinder form
+    targets while owning a first-party full auth shell with `Page.layout = () => []` and local auth
+    primitives.
+  - Gotchas encountered: Radix `ToggleGroup` single-selection items expose as `radio` controls in
+    Testing Library, so page tests should assert that semantic role instead of treating them as
+    plain buttons.
+
+## US-005: 2FA-Verwaltung in den Sicherheitseinstellungen anpassen
+
+- Reworked `ManageTwoFactor` into compact status/action panels that use the local auth status
+  primitive, Lucide shield icons, and consistent shadcn button hierarchy for enable, continue, and
+  disable states.
+- Updated `TwoFactorSetupModal` with a Radix/shadcn segmented QR-code versus manual-key setup view,
+  local auth error/status surfaces, copy-key affordance, and the shared `AuthOtpInput` for
+  confirmation.
+- Restyled `TwoFactorRecoveryCodes` as a GuardGuide security card with icon-led header, recovery-code
+  display, warning panel, and consistent view/regenerate actions.
+- Added Vitest/Testing Library coverage for starting setup, confirming with OTP after reviewing the
+  manual key, showing recovery codes, and regenerating recovery codes.
+- Ran `npm run test` and `composer ci:check`; both passed.
+- Files changed: `resources/js/components/manage-two-factor.tsx`,
+  `resources/js/components/two-factor-setup-modal.tsx`,
+  `resources/js/components/two-factor-recovery-codes.tsx`,
+  `resources/js/test/manage-two-factor.test.tsx`, `resources/js/locales/en/messages.po`,
+  `resources/js/locales/en/messages.mjs`, `resources/js/locales/de/messages.po`,
+  `resources/js/locales/de/messages.mjs`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Settings-hosted security flows can reuse local auth primitives for the
+    visual language without moving the route into the full auth shell.
+  - Gotchas encountered: `input-otp` labels can collide with dialog titles in Testing Library, so
+    OTP assertions should narrow label queries to the input selector when text is intentionally
+    shared.
+
+## US-006: Übrige Auth-Seiten auf denselben Stil bringen
+
+- Migrated Forgot-Password, Reset-Password, Confirm-Password, and Verify-Email to the full local
+  GuardGuide auth shell/card treatment used by login and the 2FA challenge.
+- Added consistent brand copy, Lucide-led submit actions, processing states, aggregate
+  `AuthStatusPanel` feedback, field-level validation wiring, passkey confirmation placement, and
+  verify-email pending/success status panels.
+- Added Vitest/Testing Library coverage for the four supporting auth pages, including form targets,
+  validation display, passkey confirmation, success status, and loading/disabled states.
+- Updated English and German Lingui catalogs and compiled message modules.
+- Files changed: `resources/js/pages/auth/forgot-password.tsx`,
+  `resources/js/pages/auth/reset-password.tsx`,
+  `resources/js/pages/auth/confirm-password.tsx`, `resources/js/pages/auth/verify-email.tsx`,
+  `resources/js/test/auth-support-pages.test.tsx`, `resources/js/locales/en/messages.po`,
+  `resources/js/locales/en/messages.mjs`, `resources/js/locales/de/messages.po`,
+  `resources/js/locales/de/messages.mjs`, `.context/progress.md`
+- **Learnings for future iterations:**
+  - Patterns discovered: Supporting Fortify pages can share the same full auth shell as login while
+    keeping package Wayfinder form helpers and page-local render tests under `resources/js/test`.
+  - Gotchas encountered: `composer ci:check` runs Prettier after ESLint, so JSX page/test formatting
+    must be normalized before the full PHP/JS CI script will pass.

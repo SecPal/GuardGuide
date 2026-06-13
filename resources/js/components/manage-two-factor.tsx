@@ -1,7 +1,8 @@
 import { Form } from '@inertiajs/react';
 import { useLingui } from '@lingui/react';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, ShieldOff } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { AuthStatusPanel } from '@/components/auth';
 import Heading from '@/components/heading';
 import TwoFactorRecoveryCodes from '@/components/two-factor-recovery-codes';
 import TwoFactorSetupModal from '@/components/two-factor-setup-modal';
@@ -54,19 +55,25 @@ export default function ManageTwoFactor(props: Props) {
                 description={i18n._('settings.twoFactor.description')}
             />
             {twoFactorEnabled ? (
-                <div className="flex flex-col items-start justify-start space-y-4">
-                    <p className="text-sm text-muted-foreground">
-                        {i18n._('settings.twoFactor.enabledDescription')}
-                    </p>
-
-                    <div className="relative inline">
+                <div className="grid gap-4">
+                    <div className="grid gap-4 rounded-lg border border-zinc-200/80 bg-card p-4 shadow-sm sm:grid-cols-[1fr_auto] sm:items-start dark:border-zinc-800">
+                        <AuthStatusPanel
+                            variant="success"
+                            title={i18n._('settings.twoFactor.title')}
+                            message={i18n._(
+                                'settings.twoFactor.enabledDescription',
+                            )}
+                            className="border-0 bg-transparent p-0 shadow-none"
+                        />
                         <Form {...disable.form()}>
                             {({ processing }) => (
                                 <Button
                                     variant="destructive"
                                     type="submit"
                                     disabled={processing}
+                                    className="w-full sm:w-auto"
                                 >
+                                    <ShieldOff />
                                     {i18n._('settings.twoFactor.disableButton')}
                                 </Button>
                             )}
@@ -80,14 +87,21 @@ export default function ManageTwoFactor(props: Props) {
                     />
                 </div>
             ) : (
-                <div className="flex flex-col items-start justify-start space-y-4">
-                    <p className="text-sm text-muted-foreground">
-                        {i18n._('settings.twoFactor.disabledDescription')}
-                    </p>
-
-                    <div>
+                <div className="grid gap-4 rounded-lg border border-zinc-200/80 bg-card p-4 shadow-sm sm:grid-cols-[1fr_auto] sm:items-start dark:border-zinc-800">
+                    <AuthStatusPanel
+                        variant="warning"
+                        title={i18n._('settings.twoFactor.title')}
+                        message={i18n._(
+                            'settings.twoFactor.disabledDescription',
+                        )}
+                        className="border-0 bg-transparent p-0 shadow-none"
+                    />
+                    <div className="sm:justify-self-end">
                         {hasSetupData ? (
-                            <Button onClick={() => setShowSetupModal(true)}>
+                            <Button
+                                className="w-full sm:w-auto"
+                                onClick={() => setShowSetupModal(true)}
+                            >
                                 <ShieldCheck />
                                 {i18n._(
                                     'settings.twoFactor.continueSetupButton',
@@ -99,7 +113,12 @@ export default function ManageTwoFactor(props: Props) {
                                 onSuccess={() => setShowSetupModal(true)}
                             >
                                 {({ processing }) => (
-                                    <Button type="submit" disabled={processing}>
+                                    <Button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="w-full sm:w-auto"
+                                    >
+                                        <ShieldCheck />
                                         {i18n._(
                                             'settings.twoFactor.enableButton',
                                         )}

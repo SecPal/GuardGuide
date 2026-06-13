@@ -33,6 +33,18 @@ msgid "appearance.tabs.system"
 msgstr "System"
 
 #: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.brandDescription"
+msgstr "Bestätige Deine Identität, bevor GuardGuide fortfährt."
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.errorTitle"
+msgstr "Bitte bestätige Dein Passwort."
+
+#: resources/js/pages/auth/confirm-password.tsx
 msgid "auth.confirmPassword.layoutDescription"
 msgstr "Dies ist ein geschützter Bereich der Anwendung. Bitte bestätige Dein "
 "Passwort, um fortzufahren."
@@ -58,8 +70,20 @@ msgid "auth.confirmPassword.passkeySeparator"
 msgstr "Oder mit Passwort bestätigen"
 
 #: resources/js/pages/auth/confirm-password.tsx
+msgid "auth.confirmPassword.securityNotice"
+msgstr "Dieser geschützte Bereich benötigt eine frische Bestätigung."
+
+#: resources/js/pages/auth/confirm-password.tsx
 msgid "auth.confirmPassword.submit"
 msgstr "Passwort bestätigen"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.brandDescription"
+msgstr "Fordere einen sicheren Link an, um wieder in GuardGuide zu gelangen."
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.brandTitle"
+msgstr "GuardGuide"
 
 #: resources/js/pages/auth/forgot-password.tsx
 msgid "auth.forgotPassword.emailLabel"
@@ -68,6 +92,10 @@ msgstr "E-Mail-Adresse"
 #: resources/js/pages/auth/forgot-password.tsx
 msgid "auth.forgotPassword.emailPlaceholder"
 msgstr "email@example.com"
+
+#: resources/js/pages/auth/forgot-password.tsx
+msgid "auth.forgotPassword.errorTitle"
+msgstr "Bitte prüfe die E-Mail-Adresse."
 
 #: resources/js/pages/auth/forgot-password.tsx
 msgid "auth.forgotPassword.layoutDescription"
@@ -95,12 +123,32 @@ msgid "auth.forgotPassword.submit"
 msgstr "Link zum Zurücksetzen senden"
 
 #: resources/js/pages/auth/login.tsx
+msgid "auth.login.brandDescription"
+msgstr "SecPal-nahe Anmeldung für Deinen GuardGuide-Arbeitsbereich."
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.email"
 msgstr "E-Mail-Adresse"
 
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.emailPlaceholder"
 msgstr "email@example.com"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.errorTitle"
+msgstr "Bitte prüfe die markierten Felder."
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.footerSource"
+msgstr "Quelltext"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.footerTagline"
+msgstr "Powered by GuardGuide – A guard's source of truth"
 
 #: resources/js/pages/auth/login.tsx
 msgid "auth.login.forgotPassword"
@@ -146,7 +194,15 @@ msgstr "Anmeldung läuft …"
 
 #: resources/js/components/passkey-verify.tsx
 msgid "auth.passkey.defaultSeparator"
-msgstr "Oder mit E-Mail fortfahren"
+msgstr "oder"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.brandDescription"
+msgstr "Lege ein neues Passwort für Dein GuardGuide-Konto fest."
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.brandTitle"
+msgstr "GuardGuide"
 
 #: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.confirmLabel"
@@ -159,6 +215,10 @@ msgstr "Passwort bestätigen"
 #: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.emailLabel"
 msgstr "E-Mail"
+
+#: resources/js/pages/auth/reset-password.tsx
+msgid "auth.resetPassword.errorTitle"
+msgstr "Bitte prüfe das neue Passwort."
 
 #: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.layoutDescription"
@@ -189,16 +249,36 @@ msgid "auth.twoFactorChallenge.alternativeLead"
 msgstr "oder Du kannst"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.brandDescription"
+msgstr "Schließe den geschützten Anmeldeschritt für Deinen GuardGuide-Arbeitsbereich ab."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.brandTitle"
+msgstr "GuardGuide"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.continue"
 msgstr "Weiter"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.errorTitle"
+msgstr "Bitte prüfe den Verifizierungscode."
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.metaTitle"
 msgstr "Zwei-Faktor-Authentifizierung"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.modeLabel"
+msgstr "Verifizierungsmethode"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.description"
 msgstr "Gib den Authentifizierungs-Code aus Deiner Authenticator-App ein."
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.otp.switchLabel"
+msgstr "Authenticator"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.otp.title"
@@ -218,12 +298,24 @@ msgid "auth.twoFactorChallenge.recovery.placeholder"
 msgstr "Wiederherstellungscode eingeben"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
+msgid "auth.twoFactorChallenge.recovery.switchLabel"
+msgstr "Wiederherstellung"
+
+#: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.title"
 msgstr "Wiederherstellungscode"
 
 #: resources/js/pages/auth/two-factor-challenge.tsx
 msgid "auth.twoFactorChallenge.recovery.toggle"
 msgstr "mit einem Authentifizierungs-Code anmelden"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.brandDescription"
+msgstr "Bestätige Deine E-Mail-Adresse, um GuardGuide abzusichern."
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.brandTitle"
+msgstr "GuardGuide"
 
 #: resources/js/pages/auth/verify-email.tsx
 msgid "auth.verifyEmail.layoutDescription"
@@ -246,6 +338,10 @@ msgstr "Abmelden"
 #: resources/js/pages/auth/verify-email.tsx
 msgid "auth.verifyEmail.metaTitle"
 msgstr "E-Mail-Bestätigung"
+
+#: resources/js/pages/auth/verify-email.tsx
+msgid "auth.verifyEmail.pendingNotice"
+msgstr "Prüfe Dein Postfach und folge dem Bestätigungslink, um fortzufahren."
 
 #: resources/js/pages/auth/verify-email.tsx
 msgid "auth.verifyEmail.resend"
@@ -800,6 +896,10 @@ msgid "settings.twoFactor.modal.continueButton"
 msgstr "Weiter"
 
 #: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.copySetupKey"
+msgstr "Einrichtungs­schlüssel kopieren"
+
+#: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.enabledDescription"
 msgstr "Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert. Scanne den "
 "QR-Code oder gib den Einrichtungs­schlüssel in Deiner Authenticator-App "
@@ -821,6 +921,18 @@ msgstr "Zwei-Faktor-Authentifizierung aktivieren"
 #: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.manualEntry"
 msgstr "oder gib den Code manuell ein"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.manualKeyTab"
+msgstr "Einrichtungs­schlüssel"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.qrCodeTab"
+msgstr "QR-Code"
+
+#: resources/js/components/two-factor-setup-modal.tsx
+msgid "settings.twoFactor.modal.setupMethodLabel"
+msgstr "Einrichtungsmethode"
 
 #: resources/js/components/two-factor-setup-modal.tsx
 msgid "settings.twoFactor.modal.verifyDescription"
