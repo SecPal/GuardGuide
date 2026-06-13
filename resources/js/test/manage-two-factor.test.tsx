@@ -165,7 +165,7 @@ describe('two-factor management', () => {
             twoFactorEnabled: false,
         });
 
-        expect(screen.getByRole('status')).toHaveTextContent(
+        expect(screen.getByRole('alert')).toHaveTextContent(
             'Enable two-factor authentication to require a secure code during login.',
         );
         expect(container.querySelector('form')).toHaveAttribute(

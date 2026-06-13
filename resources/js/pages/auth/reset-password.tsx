@@ -56,10 +56,14 @@ export default function ResetPassword({ token, email, passwordRules }: Props) {
                     resetOnSuccess={['password', 'password_confirmation']}
                 >
                     {({ processing, errors }) => {
-                        const errorMessages = Object.values(errors).filter(
-                            (message): message is string =>
-                                typeof message === 'string' &&
-                                message.length > 0,
+                        const errorMessages = Array.from(
+                            new Set(
+                                Object.values(errors).filter(
+                                    (message): message is string =>
+                                        typeof message === 'string' &&
+                                        message.length > 0,
+                                ),
+                            ),
                         );
 
                         return (

@@ -75,12 +75,13 @@ vi.mock('@laravel/passkeys/react', () => ({
 }));
 
 const messages = {
-    'auth.login.brandDescription':
-        'SecPal-style access for your GuardGuide workspace.',
     'auth.login.brandTitle': 'GuardGuide',
     'auth.login.email': 'Email address',
     'auth.login.emailPlaceholder': 'email@example.com',
     'auth.login.errorTitle': 'Please check the highlighted fields.',
+    'auth.login.footerSource': 'Source code',
+    'auth.login.footerTagline':
+        "Powered by GuardGuide – A guard's source of truth",
     'auth.login.forgotPassword': 'Forgot your password?',
     'auth.login.metaTitle': 'Log in',
     'auth.login.password': 'Password',
@@ -89,7 +90,7 @@ const messages = {
     'auth.login.submit': 'Log in',
     'auth.passkey.defaultLabel': 'Sign in with a passkey',
     'auth.passkey.defaultLoading': 'Authenticating...',
-    'auth.passkey.defaultSeparator': 'Or continue with email',
+    'auth.passkey.defaultSeparator': 'or',
     'settings.language.error': 'Could not change language. Please try again.',
     'settings.language.headingTitle': 'Language',
 };
@@ -131,25 +132,38 @@ describe('login page', () => {
         expect(
             screen.getByRole('heading', { name: 'GuardGuide' }),
         ).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                'SecPal-style access for your GuardGuide workspace.',
-            ),
-        ).toBeInTheDocument();
         expect(container.querySelectorAll('form')).toHaveLength(1);
 
         expect(screen.getByLabelText('Email address')).toBeEnabled();
         expect(screen.getByLabelText('Password')).toBeEnabled();
-        expect(
-            screen.getByRole('checkbox', { name: 'Remember me' }),
-        ).toBeEnabled();
+        expect(screen.getByLabelText('Remember me')).toBeEnabled();
+        expect(screen.getByRole('button', { name: 'Log in' })).toBeEnabled();
         expect(
             screen.getByRole('link', { name: 'Forgot your password?' }),
         ).toHaveAttribute('href', '/forgot-password');
-        expect(screen.getByRole('button', { name: 'Log in' })).toBeEnabled();
+        const buttons = screen.getAllByRole('button');
+        expect(
+            buttons.findIndex((button) =>
+                button.textContent?.includes('Log in'),
+            ),
+        ).toBeLessThan(
+            buttons.findIndex((button) =>
+                button.textContent?.includes('Sign in with a passkey'),
+            ),
+        );
+        expect(screen.getByText('or')).toBeInTheDocument();
         expect(
             screen.getByRole('radiogroup', { name: 'Language' }),
         ).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                "Powered by GuardGuide – A guard's source of truth",
+            ),
+        ).toBeInTheDocument();
+        expect(screen.getByText('AGPL v3+')).toBeInTheDocument();
+        expect(
+            screen.getByRole('link', { name: 'Source code' }),
+        ).toHaveAttribute('href', 'https://github.com/SecPal/GuardGuide');
 
         await user.click(
             screen.getByRole('button', { name: 'Sign in with a passkey' }),
@@ -189,6 +203,26 @@ describe('login page', () => {
         ).toHaveLength(2);
     });
 
+    it('deduplicates identical validation errors when two fields share a message', () => {
+        testState.form.errors = {
+            password: 'The password field confirmation does not match.',
+            password_confirmation:
+                'The password field confirmation does not match.',
+        };
+
+        renderLogin();
+
+        const alert = screen.getByRole('alert');
+        const matches = Array.from(alert.querySelectorAll('li')).filter(
+            (node) =>
+                node.textContent?.includes(
+                    'The password field confirmation does not match.',
+                ),
+        );
+
+        expect(matches).toHaveLength(1);
+    });
+
     it('makes loading and disabled states visible while login is processing', () => {
         testState.form.processing = true;
         testState.passkey.isLoading = true;
@@ -197,9 +231,6 @@ describe('login page', () => {
 
         expect(screen.getByLabelText('Email address')).toBeDisabled();
         expect(screen.getByLabelText('Password')).toBeDisabled();
-        expect(
-            screen.getByRole('checkbox', { name: 'Remember me' }),
-        ).toBeDisabled();
 
         const submit = screen.getByRole('button', { name: /Log in/ });
         const passkey = screen.getByRole('button', {
@@ -212,5 +243,16 @@ describe('login page', () => {
         expect(screen.getAllByRole('status', { name: 'Loading' }).length).toBe(
             2,
         );
+    });
+
+    it('omits the passkey separator when passkeys are unsupported', () => {
+        testState.passkey.isSupported = false;
+
+        renderLogin();
+
+        expect(screen.queryByText('or')).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole('button', { name: 'Sign in with a passkey' }),
+        ).not.toBeInTheDocument();
     });
 });

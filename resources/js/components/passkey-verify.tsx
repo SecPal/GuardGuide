@@ -16,6 +16,8 @@ type Props = {
     label?: string;
     loadingLabel?: string;
     separator?: string;
+    showSeparator?: boolean;
+    separatorPosition?: 'after' | 'before';
 };
 
 export default function PasskeyVerify({
@@ -23,6 +25,8 @@ export default function PasskeyVerify({
     label,
     loadingLabel,
     separator,
+    showSeparator = true,
+    separatorPosition = 'after',
 }: Props = {}) {
     const { i18n } = useLingui();
     const { verify, isLoading, error, isSupported } = usePasskeyVerify({
@@ -41,8 +45,23 @@ export default function PasskeyVerify({
         return null;
     }
 
+    const separatorNode = showSeparator ? (
+        <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                    {separator ?? i18n._('auth.passkey.defaultSeparator')}
+                </span>
+            </div>
+        </div>
+    ) : null;
+
     return (
         <>
+            {separatorPosition === 'before' && separatorNode}
+
             <div className="grid gap-2">
                 <Button
                     type="button"
@@ -62,16 +81,7 @@ export default function PasskeyVerify({
                 )}
             </div>
 
-            <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                    <Separator className="w-full" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                        {separator ?? i18n._('auth.passkey.defaultSeparator')}
-                    </span>
-                </div>
-            </div>
+            {separatorPosition === 'after' && separatorNode}
         </>
     );
 }

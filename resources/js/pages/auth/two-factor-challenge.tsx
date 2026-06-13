@@ -75,10 +75,14 @@ export default function TwoFactorChallenge() {
                     resetOnSuccess={!isRecoveryMode}
                 >
                     {({ errors, processing, clearErrors }) => {
-                        const errorMessages = Object.values(errors).filter(
-                            (message): message is string =>
-                                typeof message === 'string' &&
-                                message.length > 0,
+                        const errorMessages = Array.from(
+                            new Set(
+                                Object.values(errors).filter(
+                                    (message): message is string =>
+                                        typeof message === 'string' &&
+                                        message.length > 0,
+                                ),
+                            ),
                         );
 
                         return (

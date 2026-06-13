@@ -74,7 +74,9 @@
         <meta name="application-name" content="{{ config('app.name', 'GuardGuide') }}">
         <meta name="apple-mobile-web-app-title" content="{{ config('app.name', 'GuardGuide') }}">
 
-        @fonts
+        @unless (app()->runningUnitTests())
+            @fonts
+        @endunless
 
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])

@@ -40,7 +40,10 @@ export function AuthStatusPanel({
     variant = 'info',
 }: AuthStatusPanelProps) {
     const Icon = icons[variant];
-    const role = variant === 'error' ? 'alert' : 'status';
+    // Assertive live regions for variants that surface actionable security
+    // prompts; polite (status) for confirmation/informational variants.
+    const role =
+        variant === 'error' || variant === 'warning' ? 'alert' : 'status';
 
     return (
         <Alert

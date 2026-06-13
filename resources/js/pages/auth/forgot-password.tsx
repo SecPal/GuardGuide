@@ -50,10 +50,14 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
                 <Form {...email.form()} className="flex flex-col gap-6">
                     {({ processing, errors }) => {
-                        const errorMessages = Object.values(errors).filter(
-                            (message): message is string =>
-                                typeof message === 'string' &&
-                                message.length > 0,
+                        const errorMessages = Array.from(
+                            new Set(
+                                Object.values(errors).filter(
+                                    (message): message is string =>
+                                        typeof message === 'string' &&
+                                        message.length > 0,
+                                ),
+                            ),
                         );
 
                         return (

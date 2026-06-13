@@ -1,5 +1,6 @@
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { KeyRound } from 'lucide-react';
+import { useId } from 'react';
 import type { ReactNode } from 'react';
 import InputError from '@/components/input-error';
 import {
@@ -16,6 +17,7 @@ type AuthOtpInputProps = {
     description?: ReactNode;
     disabled?: boolean;
     error?: string;
+    id?: string;
     label: ReactNode;
     length: number;
     name?: string;
@@ -29,26 +31,31 @@ export function AuthOtpInput({
     description,
     disabled,
     error,
+    id,
     label,
     length,
     name,
     onChange,
     value,
 }: AuthOtpInputProps) {
-    const descriptionId = description
-        ? `${name ?? 'otp'}-description`
-        : undefined;
-    const errorId = error ? `${name ?? 'otp'}-error` : undefined;
+    const reactId = useId();
+    const baseId = id ?? name ?? `otp-${reactId}`;
+    const inputId = `${baseId}-input`;
+    const descriptionId = description ? `${baseId}-description` : undefined;
+    const errorId = error ? `${baseId}-error` : undefined;
 
     return (
         <div className={cn('grid justify-items-center gap-3', className)}>
-            <div className="flex items-center gap-2 text-sm font-medium">
+            <Label
+                htmlFor={inputId}
+                className="flex items-center gap-2 text-sm font-medium"
+            >
                 <KeyRound
                     aria-hidden="true"
                     className="size-4 text-muted-foreground"
                 />
-                <Label>{label}</Label>
-            </div>
+                {label}
+            </Label>
 
             {description && (
                 <p
@@ -60,12 +67,12 @@ export function AuthOtpInput({
             )}
 
             <InputOTP
+                id={inputId}
                 aria-describedby={
                     [descriptionId, errorId].filter(Boolean).join(' ') ||
                     undefined
                 }
                 aria-invalid={Boolean(error)}
-                aria-label={typeof label === 'string' ? label : undefined}
                 autoFocus={autoFocus}
                 disabled={disabled}
                 maxLength={length}

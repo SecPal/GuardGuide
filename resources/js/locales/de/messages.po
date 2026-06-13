@@ -143,6 +143,14 @@ msgid "auth.login.errorTitle"
 msgstr "Bitte prüfe die markierten Felder."
 
 #: resources/js/pages/auth/login.tsx
+msgid "auth.login.footerSource"
+msgstr "Quelltext"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.footerTagline"
+msgstr "Powered by GuardGuide – A guard's source of truth"
+
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.forgotPassword"
 msgstr "Passwort vergessen?"
 
@@ -186,7 +194,7 @@ msgstr "Anmeldung läuft …"
 
 #: resources/js/components/passkey-verify.tsx
 msgid "auth.passkey.defaultSeparator"
-msgstr "Oder mit E-Mail fortfahren"
+msgstr "oder"
 
 #: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.brandDescription"

@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import {
     AuthBrandBlock,
     AuthCardFrame,
@@ -12,6 +12,10 @@ import {
 } from '@/components/auth';
 
 describe('auth primitives', () => {
+    afterEach(() => {
+        cleanup();
+    });
+
     it('renders the auth shell, brand block, and card frame', () => {
         render(
             <AuthShell>
@@ -64,6 +68,21 @@ describe('auth primitives', () => {
         );
     });
 
+    it('announces warnings assertively so security prompts are not missed', () => {
+        render(
+            <AuthStatusPanel
+                variant="warning"
+                title="Two-factor disabled"
+                message="Enable two-factor authentication."
+            />,
+        );
+
+        const alert = screen.getByRole('alert');
+        expect(alert).toHaveTextContent('Two-factor disabled');
+        expect(alert).toHaveTextContent('Enable two-factor authentication.');
+        expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    });
+
     it('renders form sections with headings and actions', () => {
         render(
             <AuthFormSection
@@ -114,5 +133,27 @@ describe('auth primitives', () => {
         ).toBeInTheDocument();
         expect(screen.getByText('1')).toBeInTheDocument();
         expect(screen.getByText('6')).toBeInTheDocument();
+    });
+
+    it('associates the visible OTP label with the input via htmlFor', () => {
+        render(
+            <AuthOtpInput
+                label={<span>Authenticator code</span>}
+                length={6}
+                name="code"
+            />,
+        );
+
+        const input = document.querySelector(
+            'input[name="code"]',
+        ) as HTMLInputElement | null;
+        expect(input).not.toBeNull();
+        expect(input).toHaveAttribute('id');
+
+        const label = screen
+            .getByText('Authenticator code')
+            .closest('label') as HTMLLabelElement | null;
+        expect(label).not.toBeNull();
+        expect(label).toHaveAttribute('for', input?.id);
     });
 });

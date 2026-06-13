@@ -134,6 +134,14 @@ msgid "auth.login.errorTitle"
 msgstr "Please check the highlighted fields."
 
 #: resources/js/pages/auth/login.tsx
+msgid "auth.login.footerSource"
+msgstr "Source code"
+
+#: resources/js/pages/auth/login.tsx
+msgid "auth.login.footerTagline"
+msgstr "Powered by GuardGuide – A guard's source of truth"
+
+#: resources/js/pages/auth/login.tsx
 msgid "auth.login.forgotPassword"
 msgstr "Forgot your password?"
 
@@ -177,7 +185,7 @@ msgstr "Authenticating…"
 
 #: resources/js/components/passkey-verify.tsx
 msgid "auth.passkey.defaultSeparator"
-msgstr "Or continue with email"
+msgstr "or"
 
 #: resources/js/pages/auth/reset-password.tsx
 msgid "auth.resetPassword.brandDescription"
