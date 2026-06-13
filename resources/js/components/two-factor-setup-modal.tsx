@@ -205,6 +205,7 @@ function TwoFactorVerificationStep({
     return (
         <Form
             {...confirm.form()}
+            errorBag="confirmTwoFactorAuthentication"
             onError={() => setCode('')}
             onSuccess={() => onClose()}
             resetOnError
@@ -215,7 +216,7 @@ function TwoFactorVerificationStep({
                 errors,
             }: {
                 processing: boolean;
-                errors?: { confirmTwoFactorAuthentication?: { code?: string } };
+                errors?: { code?: string };
             }) => (
                 <>
                     <div
@@ -226,7 +227,7 @@ function TwoFactorVerificationStep({
                             autoFocus
                             className="rounded-lg border border-zinc-200 bg-zinc-50/70 px-4 py-5 dark:border-zinc-800 dark:bg-zinc-900/50"
                             disabled={processing}
-                            error={errors?.confirmTwoFactorAuthentication?.code}
+                            error={errors?.code}
                             label={i18n._(
                                 'settings.twoFactor.modal.verifyTitle',
                             )}
