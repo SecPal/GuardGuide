@@ -112,6 +112,9 @@
         "lightningcss-linux-x64-gnu": "^1.29.1",
         "lightningcss-win32-x64-msvc": "^1.29.1"
     },
+    "overrides": {
+        "esbuild": ">=0.28.1"
+    },
     "engines": {
         "node": ">=22.19.0",
         "npm": ">=10.0.0"
