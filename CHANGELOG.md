@@ -12,6 +12,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+### Changed
+
+- Bundled platform-specific optional binaries (`@rollup/rollup-*`, `@tailwindcss/oxide-*`, `lightningcss-*`) into a single Dependabot group named `platform-binaries` in `.github/dependabot.yml` so each cycle's bumps land as one PR. Each per-binary bump otherwise also rewrote the root `dependencies` block of `package-lock.json` (npm re-pinned the optional entry there too), producing a duplicate-entry diff that the next install reverted and that reviewers had to mentally subtract on every cycle. Closes #81.
+
 ### Fixed
 
 - Fixed the high-severity `esbuild` advisory [GHSA-gv7w-rqvm-qjhr](https://github.com/advisories/GHSA-gv7w-rqvm-qjhr) (missing binary integrity verification in the Deno module, RCE via `NPM_CONFIG_REGISTRY`) by pinning `esbuild` to `>=0.28.1` through an `overrides` block in `package.json`. The vulnerable `esbuild@0.25.12` was pulled in transitively as `@lingui/cli@6.3.0 → esbuild "^0.25.1"`, and `@lingui/cli@6.3.0` is currently the newest release on npm with no upstream version that ships the patched esbuild, so Dependabot could not generate the security update itself; the manual override resolves Dependabot alert #1 and lets `npm audit` report 0 vulnerabilities while keeping `lingui compile` and the production build green.
