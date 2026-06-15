@@ -41,6 +41,18 @@ updates:
     target-branch: "main"
     pull-request-branch-name:
       separator: "-"
+    # Bundle platform-specific optional binaries into a single PR per cycle.
+    # Each per-binary bump otherwise also rewrites the root `dependencies`
+    # block of `package-lock.json` (npm re-pins the optional entry there too),
+    # producing duplicate-entry diffs that get reverted by the next install
+    # and add review noise. Grouping keeps the lockfile churn atomic.
+    # Re-evaluate if any of these graduate from `optionalDependencies`.
+    groups:
+      platform-binaries:
+        patterns:
+          - "@rollup/rollup-*"
+          - "@tailwindcss/oxide-*"
+          - "lightningcss-*"
     ignore:
       # eslint v10 ecosystem isn't ready: eslint-plugin-react and
       # eslint-plugin-import don't declare peer support for it yet.
