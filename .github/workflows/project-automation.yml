@@ -40,7 +40,7 @@ jobs:
     name: Project automation
     needs: detect-project-automation-secrets
     if: needs.detect-project-automation-secrets.outputs.enabled == 'true'
-    uses: SecPal/.github/.github/workflows/project-automation-core.yml@83c5803ebb88327851fed55c4c9bba82b961a8b2
+    uses: SecPal/.github/.github/workflows/project-automation-core.yml@bb96b1065b59c3332a61fb6b895409ceed299c6c
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
