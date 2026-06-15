@@ -12,6 +12,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+### Changed
+
+- Bundled platform-specific optional binaries (`@rollup/rollup-*`, `@tailwindcss/oxide-*`, `lightningcss-*`) into a single Dependabot group named `platform-binaries` in `.github/dependabot.yml` so each cycle's bumps land as one PR. Each per-binary bump otherwise also rewrote the root `dependencies` block of `package-lock.json` (npm re-pinned the optional entry there too), producing a duplicate-entry diff that the next install reverted and that reviewers had to mentally subtract on every cycle. Closes #81.
+
 ### Fixed
 
 - Fixed GuardGuide production builds depending on live `fonts.bunny.net` fetches for `Instrument Sans`; Vite now uses the already-pinned local `@fontsource/inter` files so Polyscope provisioning and other offline-restricted builds no longer fail on external font resolution.
