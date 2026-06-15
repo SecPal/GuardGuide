@@ -113,7 +113,7 @@
         "lightningcss-win32-x64-msvc": "^1.29.1"
     },
     "overrides": {
-        "esbuild": "^0.28.1"
+        "esbuild": ">=0.28.1"
     },
     "engines": {
         "node": ">=22.19.0",
