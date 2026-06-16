@@ -182,7 +182,7 @@ describe('two-factor management', () => {
         ).toBeInTheDocument();
         expect(testState.twoFactor.fetchSetupData).toHaveBeenCalledOnce();
         expect(
-            screen.getByRole('group', { name: 'Setup method' }),
+            screen.getByRole('radiogroup', { name: 'Setup method' }),
         ).toBeInTheDocument();
     });
 
