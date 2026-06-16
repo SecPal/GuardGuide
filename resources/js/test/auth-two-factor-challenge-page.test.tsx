@@ -123,7 +123,7 @@ describe('two-factor challenge page', () => {
             'Enter the authentication code provided by your authenticator application.',
         );
         expect(
-            screen.getByRole('group', { name: 'Verification method' }),
+            screen.getByRole('radiogroup', { name: 'Verification method' }),
         ).toBeInTheDocument();
         expect(otpInput).toBeEnabled();
         expect(screen.getByRole('button', { name: /Continue/ })).toBeEnabled();
