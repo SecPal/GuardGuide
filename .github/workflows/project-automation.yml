@@ -40,7 +40,7 @@ jobs:
     name: Project automation
     needs: detect-project-automation-secrets
     if: needs.detect-project-automation-secrets.outputs.enabled == 'true'
-    uses: SecPal/.github/.github/workflows/project-automation-core.yml@bb96b1065b59c3332a61fb6b895409ceed299c6c
+    uses: SecPal/.github/.github/workflows/project-automation-core.yml@821288b3517df8d73dedaf8d008a685d53b2528e
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
@@ -51,7 +51,7 @@ jobs:
       github.event.pull_request != null &&
       github.event.action == 'opened' &&
       github.event.pull_request.draft == false
-    uses: SecPal/.github/.github/workflows/draft-pr-reminder.yml@bb96b1065b59c3332a61fb6b895409ceed299c6c
+    uses: SecPal/.github/.github/workflows/draft-pr-reminder.yml@821288b3517df8d73dedaf8d008a685d53b2528e
     permissions:
       issues: write
       pull-requests: write
