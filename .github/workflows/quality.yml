@@ -23,7 +23,7 @@ jobs:
       has-composer: ${{ steps.detect.outputs.has-composer }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Detect manifest files
         id: detect
