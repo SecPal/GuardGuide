@@ -66,7 +66,7 @@
     },
     "dependencies": {
         "@fontsource/inter": "^5.2.8",
-        "@inertiajs/react": "^3.4.0",
+        "@inertiajs/react": "^3.5.0",
         "@inertiajs/vite": "^3.5.0",
         "@laravel/passkeys": "^0.2.0",
         "@lingui/core": "^6.1.0",
