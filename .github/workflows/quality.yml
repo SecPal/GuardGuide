@@ -44,9 +44,9 @@ jobs:
     name: Check REUSE Compliance
     uses: SecPal/.github/.github/workflows/reusable-reuse.yml@main
 
-  copilot-instructions:
-    name: Copilot Instructions
-    uses: SecPal/.github/.github/workflows/reusable-copilot-instructions.yml@main
+  ai-instructions:
+    name: AI Instructions
+    uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@main
 
   prettier:
     needs: detect-files
