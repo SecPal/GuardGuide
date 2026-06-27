@@ -67,6 +67,8 @@ jobs:
     name: Markdown Lint
     # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
+    with:
+      governance-ref: "6f8e13a7a62cee356811a7f58d6b92119941652f"
 
   license-compatibility:
     needs: detect-files
