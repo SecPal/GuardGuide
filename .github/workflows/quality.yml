@@ -42,35 +42,41 @@ jobs:
 
   reuse:
     name: Check REUSE Compliance
-    uses: SecPal/.github/.github/workflows/reusable-reuse.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-reuse.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   ai-instructions:
     name: AI Instructions
-    uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   prettier:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Formatting Check
-    uses: SecPal/.github/.github/workflows/reusable-prettier.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-prettier.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   markdown-lint:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Markdown Lint
-    uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   license-compatibility:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' || needs.detect-files.outputs.has-composer == 'true' }}
     name: Check License Compatibility
-    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   eslint:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: ESLint
-    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
     with:
       node-version: "22"
 
@@ -78,7 +84,8 @@ jobs:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: TypeScript Check
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
     with:
       node-version: "22"
       build-command: "npm run typecheck"
@@ -87,7 +94,8 @@ jobs:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Vitest Tests
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@main
+    timeout-minutes: 10
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
     with:
       node-version: "22"
       build-command: "npm run test"
