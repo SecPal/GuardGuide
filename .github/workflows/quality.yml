@@ -1,8 +1,10 @@
 # SPDX-FileCopyrightText: 2026 SecPal
 # SPDX-License-Identifier: CC0-1.0
 
+---
 name: Quality Checks
 
+# yamllint disable-line rule:truthy
 on:
   push:
     branches: [main]
@@ -43,11 +45,13 @@ jobs:
   reuse:
     name: Check REUSE Compliance
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-reuse.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   ai-instructions:
     name: AI Instructions
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   prettier:
@@ -55,6 +59,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Formatting Check
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-prettier.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   markdown-lint:
@@ -62,13 +67,19 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Markdown Lint
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   license-compatibility:
     needs: detect-files
-    if: ${{ needs.detect-files.outputs.has-package == 'true' || needs.detect-files.outputs.has-composer == 'true' }}
+    if: >-
+      ${{
+        needs.detect-files.outputs.has-package == 'true' ||
+        needs.detect-files.outputs.has-composer == 'true'
+      }}
     name: Check License Compatibility
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
 
   eslint:
@@ -76,6 +87,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: ESLint
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
     with:
       node-version: "22"
@@ -85,6 +97,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: TypeScript Check
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-node-build.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
     with:
       node-version: "22"
@@ -95,6 +108,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Vitest Tests
     timeout-minutes: 10
+    # yamllint disable-line rule:line-length
     uses: SecPal/.github/.github/workflows/reusable-node-build.yml@6f8e13a7a62cee356811a7f58d6b92119941652f
     with:
       node-version: "22"

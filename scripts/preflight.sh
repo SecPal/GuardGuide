@@ -14,7 +14,7 @@ if [[ "$CURRENT_BRANCH" == "main" ]]; then
 fi
 
 if command -v bash >/dev/null 2>&1; then
-  ./scripts/validate-ai-instructions.sh
+  bash ./scripts/validate-ai-instructions.sh
 fi
 
 if [[ -x ./scripts/check-conflict-markers.sh ]]; then
