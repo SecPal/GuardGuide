@@ -14,6 +14,7 @@ for path-specific or stack-specific rules.
 
 - `AGENTS.md`
 - `.github/instructions/org-shared.instructions.md`
+- `.github/instructions/github-workflows.instructions.md`
 - `.github/instructions/php-laravel.instructions.md`
 - `.github/instructions/react-shadcn.instructions.md`
 

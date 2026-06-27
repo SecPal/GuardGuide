@@ -14,6 +14,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Changed
 
+- tightened the provider-neutral governance rollout so `AGENTS.md` and the Copilot mirror now advertise the workflow overlay explicitly, the workflow overlay itself exempts reusable-workflow caller jobs from impossible caller-level `timeout-minutes` requirements, and the local AI-instructions validator now enforces the full mirrored runtime baseline plus the person-related-data encryption guardrail
 - Bundled platform-specific optional binaries (`@rollup/rollup-*`, `@tailwindcss/oxide-*`, `lightningcss-*`) into a single Dependabot group named `platform-binaries` in `.github/dependabot.yml` so each cycle's bumps land as one PR. Each per-binary bump otherwise also rewrote the root `dependencies` block of `package-lock.json` (npm re-pinned the optional entry there too), producing a duplicate-entry diff that the next install reverted and that reviewers had to mentally subtract on every cycle. Closes #81.
 
 ### Fixed

@@ -11,6 +11,7 @@ Edit this file first. Keep the focused overlay files below aligned when a rule a
 ## Focused Overlays
 
 - `.github/instructions/org-shared.instructions.md`
+- `.github/instructions/github-workflows.instructions.md`
 - `.github/instructions/php-laravel.instructions.md`
 - `.github/instructions/react-shadcn.instructions.md`
 
