@@ -111,7 +111,7 @@ if [[ -f "$QUALITY_WORKFLOW" ]]; then
     capture && $0 ~ /governance-ref:/ {
       line=$0
       sub(/.*governance-ref:[[:space:]]*["'"'"']?/, "", line)
-      sub(/["'"'"']?.*/, "", line)
+      sub(/["'"'"'][[:space:]]*$/, "", line)
       print line
       exit
     }
@@ -122,7 +122,7 @@ if [[ -f "$QUALITY_WORKFLOW" ]]; then
     capture && $0 ~ /governance-ref:/ {
       line=$0
       sub(/.*governance-ref:[[:space:]]*["'"'"']?/, "", line)
-      sub(/["'"'"']?.*/, "", line)
+      sub(/["'"'"'][[:space:]]*$/, "", line)
       print line
       exit
     }
