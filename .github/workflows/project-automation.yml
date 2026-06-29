@@ -51,7 +51,7 @@ jobs:
       github.event.pull_request != null &&
       github.event.action == 'opened' &&
       github.event.pull_request.draft == false
-    uses: SecPal/.github/.github/workflows/draft-pr-reminder.yml@63809ea08d7236e49620c23a00d4d4b4655c7553
+    uses: SecPal/.github/.github/workflows/draft-pr-reminder.yml@084b2ab764a6e6b0a865f66853e7421ff4c02434
     permissions:
       issues: write
       pull-requests: write
