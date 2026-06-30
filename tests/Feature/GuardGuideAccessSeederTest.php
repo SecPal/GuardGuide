@@ -9,6 +9,7 @@ use Database\Seeders\GuardGuideAccessSeeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Tests\Fixtures\Auth\TestRolePermissionSource;
 
 test('standalone access source resolves to the local guardguide catalog by default', function () {
     $source = app(RolePermissionSource::class);
@@ -197,34 +198,3 @@ test('access seeder reads role and permission definitions from the configured so
     expect(Permission::pluck('name')->all())->toBe(['test.permission'])
         ->and($role->permissions->pluck('name')->all())->toBe(['test.permission']);
 });
-
-final class TestRolePermissionSource implements RolePermissionSource
-{
-    public function guardName(): string
-    {
-        return GuardGuideAccessCatalog::GUARD;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function permissions(): array
-    {
-        return [
-            'test.permission' => 'Test permission supplied by configured source.',
-        ];
-    }
-
-    /**
-     * @return array<string, array{name: string, permissions: list<string>}>
-     */
-    public function roles(): array
-    {
-        return [
-            'test-role' => [
-                'name' => 'Test role',
-                'permissions' => ['test.permission'],
-            ],
-        ];
-    }
-}
