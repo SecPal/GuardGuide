@@ -19,6 +19,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Excluded dependency lockfiles, license texts, and generated Lingui locale artifacts from the PR size check by adding a repo-local `.preflight-exclude`, aligning GuardGuide with the existing SecPal repos so mechanical file churn no longer turns CI red by itself.
 - Updated `guzzlehttp/guzzle` to `7.13.1` (with `guzzlehttp/psr7` `2.12.3`) so the Composer lockfile includes the upstream fixes for `CVE-2026-55568` / `GHSA-wpwq-4j6v-78m3`, `CVE-2026-55767` / `GHSA-cwxw-98qj-8qjx`, and `CVE-2026-55766` / `GHSA-vm85-hxw5-5432`.
 - Fixed the GuardGuide access seeder test support class being declared inside `tests/Feature/GuardGuideAccessSeederTest.php`, which violated the `Tests\\ => ./tests` PSR-4 autoload rule and emitted a Composer warning during optimized autoload generation.
 - Fixed `scripts/validate-ai-instructions.sh` trimming the entire `governance-ref` value after removing its YAML prefix, so quoted refs in `.github/workflows/quality.yml` now keep their pinned SHA during drift checks.
