@@ -95,7 +95,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: TypeScript Check
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@084b2ab764a6e6b0a865f66853e7421ff4c02434
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@2cc65df6215af0c4238d2d463869cfebfdc246ba
     with:
       node-version: "22"
       build-command: "npm run typecheck"
@@ -105,7 +105,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Vitest Tests
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@084b2ab764a6e6b0a865f66853e7421ff4c02434
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@2cc65df6215af0c4238d2d463869cfebfdc246ba
     with:
       node-version: "22"
       build-command: "npm run test"
