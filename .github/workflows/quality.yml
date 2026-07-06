@@ -79,7 +79,7 @@ jobs:
       }}
     name: Check License Compatibility
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@084b2ab764a6e6b0a865f66853e7421ff4c02434
+    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@f9c5276c9fd9a6965a4ddd641c9fae10184e03df
 
   eslint:
     needs: detect-files

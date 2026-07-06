@@ -79,5 +79,5 @@ SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
 path = ["resources/js/components/**", "resources/js/layouts/**"]
-SPDX-FileCopyrightText = "Tailwind Labs Inc."
-SPDX-License-Identifier = "LicenseRef-TailwindPlus"
+SPDX-FileCopyrightText = ["2026 SecPal Contributors", "Tailwind Labs Inc."]
+SPDX-License-Identifier = "AGPL-3.0-or-later AND LicenseRef-TailwindPlus"
