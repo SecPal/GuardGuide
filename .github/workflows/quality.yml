@@ -86,7 +86,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: ESLint
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@6cb41a892d9a26af1461c2e5daf150e70775f74a
+    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@f9c5276c9fd9a6965a4ddd641c9fae10184e03df
     with:
       node-version: "22"
 
