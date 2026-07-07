@@ -19,6 +19,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Restored Dependabot's default slash-separated branch naming by removing the custom `pull-request-branch-name.separator: "-"` override from `.github/dependabot.yml`; future update branches now use the standard readable `dependabot/<ecosystem>/<dependency>` shape instead of flattened names like `dependabot-github_actions-main-...`.
 - Fixed the stricter reusable license-compatibility workflow failing on Tailwind Plus metadata by pairing the affected React component/layout files with `AGPL-3.0-or-later AND LicenseRef-TailwindPlus` in `REUSE.toml` and restoring the approved `LICENSES/LicenseRef-TailwindPlus.txt` reference text expected by SecPal's shared CI policy.
 - Excluded dependency lockfiles, license texts, and generated Lingui locale artifacts from the PR size check by adding a repo-local `.preflight-exclude`, aligning GuardGuide with the existing SecPal repos so mechanical file churn no longer turns CI red by itself.
 - Updated `guzzlehttp/guzzle` to `7.13.1` (with `guzzlehttp/psr7` `2.12.3`) so the Composer lockfile includes the upstream fixes for `CVE-2026-55568` / `GHSA-wpwq-4j6v-78m3`, `CVE-2026-55767` / `GHSA-cwxw-98qj-8qjx`, and `CVE-2026-55766` / `GHSA-vm85-hxw5-5432`.

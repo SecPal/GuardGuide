@@ -19,9 +19,6 @@ updates:
       - "dependabot"
     rebase-strategy: "auto"
     target-branch: "main"
-    pull-request-branch-name:
-      separator: "-"
-
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -39,8 +36,6 @@ updates:
       - "dependabot"
     rebase-strategy: "auto"
     target-branch: "main"
-    pull-request-branch-name:
-      separator: "-"
     # Bundle platform-specific optional binaries into a single PR per cycle.
     # Each per-binary bump otherwise also rewrites the root `dependencies`
     # block of `package-lock.json` (npm re-pins the optional entry there too),
@@ -78,5 +73,3 @@ updates:
       - "dependabot"
     rebase-strategy: "auto"
     target-branch: "main"
-    pull-request-branch-name:
-      separator: "-"
