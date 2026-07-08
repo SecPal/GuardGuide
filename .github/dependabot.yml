@@ -63,6 +63,19 @@ updates:
       interval: "daily"
       time: "04:00"
       timezone: "Europe/Berlin"
+    groups:
+      secpal-workflows:
+        patterns:
+          - "SecPal/.github*"
+      github-actions:
+        patterns:
+          - "actions/*"
+      third-party-actions:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "SecPal/.github*"
+          - "actions/*"
     commit-message:
       prefix: "chore"
       include: "scope"

@@ -19,6 +19,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Grouped Dependabot `github-actions` updates in `.github/dependabot.yml` into `secpal-workflows`, `github-actions`, and `third-party-actions` so SHA-pinned reusable workflow bumps no longer open one PR per caller file with path-and-SHA titles like `chore(deps): bump SecPal/.github/.github/workflows/...`; grouped PRs now use the stable group identifier in their title instead.
 - Restored Dependabot's default slash-separated branch naming by removing the custom `pull-request-branch-name.separator: "-"` override from `.github/dependabot.yml`; future update branches now use the standard readable `dependabot/<ecosystem>/<dependency>` shape instead of flattened names like `dependabot-github_actions-main-...`.
 - Fixed the stricter reusable license-compatibility workflow failing on Tailwind Plus metadata by pairing the affected React component/layout files with `AGPL-3.0-or-later AND LicenseRef-TailwindPlus` in `REUSE.toml` and restoring the approved `LICENSES/LicenseRef-TailwindPlus.txt` reference text expected by SecPal's shared CI policy.
 - Excluded dependency lockfiles, license texts, and generated Lingui locale artifacts from the PR size check by adding a repo-local `.preflight-exclude`, aligning GuardGuide with the existing SecPal repos so mechanical file churn no longer turns CI red by itself.
