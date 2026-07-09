@@ -33,11 +33,23 @@ function getIndentedSection(text: string, sectionName: string): string {
 
 describe("Dependabot configuration", () => {
   const configPath = join(process.cwd(), ".github", "dependabot.yml");
+  const workflowPath = join(
+    process.cwd(),
+    ".github",
+    "workflows",
+    "dependabot-auto-merge.yml"
+  );
 
   function readConfigText(): string {
     expect(existsSync(configPath)).toBe(true);
 
     return readFileSync(configPath, "utf8");
+  }
+
+  function readWorkflowText(): string {
+    expect(existsSync(workflowPath)).toBe(true);
+
+    return readFileSync(workflowPath, "utf8");
   }
 
   it("keeps the Dependabot config in the repository", () => {
@@ -66,5 +78,27 @@ describe("Dependabot configuration", () => {
     expect(thirdPartyActionsGroup).toContain("third-party-actions:");
     expect(thirdPartyActionsGroup).toContain('- "SecPal/.github*"');
     expect(thirdPartyActionsGroup).toContain('- "actions/*"');
+  });
+
+  it("pins Dependabot auto-merge to the metadata-based reusable workflow revision", () => {
+    const workflowText = readWorkflowText();
+    const reusableWorkflowUsesLine = workflowText
+      .split("\n")
+      .find((line) =>
+        line.includes(
+          "uses: SecPal/.github/.github/workflows/reusable-dependabot-auto-merge.yml@"
+        )
+      );
+
+    expect(reusableWorkflowUsesLine).toBeDefined();
+    expect(reusableWorkflowUsesLine).toMatch(
+      /uses: SecPal\/\.github\/\.github\/workflows\/reusable-dependabot-auto-merge\.yml@[0-9a-f]{40}$/
+    );
+    expect(workflowText).not.toContain(
+      "uses: SecPal/.github/.github/workflows/reusable-dependabot-auto-merge.yml@v1"
+    );
+    expect(workflowText).not.toContain(
+      "uses: SecPal/.github/.github/workflows/reusable-dependabot-auto-merge.yml@main"
+    );
   });
 });
