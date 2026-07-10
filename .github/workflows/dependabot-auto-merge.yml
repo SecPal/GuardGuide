@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   auto-merge:
-    uses: SecPal/.github/.github/workflows/reusable-dependabot-auto-merge.yml@f9c5276c9fd9a6965a4ddd641c9fae10184e03df
+    uses: SecPal/.github/.github/workflows/reusable-dependabot-auto-merge.yml@bbbbfd640c7d73fbdc494bce5a471802f5938844
     with:
       phase: "1"
       merge-method: "squash"
