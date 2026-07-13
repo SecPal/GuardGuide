@@ -52,7 +52,7 @@
         "@testing-library/user-event": "^14.6.1",
         "@types/node": "^26.1.1",
         "babel-plugin-react-compiler": "^1.0.0",
-        "eslint": "^9.39.4",
+        "eslint": "^9.39.5",
         "eslint-config-prettier": "^10.0.1",
         "eslint-import-resolver-typescript": "^4.4.4",
         "eslint-plugin-import": "^2.32.0",
