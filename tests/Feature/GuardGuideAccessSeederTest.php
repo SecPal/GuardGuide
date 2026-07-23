@@ -137,7 +137,9 @@ test('database seeder includes guardguide standard roles', function () {
         ->and($testUser->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
         ->toBeTrue()
         ->and($testUser->can(GuardGuideAccessCatalog::USER_ASSIGNMENTS_MANAGE))
-        ->toBeTrue();
+        ->toBeTrue()
+        ->and($testUser->email_verified_at)
+        ->not->toBeNull();
 });
 
 test('database seeder can be run repeatedly', function () {
