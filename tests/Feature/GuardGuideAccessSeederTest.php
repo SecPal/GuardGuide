@@ -150,6 +150,36 @@ test('database seeder can be run repeatedly', function () {
     expect(User::where('email', 'test@example.com')->count())->toBe(1);
 });
 
+test('database seeder verifies an existing default test user', function () {
+    $testUser = User::factory()->unverified()->create([
+        'name' => 'Existing Test User',
+        'email' => 'test@example.com',
+    ]);
+    $originalPassword = $testUser->password;
+
+    $this->seed(DatabaseSeeder::class);
+
+    expect($testUser->refresh()->hasVerifiedEmail())->toBeTrue()
+        ->and($testUser->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
+        ->toBeTrue()
+        ->and($testUser->name)->toBe('Existing Test User')
+        ->and($testUser->password)->toBe($originalPassword);
+});
+
+test('database seeder does not modify the default test user in production', function () {
+    app()->instance('env', 'production');
+
+    $testUser = User::factory()->unverified()->create([
+        'email' => 'test@example.com',
+    ]);
+
+    $this->seed(DatabaseSeeder::class);
+
+    expect($testUser->refresh()->hasVerifiedEmail())->toBeFalse()
+        ->and($testUser->hasRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR))
+        ->toBeFalse();
+});
+
 test('legacy admins retain access until the permission catalog has been seeded', function () {
     $legacyAdmin = User::factory()->create([
         'is_admin' => true,

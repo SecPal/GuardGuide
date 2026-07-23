@@ -39,6 +39,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        if (! $testUser->hasVerifiedEmail()) {
+            $testUser->markEmailAsVerified();
+        }
+
         $testUser->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR);
     }
 }
