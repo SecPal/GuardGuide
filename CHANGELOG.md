@@ -19,6 +19,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Made the local and testing database seed repeatable by reusing the default test user instead of attempting to insert its unique email address again.
 - Updated `concurrently` to `9.2.4` and `brace-expansion` to `1.1.16` so the npm dependency graph no longer includes the high-severity `shell-quote` and `brace-expansion` denial-of-service advisories.
 - Pinned `.github/workflows/dependabot-auto-merge.yml` to `SecPal/.github/.github/workflows/reusable-dependabot-auto-merge.yml@f9c5276c9fd9a6965a4ddd641c9fae10184e03df` so GuardGuide no longer pulls the stale `@v1` title-parser workflow that could not classify grouped Dependabot PRs; `github-actions` updates now use the newer metadata-based manual-review path instead of failing with the old `Bump ... from X.Y.Z to A.B.C` expectation.
 - Grouped Dependabot `github-actions` updates in `.github/dependabot.yml` into `secpal-workflows`, `github-actions`, and `third-party-actions` so SHA-pinned reusable workflow bumps no longer open one PR per caller file with path-and-SHA titles like `chore(deps): bump SecPal/.github/.github/workflows/...`; grouped PRs now use the stable group identifier in their title instead.

@@ -140,6 +140,14 @@ test('database seeder includes guardguide standard roles', function () {
         ->toBeTrue();
 });
 
+test('database seeder can be run repeatedly', function () {
+    $this->seed(DatabaseSeeder::class);
+
+    $this->seed(DatabaseSeeder::class);
+
+    expect(User::where('email', 'test@example.com')->count())->toBe(1);
+});
+
 test('legacy admins retain access until the permission catalog has been seeded', function () {
     $legacyAdmin = User::factory()->create([
         'is_admin' => true,
