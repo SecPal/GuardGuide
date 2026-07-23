@@ -30,9 +30,19 @@ class DatabaseSeeder extends Seeder
             return;
         }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ])->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR);
+        $testUser = User::where('email', 'test@example.com')->first();
+
+        if ($testUser === null) {
+            $testUser = User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
+
+        if (! $testUser->hasVerifiedEmail()) {
+            $testUser->markEmailAsVerified();
+        }
+
+        $testUser->assignRole(GuardGuideAccessCatalog::ROLE_PLATFORM_ADMINISTRATOR);
     }
 }
