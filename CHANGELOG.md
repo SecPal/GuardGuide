@@ -19,6 +19,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Updated `guzzlehttp/guzzle` to `7.15.1` so redirect-generated `Referer` headers no longer disclose URI fragments when the optional `allow_redirects.referer` setting is enabled.
 - Made the local and testing database seed repeatable by reusing the default test user, restoring its verified administrator state without replacing its existing credentials, and avoiding another insert of its unique email address.
 - Updated `concurrently` to `9.2.4` and `brace-expansion` to `1.1.16` so the npm dependency graph no longer includes the high-severity `shell-quote` and `brace-expansion` denial-of-service advisories.
 - Pinned `.github/workflows/dependabot-auto-merge.yml` to `SecPal/.github/.github/workflows/reusable-dependabot-auto-merge.yml@f9c5276c9fd9a6965a4ddd641c9fae10184e03df` so GuardGuide no longer pulls the stale `@v1` title-parser workflow that could not classify grouped Dependabot PRs; `github-actions` updates now use the newer metadata-based manual-review path instead of failing with the old `Bump ... from X.Y.Z to A.B.C` expectation.
