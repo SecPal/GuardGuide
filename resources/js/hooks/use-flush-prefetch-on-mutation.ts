@@ -31,6 +31,7 @@ const MUTATION_METHODS = new Set<string>(['post', 'put', 'patch', 'delete']);
 export function useFlushPrefetchOnMutation(): void {
     useEffect(() => {
         const inFlightPrefetches = new Map<string, number>();
+        const pendingFlushTimeouts = new Set<number>();
         let lastMutationAt = 0;
 
         const offPrefetching = router.on(
@@ -51,7 +52,12 @@ export function useFlushPrefetchOnMutation(): void {
                     return;
                 }
 
-                window.setTimeout(() => router.flushAll(), 0);
+                const flushTimeout = window.setTimeout(() => {
+                    pendingFlushTimeouts.delete(flushTimeout);
+                    router.flushAll();
+                }, 0);
+
+                pendingFlushTimeouts.add(flushTimeout);
             },
         );
 
@@ -73,6 +79,9 @@ export function useFlushPrefetchOnMutation(): void {
             offPrefetching();
             offPrefetched();
             offFinish();
+            pendingFlushTimeouts.forEach((flushTimeout) =>
+                window.clearTimeout(flushTimeout),
+            );
         };
     }, []);
 }

@@ -70,6 +70,13 @@ function TwoFactorSetupStep({
     const [copiedText, copy] = useClipboard();
     const [setupMode, setSetupMode] = useState<'qr' | 'manual'>('qr');
     const IconComponent = copiedText === manualSetupKey ? Check : Copy;
+    const qrCodeDataUrl = useMemo(
+        () =>
+            qrCodeSvg === null
+                ? null
+                : `data:image/svg+xml;charset=utf-8,${encodeURIComponent(qrCodeSvg)}`,
+        [qrCodeSvg],
+    );
 
     return (
         <div className="grid w-full gap-5">
@@ -117,12 +124,13 @@ function TwoFactorSetupStep({
                         <div className="mx-auto flex max-w-md overflow-hidden">
                             <div className="mx-auto aspect-square w-64 rounded-lg border border-zinc-200/80 bg-zinc-50 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/50">
                                 <div className="z-10 flex h-full w-full items-center justify-center p-5">
-                                    {qrCodeSvg ? (
-                                        <div
-                                            className="aspect-square w-full rounded-lg bg-white p-2 [&_svg]:size-full"
-                                            dangerouslySetInnerHTML={{
-                                                __html: qrCodeSvg,
-                                            }}
+                                    {qrCodeDataUrl ? (
+                                        <img
+                                            src={qrCodeDataUrl}
+                                            alt={i18n._(
+                                                'settings.twoFactor.modal.qrCodeTab',
+                                            )}
+                                            className="aspect-square w-full rounded-lg bg-white p-2"
                                             style={{
                                                 filter:
                                                     resolvedAppearance ===
@@ -197,9 +205,11 @@ function TwoFactorVerificationStep({
     const pinInputContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setTimeout(() => {
+        const focusTimeout = window.setTimeout(() => {
             pinInputContainerRef.current?.querySelector('input')?.focus();
         }, 0);
+
+        return () => window.clearTimeout(focusTimeout);
     }, []);
 
     return (

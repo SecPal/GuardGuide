@@ -137,9 +137,9 @@ export default function TwoFactorRecoveryCodes({
                                     )}
                                 >
                                     {recoveryCodesList.length ? (
-                                        recoveryCodesList.map((code, index) => (
+                                        recoveryCodesList.map((code) => (
                                             <div
-                                                key={index}
+                                                key={code}
                                                 role="listitem"
                                                 className="rounded border border-transparent px-2 py-1 text-foreground select-text"
                                             >

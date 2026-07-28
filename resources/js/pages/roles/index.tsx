@@ -1,8 +1,8 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { useLingui } from '@lingui/react';
 import { Plus, Save, Shield, Trash2, Users } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -71,7 +71,6 @@ function formDataFromRole(role: RoleRecord | null): RoleFormData {
 
 export default function Roles({ roles, permissions, capabilities }: PageProps) {
     const { i18n } = useLingui();
-    const pageProps = usePage<{ roles: RoleRecord[] }>().props;
     const [selectedRoleId, setSelectedRoleId] = useState<number | null>(
         roles[0]?.id ?? null,
     );
@@ -79,9 +78,8 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
     const selectedRole =
         roles.find((role) => role.id === selectedRoleId) ?? null;
 
-    const pendingCreatedNameRef = useRef<string | null>(null);
-
     const form = useForm<RoleFormData>(formDataFromRole(selectedRole));
+    const { clearErrors, setData } = form;
     const rawRoleError = (form.errors as Record<string, string | undefined>)
         .role;
     const roleError =
@@ -89,35 +87,17 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
 
     useEffect(() => {
         if (isCreating) {
-            form.setData(formDataFromRole(null));
-            form.clearErrors();
+            setData(formDataFromRole(null));
+            clearErrors();
 
             return;
         }
 
         if (selectedRole !== null) {
-            form.setData(formDataFromRole(selectedRole));
-            form.clearErrors();
+            setData(formDataFromRole(selectedRole));
+            clearErrors();
         }
-        // `form` is intentionally omitted: useForm returns a new object reference
-        // on every render, so including it would cause an infinite loop.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isCreating, selectedRole]);
-
-    useEffect(() => {
-        if (pendingCreatedNameRef.current === null || isCreating) {
-            return;
-        }
-
-        const createdRole = pageProps.roles.find(
-            (r) => r.name === pendingCreatedNameRef.current,
-        );
-
-        if (createdRole !== undefined) {
-            pendingCreatedNameRef.current = null;
-            setSelectedRoleId(createdRole.id);
-        }
-    }, [isCreating, pageProps.roles]);
+    }, [clearErrors, isCreating, selectedRole, setData]);
 
     function selectRole(roleId: number) {
         setSelectedRoleId(roleId);
@@ -148,8 +128,12 @@ export default function Roles({ roles, permissions, capabilities }: PageProps) {
 
             form.post(storeRole.url(), {
                 preserveScroll: true,
-                onSuccess: () => {
-                    pendingCreatedNameRef.current = submittedName;
+                onSuccess: (page) => {
+                    const createdRole = (
+                        page.props as unknown as PageProps
+                    ).roles.find((role) => role.name === submittedName);
+
+                    setSelectedRoleId(createdRole?.id ?? null);
                     setIsCreating(false);
                 },
             });

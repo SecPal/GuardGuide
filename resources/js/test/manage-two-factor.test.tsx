@@ -229,6 +229,30 @@ describe('two-factor management', () => {
         expect(testState.twoFactor.clearSetupData).toHaveBeenCalled();
     });
 
+    it('renders the server-provided QR code as an isolated image', async () => {
+        const user = userEvent.setup();
+
+        testState.twoFactor.hasSetupData = true;
+        testState.twoFactor.manualSetupKey = 'MANUAL-SETUP-KEY';
+        testState.twoFactor.qrCodeSvg =
+            '<svg xmlns="http://www.w3.org/2000/svg"><script>window.injected = true</script></svg>';
+
+        const { container } = renderManageTwoFactor({
+            requiresConfirmation: true,
+            twoFactorEnabled: false,
+        });
+
+        await user.click(
+            screen.getByRole('button', { name: /Continue setup/ }),
+        );
+
+        expect(screen.getByRole('img', { name: 'QR code' })).toHaveAttribute(
+            'src',
+            expect.stringMatching(/^data:image\/svg\+xml;charset=utf-8,/),
+        );
+        expect(container.querySelector('svg script')).not.toBeInTheDocument();
+    });
+
     it('shows and regenerates recovery codes from the enabled state', async () => {
         const user = userEvent.setup();
 

@@ -19,7 +19,7 @@ import { Label } from '@/components/ui/label';
 
 export default function DeleteUser() {
     const { i18n } = useLingui();
-    const passwordInput = useRef<HTMLInputElement>(null);
+    const passwordInputRef = useRef<HTMLInputElement>(null);
 
     return (
         <div className="space-y-6">
@@ -64,7 +64,7 @@ export default function DeleteUser() {
                             options={{
                                 preserveScroll: true,
                             }}
-                            onError={() => passwordInput.current?.focus()}
+                            onError={() => passwordInputRef.current?.focus()}
                             resetOnSuccess
                             className="space-y-6"
                         >
@@ -83,7 +83,7 @@ export default function DeleteUser() {
                                         <PasswordInput
                                             id="password"
                                             name="password"
-                                            ref={passwordInput}
+                                            ref={passwordInputRef}
                                             placeholder={i18n._(
                                                 'settings.deleteAccount.confirmDialog.passwordPlaceholder',
                                             )}
