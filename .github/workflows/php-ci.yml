@@ -22,7 +22,7 @@ jobs:
       has-composer: ${{ steps.detect.outputs.has-composer }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Detect composer.json
         id: detect
@@ -37,13 +37,13 @@ jobs:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
     name: Laravel Pint
-    uses: SecPal/.github/.github/workflows/reusable-php-lint.yml@main
+    uses: SecPal/.github/.github/workflows/reusable-php-lint.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
 
   static-analysis:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
     name: PHPStan
-    uses: SecPal/.github/.github/workflows/reusable-php-stan.yml@main
+    uses: SecPal/.github/.github/workflows/reusable-php-stan.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
 
   test-pgsql:
     needs: detect-files
@@ -69,12 +69,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
-          php-version: "8.4"
+          php-version: '8.4'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, pdo_mysql
           coverage: none
 
@@ -116,12 +116,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
-          php-version: "8.4"
+          php-version: '8.4'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, pdo_mysql
           coverage: none
 
