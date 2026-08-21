@@ -25,7 +25,7 @@ jobs:
       has-composer: ${{ steps.detect.outputs.has-composer }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Detect manifest files
         id: detect
@@ -45,30 +45,30 @@ jobs:
   reuse:
     name: Check REUSE Compliance
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-reuse.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-reuse.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
 
   ai-instructions:
     name: AI Instructions
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
     with:
-      governance-ref: "6f8e13a7a62cee356811a7f58d6b92119941652f"
+      governance-ref: 'e3cdfac353f67af8350dd4e84064fdc7993e2988'
 
   prettier:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Formatting Check
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-prettier.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-prettier.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
 
   markdown-lint:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Markdown Lint
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
     with:
-      governance-ref: "6f8e13a7a62cee356811a7f58d6b92119941652f"
+      governance-ref: 'e3cdfac353f67af8350dd4e84064fdc7993e2988'
 
   license-compatibility:
     needs: detect-files
@@ -79,33 +79,33 @@ jobs:
       }}
     name: Check License Compatibility
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
 
   eslint:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: ESLint
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
     with:
-      node-version: "22"
+      node-version: '22'
 
   typecheck:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: TypeScript Check
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
     with:
-      node-version: "22"
-      build-command: "npm run typecheck"
+      node-version: '22'
+      build-command: 'npm run typecheck'
 
   vitest:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Vitest Tests
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@c2956851d9158722cae9639d9482d4addd763ace
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@e3cdfac353f67af8350dd4e84064fdc7993e2988 # main
     with:
-      node-version: "22"
-      build-command: "npm run test"
+      node-version: '22'
+      build-command: 'npm run test'
