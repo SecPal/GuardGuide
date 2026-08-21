@@ -10,10 +10,25 @@ type PinViolation = {
     file: string;
     line: number;
     reference: string;
-    reason: 'mutable revision' | 'missing source annotation';
+    reason:
+        | 'mutable revision'
+        | 'missing source annotation'
+        | 'invalid source annotation';
 };
 
 const immutableRevisionPattern = /^[0-9a-f]{40}$/;
+const sourceAnnotationPattern = /^[A-Za-z0-9][A-Za-z0-9._/-]*$/;
+const placeholderAnnotationPattern = /^(?:TODO|FIXME|pinned|immutable)$/i;
+
+function isSourceAnnotation(comment: string | null | undefined): boolean {
+    const annotation = comment?.trim();
+
+    return Boolean(
+        annotation &&
+        sourceAnnotationPattern.test(annotation) &&
+        !placeholderAnnotationPattern.test(annotation),
+    );
+}
 
 function workflowFiles(directory: string): string[] {
     return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -65,12 +80,14 @@ function workflowPinViolations(source: string, file: string): PinViolation[] {
                     reference,
                     reason: 'mutable revision',
                 });
-            } else if (!pair.value.comment?.trim()) {
+            } else if (!isSourceAnnotation(pair.value.comment)) {
                 violations.push({
                     file,
                     line,
                     reference,
-                    reason: 'missing source annotation',
+                    reason: pair.value.comment?.trim()
+                        ? 'invalid source annotation'
+                        : 'missing source annotation',
                 });
             }
         },
@@ -98,11 +115,25 @@ describe('workflow action pins', () => {
         ]);
     });
 
-    it('accepts full revisions with a source annotation', () => {
-        const source = `jobs:\n  test:\n    uses: SecPal/.github/.github/workflows/reusable.yml@${fullRevision} # main\n`;
+    it.each(['main', 'v7.0.1', '2.37.2'])(
+        'accepts a full revision with the %s source annotation',
+        (annotation) => {
+            const source = `jobs:\n  test:\n    uses: SecPal/.github/.github/workflows/reusable.yml@${fullRevision} # ${annotation}\n`;
 
-        expect(workflowPinViolations(source, 'fixture.yml')).toEqual([]);
-    });
+            expect(workflowPinViolations(source, 'fixture.yml')).toEqual([]);
+        },
+    );
+
+    it.each(['TODO', 'FIXME', 'pinned', 'immutable'])(
+        'rejects the %s placeholder as a source annotation',
+        (annotation) => {
+            const source = `jobs:\n  test:\n    uses: actions/checkout@${fullRevision} # ${annotation}\n`;
+
+            expect(workflowPinViolations(source, 'fixture.yml')).toHaveLength(
+                1,
+            );
+        },
+    );
 
     it('ignores repository-local actions', () => {
         const source = `jobs:\n  test:\n    steps:\n      - uses: ./.github/actions/setup\n`;
