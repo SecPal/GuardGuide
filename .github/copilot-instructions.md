@@ -9,8 +9,9 @@ This file mirrors the authoritative root `AGENTS.md` only as a non-authoritative
 compatibility surface for tooling that loads `.github/copilot-instructions.md`.
 
 Apply the canonical SecPal work-graph and engineering-governance contract at
-`SecPal/.github/docs/work-graph-contract.md` for generic planning, delivery,
-review, evidence, and stop semantics. Do not redefine those semantics here.
+[`SecPal/.github/docs/work-graph-contract.md`](https://github.com/SecPal/.github/blob/main/docs/work-graph-contract.md)
+for generic planning, delivery, review, evidence, and stop semantics. Do not
+redefine those semantics here.
 
 ## GuardGuide Baseline
 
@@ -21,7 +22,8 @@ review, evidence, and stop semantics. Do not redefine those semantics here.
 - Prefer Form Requests, policies, services, Eloquent relationships, and queued
   jobs over hand-rolled backend alternatives.
 - Use shadcn/ui as the primary UI baseline. Adapt Tailwind Plus only when
-  shadcn/ui lacks the required pattern.
+  shadcn/ui lacks the required pattern, and keep the result aligned with local
+  shadcn/ui components.
 - Keep English source text, German Lingui translations, browser language
   detection, accessible semantic HTML, and focused component coverage.
 - Keep MariaDB and PostgreSQL equally supported and standard paths

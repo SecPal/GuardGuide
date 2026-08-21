@@ -10,8 +10,10 @@ applyTo: '**'
 
 - `AGENTS.md` is the authoritative GuardGuide repository and runtime baseline;
   `.github/copilot-instructions.md` is a non-authoritative compatibility mirror.
-- Apply `SecPal/.github/docs/work-graph-contract.md` as the sole local reference
-  owner for generic work-graph and engineering-governance semantics.
+- Apply
+  [`SecPal/.github/docs/work-graph-contract.md`](https://github.com/SecPal/.github/blob/main/docs/work-graph-contract.md)
+  as the sole local reference owner for generic work-graph and
+  engineering-governance semantics.
 - Preserve the standalone Laravel monolith, in-repository React/Vite frontend,
   English/German Lingui localization, shadcn/ui baseline, dual-database
   portability, application-layer encryption, acknowledgement auditability, and

@@ -12,10 +12,11 @@ compatibility mirror.
 ## Canonical Engineering Governance
 
 The canonical SecPal work-graph and engineering-governance contract at
-`SecPal/.github/docs/work-graph-contract.md` is the sole local reference owner
-for generic hierarchy, dependencies, sibling order, work selection, delivery,
-replanning, findings, review, evidence, and stop semantics. Apply that contract
-instead of defining those semantics in this repository.
+[`SecPal/.github/docs/work-graph-contract.md`](https://github.com/SecPal/.github/blob/main/docs/work-graph-contract.md)
+is the sole local reference owner for generic hierarchy, dependencies, sibling
+order, work selection, delivery, replanning, findings, review, evidence, and stop
+semantics. Apply that contract instead of defining those semantics in this
+repository.
 
 GuardGuide instructions may add repository-specific technical and operational
 constraints, but must not weaken or duplicate the canonical model.
