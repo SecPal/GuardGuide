@@ -19,6 +19,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 
+- Updated the npm lockfile to `nanoid` `3.3.18` and `js-yaml` `4.3.1`, and the Composer lockfile to `guzzlehttp/guzzle` `7.15.3` and `league/commonmark` `2.10.0`, resolving the associated Dependabot denial-of-service and host/cookie validation alerts.
 - Pinned every external GitHub Actions and reusable-workflow reference to a full commit SHA with its source tag or branch documented inline, preventing mutable workflow dependencies from failing the organization action policy.
 - Updated `guzzlehttp/guzzle` to `7.15.1` (with `guzzlehttp/promises` `2.5.1` and `guzzlehttp/psr7` `2.13.0`) so redirect-generated `Referer` headers no longer disclose URI fragments when the optional `allow_redirects.referer` setting is enabled, while retaining the upstream fixes for `CVE-2026-55568` / `GHSA-wpwq-4j6v-78m3`, `CVE-2026-55767` / `GHSA-cwxw-98qj-8qjx`, and `CVE-2026-55766` / `GHSA-vm85-hxw5-5432`.
 - Made the local and testing database seed repeatable by reusing the default test user, restoring its verified administrator state without replacing its existing credentials, and avoiding another insert of its unique email address.
