@@ -19,6 +19,7 @@ FILE="$REPO_ROOT/AGENTS.md"
 COPILOT_FILE="$REPO_ROOT/.github/copilot-instructions.md"
 QUALITY_WORKFLOW="$REPO_ROOT/.github/workflows/quality.yml"
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/guardguide-ai-instructions.XXXXXX")"
+CANONICAL_CONTRACT="[\`SecPal/.github/docs/work-graph-contract.md\`](https://github.com/SecPal/.github/blob/main/docs/work-graph-contract.md)"
 
 cleanup() {
   rm -rf "$TMP_DIR"
@@ -36,7 +37,9 @@ if [[ ! -f "$COPILOT_FILE" ]]; then
   exit 1
 fi
 
-required_patterns=(
+agents_required_patterns=(
+  "This file is the authoritative, provider-neutral repository and runtime baseline"
+  "$CANONICAL_CONTRACT"
   "shadcn/ui is the primary UI baseline"
   "English source language and German translation"
   "GuardGuide is a Laravel monolith with React/Vite"
@@ -45,27 +48,35 @@ required_patterns=(
   "GuardGuide is standalone-first"
 )
 
-for pattern in "${required_patterns[@]}"; do
+for pattern in "${agents_required_patterns[@]}"; do
   if ! grep -Fq "$pattern" "$FILE"; then
-    echo "Missing required AI instruction text: $pattern" >&2
+    echo "Missing required authoritative instruction text: $pattern" >&2
     exit 1
   fi
 done
 
-if ! grep -Fq 'This file mirrors the authoritative root `AGENTS.md`' "$COPILOT_FILE"; then
-  echo "Missing compatibility mirror marker in $COPILOT_FILE" >&2
-  exit 1
-fi
+copilot_required_patterns=(
+  "authoritative root \`AGENTS.md\`"
+  "non-authoritative"
+  "compatibility surface"
+  "$CANONICAL_CONTRACT"
+  "GuardGuide is standalone-first"
+  "Laravel 13/PHP 8.4/Pest 4 monolith"
+  "React 19/strict TypeScript/Vite/Tailwind CSS v4"
+  "Use shadcn/ui as the primary UI baseline"
+  "result aligned with local"
+  "English source text, German Lingui translations"
+  "Keep MariaDB and PostgreSQL equally supported"
+  "Encrypt person-related data at rest at the application layer"
+  "Keep QR, magic-link, and supervised acknowledgement paths compatible"
+)
 
-extract_runtime_baseline() {
-  local source_file="$1"
-  local destination_file="$2"
-
-  awk '
-    /^## Core Runtime Baseline$/ {capture=1}
-    capture {print}
-  ' "$source_file" > "$destination_file"
-}
+for pattern in "${copilot_required_patterns[@]}"; do
+  if ! grep -Fq "$pattern" "$COPILOT_FILE"; then
+    echo "Missing required compatibility instruction text: $pattern" >&2
+    exit 1
+  fi
+done
 
 extract_source_list() {
   local source_file="$1"
@@ -78,23 +89,12 @@ extract_source_list() {
   ' "$source_file" > "$destination_file"
 }
 
-agents_runtime="$TMP_DIR/agents-runtime.md"
-copilot_runtime="$TMP_DIR/copilot-runtime.md"
-extract_runtime_baseline "$FILE" "$agents_runtime"
-extract_runtime_baseline "$COPILOT_FILE" "$copilot_runtime"
-
-if ! cmp -s "$agents_runtime" "$copilot_runtime"; then
-  echo "Copilot mirror drift detected between $FILE and $COPILOT_FILE" >&2
-  diff -u "$agents_runtime" "$copilot_runtime" >&2 || true
-  exit 1
-fi
-
 agents_sources="$TMP_DIR/agents-sources.md"
 copilot_sources="$TMP_DIR/copilot-sources.md"
 normalized_copilot_sources="$TMP_DIR/copilot-sources-normalized.md"
 extract_source_list "$FILE" "$agents_sources"
 extract_source_list "$COPILOT_FILE" "$copilot_sources"
-grep -Fvx -- '- `AGENTS.md`' "$copilot_sources" > "$normalized_copilot_sources" || true
+grep -Fvx -- "- \`AGENTS.md\`" "$copilot_sources" > "$normalized_copilot_sources" || true
 
 if ! cmp -s "$agents_sources" "$normalized_copilot_sources"; then
   echo "Copilot source-list drift detected between $FILE and $COPILOT_FILE" >&2
