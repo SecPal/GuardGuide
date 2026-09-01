@@ -106,8 +106,8 @@
         "vite": "^8.2.2"
     },
     "optionalDependencies": {
-        "@rollup/rollup-linux-x64-gnu": "4.63.0",
-        "@rollup/rollup-win32-x64-msvc": "4.63.0",
+        "@rollup/rollup-linux-x64-gnu": "4.63.1",
+        "@rollup/rollup-win32-x64-msvc": "4.63.1",
         "@tailwindcss/oxide-linux-x64-gnu": "^4.3.1",
         "@tailwindcss/oxide-win32-x64-msvc": "^4.3.1",
         "lightningcss-linux-x64-gnu": "^1.33.0",
