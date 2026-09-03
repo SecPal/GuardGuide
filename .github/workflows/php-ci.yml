@@ -37,13 +37,13 @@ jobs:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
     name: Laravel Pint
-    uses: SecPal/.github/.github/workflows/reusable-php-lint.yml@18befca1fe8712374b93331bf235a28912937e85 # main
+    uses: SecPal/.github/.github/workflows/reusable-php-lint.yml@5a1a85a0bef9cbecfec6782145a6401be95eab63 # main
 
   static-analysis:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-composer == 'true' }}
     name: PHPStan
-    uses: SecPal/.github/.github/workflows/reusable-php-stan.yml@18befca1fe8712374b93331bf235a28912937e85 # main
+    uses: SecPal/.github/.github/workflows/reusable-php-stan.yml@5a1a85a0bef9cbecfec6782145a6401be95eab63 # main
 
   test-pgsql:
     needs: detect-files
