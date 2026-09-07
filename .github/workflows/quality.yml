@@ -45,12 +45,12 @@ jobs:
   reuse:
     name: Check REUSE Compliance
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-reuse.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-reuse.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
 
   ai-instructions:
     name: AI Instructions
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-ai-instructions.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
     with:
       governance-ref: 'e3cdfac353f67af8350dd4e84064fdc7993e2988'
 
@@ -59,14 +59,14 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Formatting Check
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-prettier.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-prettier.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
 
   markdown-lint:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Markdown Lint
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-markdown-lint.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
     with:
       governance-ref: 'e3cdfac353f67af8350dd4e84064fdc7993e2988'
 
@@ -79,14 +79,14 @@ jobs:
       }}
     name: Check License Compatibility
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-license-compatibility.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
 
   eslint:
     needs: detect-files
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: ESLint
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-node-lint.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
     with:
       node-version: '22'
 
@@ -95,7 +95,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: TypeScript Check
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
     with:
       node-version: '22'
       build-command: 'npm run typecheck'
@@ -105,7 +105,7 @@ jobs:
     if: ${{ needs.detect-files.outputs.has-package == 'true' }}
     name: Vitest Tests
     # yamllint disable-line rule:line-length
-    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@669075796a0cd576272c29aa03b888c1170ef066 # main
+    uses: SecPal/.github/.github/workflows/reusable-node-build.yml@094e2c721aac83e4b0372e6edd6e7eefd0cea32b # main
     with:
       node-version: '22'
       build-command: 'npm run test'
